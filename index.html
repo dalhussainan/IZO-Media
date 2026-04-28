@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IZO MEDIA — Creative Media Agency</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;800;900&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-alt: #f5f5f2;
+    --ink: #1a1a1a;
+    --ink-dim: #555555;
+    --line: #e5e5e0;
+    --red: #991b1b;
+    --red-bright: #ef4444;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Archivo', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* ===== TICKER ===== */
+  .ticker-bar {
+    background: var(--ink);
+    color: #fff;
+    padding: 7px 0;
+    overflow: hidden;
+    white-space: nowrap;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .ticker-track {
+    display: inline-flex;
+    animation: ticker 40s linear infinite;
+  }
+  .ticker-track span {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    padding: 0 2rem;
+    text-transform: uppercase;
+  }
+  .ticker-track span .red { color: var(--red-bright); }
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ===== NAV (no logo — text only) ===== */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 22px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .nav-wordmark {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 900;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    text-decoration: none;
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+  }
+  .nav-wordmark .dot { color: var(--red); }
+  .nav-wordmark .sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--red);
+    margin-left: 10px;
+    align-self: center;
+  }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--ink);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--red); }
+  .nav-links a::before {
+    content: '/';
+    color: var(--red);
+    margin-right: 4px;
+    opacity: 0.4;
+  }
+  .nav-cta {
+    background: var(--ink);
+    color: #fff !important;
+    padding: 10px 18px;
+  }
+  .nav-cta::before { display: none; }
+  .nav-cta:hover { background: var(--red); color: #fff !important; }
+
+  /* ===== HERO ===== */
+  .hero {
+    padding: 80px 40px 100px;
+    max-width: 1440px;
+    margin: 0 auto;
+    position: relative;
+    min-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .hero-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: var(--red);
+    border: 1px solid var(--red);
+    padding: 8px 14px;
+    width: fit-content;
+    margin-bottom: 40px;
+  }
+  .hero-label::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    background: var(--red);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+  .hero h1 {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 900;
+    font-size: clamp(3rem, 10vw, 10rem);
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    margin-bottom: 20px;
+  }
+  .hero h1 .slash { color: var(--red); font-weight: 400; }
+  .hero h1 .faded { color: var(--line); }
+  .hero-ar {
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.5rem, 3vw, 2.8rem);
+    color: var(--ink);
+    margin-bottom: 50px;
+    letter-spacing: -0.02em;
+  }
+  .hero-meta {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+    padding-top: 40px;
+    border-top: 1px solid var(--ink);
+    max-width: 900px;
+  }
+  .hero-meta-k {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    color: var(--red);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+  .hero-meta-v {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 800;
+    font-size: 28px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .scroll-indicator {
+    position: absolute;
+    bottom: 30px;
+    right: 40px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--ink-dim);
+    text-transform: uppercase;
+    writing-mode: vertical-rl;
+    animation: bounceDown 2s ease-in-out infinite;
+  }
+  @keyframes bounceDown {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(10px); }
+  }
+
+  /* ===== SHOWREEL (new) ===== */
+  .showreel-wrap {
+    background: var(--ink);
+    padding: 100px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .showreel-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+  .showreel-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: var(--red-bright);
+    margin-bottom: 30px;
+    text-transform: uppercase;
+  }
+  .showreel-title {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2rem, 5vw, 4.5rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: #fff;
+    margin-bottom: 50px;
+    max-width: 800px;
+  }
+  .showreel-title .highlight { color: var(--red-bright); }
+  .showreel-video {
+    position: relative;
+    aspect-ratio: 16/9;
+    background: #000;
+    border: 1px solid rgba(255,255,255,0.1);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .showreel-video:hover { transform: scale(1.01); }
+
+  /* decorative film pattern */
+  .showreel-video::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%),
+      repeating-linear-gradient(0deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 40px);
+    background-blend-mode: overlay;
+  }
+  .showreel-play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120px;
+    height: 120px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700;
+    transition: all 0.3s;
+    z-index: 2;
+  }
+  .showreel-video:hover .showreel-play {
+    background: var(--red-bright);
+    border-color: var(--red-bright);
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+  .showreel-play::after {
+    content: '▶';
+    font-size: 28px;
+    margin-left: 5px;
+  }
+  .showreel-timecode {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: rgba(255,255,255,0.6);
+    z-index: 2;
+  }
+  .showreel-timecode::before {
+    content: '●';
+    color: var(--red-bright);
+    margin-right: 8px;
+    animation: pulse 2s infinite;
+  }
+  .showreel-duration {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: rgba(255,255,255,0.6);
+    z-index: 2;
+  }
+
+  /* ===== SECTION LABEL ===== */
+  .section-label {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 100px 40px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-top: 1px solid var(--ink);
+  }
+  .section-label .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: var(--red);
+    text-transform: uppercase;
+  }
+  .section-label .title {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2rem, 5vw, 4.5rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+  .section-label .ar {
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    font-weight: 600;
+    font-size: 1.3rem;
+    color: var(--ink-dim);
+  }
+
+  /* ===== WORK GRID ===== */
+  .work-grid {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 40px 100px;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 24px;
+  }
+  .work-card {
+    grid-column: span 6;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    background: var(--bg-alt);
+  }
+  .work-card:nth-child(3) { grid-column: span 4; }
+  .work-card:nth-child(4) { grid-column: span 8; }
+  .work-card:nth-child(5) { grid-column: span 8; }
+  .work-card:nth-child(6) { grid-column: span 4; }
+  .work-card:hover { transform: translateY(-4px); }
+
+  .work-card-image {
+    aspect-ratio: 16/10;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+  }
+  .work-card:nth-child(3) .work-card-image,
+  .work-card:nth-child(6) .work-card-image {
+    aspect-ratio: 4/5;
+  }
+  .work-card-image::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(45deg, rgba(255,255,255,0.02) 25%, transparent 25%),
+      linear-gradient(-45deg, rgba(255,255,255,0.02) 25%, transparent 25%);
+    background-size: 40px 40px;
+  }
+  .work-card-image::after {
+    content: attr(data-label);
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+  }
+  .work-card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 24px;
+    color: #fff;
+  }
+  .work-card:hover .work-card-overlay { opacity: 1; }
+  .work-card-overlay .view-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--red-bright);
+    text-transform: uppercase;
+  }
+  .work-card-info { padding: 20px 0 0; }
+  .work-card-cat {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--red);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+  .work-card-title {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 800;
+    font-size: 24px;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 6px;
+  }
+  .work-card-client {
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    font-size: 13px;
+    color: var(--ink-dim);
+  }
+
+  /* View all button */
+  .view-all {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 40px 100px;
+    display: flex;
+    justify-content: center;
+  }
+  .view-all a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.25em;
+    color: var(--ink);
+    text-decoration: none;
+    padding: 18px 40px;
+    border: 1px solid var(--ink);
+    text-transform: uppercase;
+    transition: all 0.2s;
+  }
+  .view-all a:hover {
+    background: var(--ink);
+    color: #fff;
+  }
+
+  /* ===== SERVICES ===== */
+  .services-wrap {
+    background: var(--ink);
+    color: #fff;
+    padding: 120px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .services-inner { max-width: 1440px; margin: 0 auto; }
+  .services-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: var(--red-bright);
+    margin-bottom: 30px;
+    text-transform: uppercase;
+  }
+  .services-list {
+    list-style: none;
+    border-top: 1px solid rgba(255,255,255,0.15);
+  }
+  .services-list li {
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+    padding: 40px 0;
+    display: grid;
+    grid-template-columns: 60px 1fr 200px 100px;
+    gap: 30px;
+    align-items: center;
+    cursor: pointer;
+    transition: padding 0.3s;
+  }
+  .services-list li:hover { padding-left: 20px; }
+  .services-list li .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--red-bright);
+  }
+  .services-list li .name {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    letter-spacing: -0.02em;
+    line-height: 1;
+    transition: color 0.3s;
+  }
+  .services-list li:hover .name { color: var(--red-bright); }
+  .services-list li .desc {
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    font-size: 14px;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.6;
+  }
+  .services-list li .arrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 24px;
+    color: rgba(255,255,255,0.3);
+    text-align: right;
+    transition: all 0.3s;
+  }
+  .services-list li:hover .arrow {
+    color: var(--red-bright);
+    transform: translateX(8px);
+  }
+
+  /* ===== ABOUT PREVIEW (new) ===== */
+  .about-preview {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 140px 40px;
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .about-photo {
+    aspect-ratio: 4/5;
+    background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .about-photo::before {
+    content: 'PHOTO';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    color: rgba(255,255,255,0.3);
+  }
+  .about-photo::after {
+    content: '// DHARI.ALHESINAN';
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: rgba(255,255,255,0.4);
+  }
+  .about-content-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: var(--red);
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+  .about-content h2 {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2rem, 4.5vw, 3.8rem);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin-bottom: 24px;
+  }
+  .about-content h2 .highlight { color: var(--red); }
+  .about-content .ar {
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    font-weight: 500;
+    font-size: 1.1rem;
+    color: var(--ink-dim);
+    margin-bottom: 30px;
+    line-height: 1.7;
+  }
+  .about-content p {
+    font-family: 'Archivo', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--ink-dim);
+    margin-bottom: 30px;
+    max-width: 600px;
+  }
+  .about-content-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: var(--ink);
+    text-decoration: none;
+    padding: 16px 28px;
+    border: 1px solid var(--ink);
+    text-transform: uppercase;
+    transition: all 0.2s;
+  }
+  .about-content-link:hover {
+    background: var(--ink);
+    color: #fff;
+  }
+
+  /* ===== JOURNAL (Blog, new) ===== */
+  .journal {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 40px 120px;
+  }
+  .journal-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+  }
+  .journal-card {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    border-top: 1px solid var(--ink);
+    padding-top: 30px;
+    cursor: pointer;
+    transition: transform 0.3s;
+  }
+  .journal-card:hover { transform: translateY(-4px); }
+  .journal-card-meta {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--red);
+    margin-bottom: 16px;
+    text-transform: uppercase;
+  }
+  .journal-card-image {
+    aspect-ratio: 4/3;
+    background: linear-gradient(135deg, #f5f5f2 0%, #e5e5e0 100%);
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .journal-card-image::after {
+    content: attr(data-label);
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--red);
+    text-transform: uppercase;
+  }
+  .journal-card-title {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    margin-bottom: 10px;
+    transition: color 0.2s;
+  }
+  .journal-card:hover .journal-card-title { color: var(--red); }
+  .journal-card-excerpt {
+    font-family: 'Archivo', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--ink-dim);
+  }
+
+  /* ===== CLIENTS ===== */
+  .clients {
+    padding: 80px 0;
+    background: var(--bg-alt);
+    overflow: hidden;
+  }
+  .clients-label {
+    max-width: 1440px;
+    margin: 0 auto 50px;
+    padding: 0 40px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: var(--red);
+    text-transform: uppercase;
+  }
+  .clients-track {
+    display: flex;
+    animation: marquee 30s linear infinite;
+    gap: 60px;
+    white-space: nowrap;
+  }
+  .clients-track span {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 800;
+    font-size: 3.5rem;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 60px;
+  }
+  .clients-track span::after {
+    content: '✦';
+    color: var(--red);
+    font-size: 2rem;
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ===== CONTACT CTA ===== */
+  .contact-cta {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 140px 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    border-bottom: 1px solid var(--ink);
+  }
+  .contact-cta h2 {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin-bottom: 24px;
+  }
+  .contact-cta h2 .highlight { color: var(--red); }
+  .contact-cta .ar {
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    font-weight: 600;
+    font-size: 1.3rem;
+    color: var(--ink-dim);
+    margin-bottom: 40px;
+  }
+  .contact-cta-right {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .contact-item {
+    padding: 24px;
+    border: 1px solid var(--ink);
+    text-decoration: none;
+    color: var(--ink);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s;
+  }
+  .contact-item:hover {
+    background: var(--ink);
+    color: #fff;
+  }
+  .contact-item-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--red);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+  .contact-item:hover .contact-item-label { color: var(--red-bright); }
+  .contact-item-value {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+  }
+  .contact-item-arrow {
+    font-size: 20px;
+    transition: transform 0.2s;
+  }
+  .contact-item:hover .contact-item-arrow {
+    transform: translate(4px, -4px);
+  }
+
+  /* ===== FOOTER ===== */
+  footer { padding: 50px 40px 30px; }
+  .footer-inner { max-width: 1440px; margin: 0 auto; }
+  .footer-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 40px;
+  }
+  .footer-logo {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 900;
+    font-size: clamp(4rem, 12vw, 12rem);
+    line-height: 0.85;
+    letter-spacing: -0.05em;
+    color: var(--ink);
+  }
+  .footer-logo .dot { color: var(--red); }
+  .footer-meta {
+    text-align: right;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--ink-dim);
+    line-height: 2;
+    text-transform: uppercase;
+  }
+  .footer-meta .red { color: var(--red); }
+  .footer-bottom {
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--ink-dim);
+    text-transform: uppercase;
+  }
+  .footer-bottom .red { color: var(--red); }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 900px) {
+    .nav-links { gap: 20px; }
+    .nav-links a:not(.nav-cta) { display: none; }
+    .hero-meta { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    .work-card,
+    .work-card:nth-child(3),
+    .work-card:nth-child(4),
+    .work-card:nth-child(5),
+    .work-card:nth-child(6) { grid-column: span 12; }
+    .services-list li { grid-template-columns: 40px 1fr 60px; gap: 20px; }
+    .services-list li .desc { display: none; }
+    .about-preview { grid-template-columns: 1fr; }
+    .about-photo { max-width: 400px; }
+    .journal-grid { grid-template-columns: 1fr; }
+    .contact-cta { grid-template-columns: 1fr; gap: 40px; }
+    .footer-main { flex-direction: column; align-items: flex-start; gap: 30px; }
+    .footer-meta { text-align: left; }
+    .footer-bottom { flex-direction: column; gap: 8px; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- TICKER -->
+  <div class="ticker-bar">
+    <div class="ticker-track">
+      <span>IZO MEDIA <span class="red">//</span> CREATIVE.MEDIA.AGENCY <span class="red">//</span> KUWAIT <span class="red">//</span> EST. 2020</span>
+      <span>VIDEO PRODUCTION <span class="red">//</span> PHOTOGRAPHY <span class="red">//</span> EVENT COVERAGE <span class="red">//</span> COMMERCIAL</span>
+      <span>IZO MEDIA <span class="red">//</span> CREATIVE.MEDIA.AGENCY <span class="red">//</span> KUWAIT <span class="red">//</span> EST. 2020</span>
+      <span>VIDEO PRODUCTION <span class="red">//</span> PHOTOGRAPHY <span class="red">//</span> EVENT COVERAGE <span class="red">//</span> COMMERCIAL</span>
+    </div>
+  </div>
+
+  <!-- NAV (wordmark only, no logo icon) -->
+  <nav>
+    <div class="nav-inner">
+      <a href="#" class="nav-wordmark">
+        IZO<span class="dot">.</span>
+        <span class="sub">CREATIVE.MEDIA.AGENCY</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#work">Work</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="#journal">Journal</a></li>
+        <li><a href="#contact" class="nav-cta">Start a Project →</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-label">ACTIVE · AVAILABLE FOR NEW PROJECTS · 2026</div>
+    <h1>
+      STORIES<br>
+      WORTH<br>
+      <span class="slash">/</span> TELLING<span class="faded">.</span>
+    </h1>
+    <div class="hero-ar">قصص تستحق أن تُروى</div>
+    <div class="hero-meta">
+      <div>
+        <div class="hero-meta-k">PROJECTS</div>
+        <div class="hero-meta-v">150+</div>
+      </div>
+      <div>
+        <div class="hero-meta-k">CLIENTS</div>
+        <div class="hero-meta-v">40+</div>
+      </div>
+      <div>
+        <div class="hero-meta-k">YEARS</div>
+        <div class="hero-meta-v">06</div>
+      </div>
+      <div>
+        <div class="hero-meta-k">BASED IN</div>
+        <div class="hero-meta-v">KW</div>
+      </div>
+    </div>
+    <div class="scroll-indicator">SCROLL ↓</div>
+  </section>
+
+  <!-- SHOWREEL -->
+  <section class="showreel-wrap">
+    <div class="showreel-inner">
+      <div class="showreel-label">00 / SHOWREEL · 2026</div>
+      <h2 class="showreel-title">See what we've been <span class="highlight">building.</span></h2>
+      <div class="showreel-video">
+        <div class="showreel-timecode">REC // 00:00:24:12</div>
+        <div class="showreel-play"></div>
+        <div class="showreel-duration">02:34</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <div class="section-label" id="work">
+    <div>
+      <div class="num">01 / SELECTIVE.WORK</div>
+      <h2 class="title">Selected<br>Work.</h2>
+    </div>
+    <div class="ar">أعمال مختارة</div>
+  </div>
+
+  <div class="work-grid">
+    <div class="work-card">
+      <div class="work-card-image" data-label="// VIDEO"></div>
+      <div class="work-card-overlay"><div class="view-btn">VIEW PROJECT →</div></div>
+      <div class="work-card-info">
+        <div class="work-card-cat">VIDEO · 2026</div>
+        <div class="work-card-title">Sunbula Draw</div>
+        <div class="work-card-client">Warba Bank</div>
+      </div>
+    </div>
+    <div class="work-card">
+      <div class="work-card-image" data-label="// COMMERCIAL"></div>
+      <div class="work-card-overlay"><div class="view-btn">VIEW PROJECT →</div></div>
+      <div class="work-card-info">
+        <div class="work-card-cat">COMMERCIAL · 2025</div>
+        <div class="work-card-title">Warba Techcity</div>
+        <div class="work-card-client">Warba Bank</div>
+      </div>
+    </div>
+    <div class="work-card">
+      <div class="work-card-image" data-label="// EVENT"></div>
+      <div class="work-card-overlay"><div class="view-btn">VIEW PROJECT →</div></div>
+      <div class="work-card-info">
+        <div class="work-card-cat">EVENT · 2025</div>
+        <div class="work-card-title">Flash Mob</div>
+        <div class="work-card-client">NBK</div>
+      </div>
+    </div>
+    <div class="work-card">
+      <div class="work-card-image" data-label="// MUSIC VIDEO"></div>
+      <div class="work-card-overlay"><div class="view-btn">VIEW PROJECT →</div></div>
+      <div class="work-card-info">
+        <div class="work-card-cat">MUSIC VIDEO · 2024</div>
+        <div class="work-card-title">La Mosta7el</div>
+        <div class="work-card-client">Independent Artist</div>
+      </div>
+    </div>
+    <div class="work-card">
+      <div class="work-card-image" data-label="// EVENT"></div>
+      <div class="work-card-overlay"><div class="view-btn">VIEW PROJECT →</div></div>
+      <div class="work-card-info">
+        <div class="work-card-cat">EVENT COVERAGE · 2024</div>
+        <div class="work-card-title">Den Gallery</div>
+        <div class="work-card-client">Shackles Exhibition</div>
+      </div>
+    </div>
+    <div class="work-card">
+      <div class="work-card-image" data-label="// PHOTO"></div>
+      <div class="work-card-overlay"><div class="view-btn">VIEW PROJECT →</div></div>
+      <div class="work-card-info">
+        <div class="work-card-cat">PHOTOGRAPHY · 2024</div>
+        <div class="work-card-title">HIVE</div>
+        <div class="work-card-client">Social Media Content</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="view-all">
+    <a href="#">VIEW ALL WORK →</a>
+  </div>
+
+  <!-- SERVICES -->
+  <div class="services-wrap" id="services">
+    <div class="services-inner">
+      <div class="services-label">02 / SERVICES · ما نقدمه</div>
+      <ul class="services-list">
+        <li>
+          <div class="num">01</div>
+          <div class="name">Video Production</div>
+          <div class="desc">إنتاج فيديو احترافي — تصور، مونتاج، إخراج</div>
+          <div class="arrow">→</div>
+        </li>
+        <li>
+          <div class="num">02</div>
+          <div class="name">Photography</div>
+          <div class="desc">تصوير تجاري وتحريري لوسائل التواصل والحملات</div>
+          <div class="arrow">→</div>
+        </li>
+        <li>
+          <div class="num">03</div>
+          <div class="name">Event Coverage</div>
+          <div class="desc">تغطية كاملة للفعاليات، الحفلات، والمؤتمرات</div>
+          <div class="arrow">→</div>
+        </li>
+        <li>
+          <div class="num">04</div>
+          <div class="name">Commercial Ads</div>
+          <div class="desc">إعلانات تجارية للشركات والبنوك والعلامات التجارية</div>
+          <div class="arrow">→</div>
+        </li>
+        <li>
+          <div class="num">05</div>
+          <div class="name">Social Content</div>
+          <div class="desc">محتوى قصير لانستغرام، تيك توك، وسناب</div>
+          <div class="arrow">→</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ABOUT PREVIEW -->
+  <section class="about-preview">
+    <div class="about-photo"></div>
+    <div class="about-content">
+      <div class="about-content-label">03 / ABOUT · من أنا</div>
+      <h2>A one-person<br>studio that<br><span class="highlight">/ thinks</span><br>like an agency.</h2>
+      <div class="ar">استوديو بشخص واحد يفكر بعقلية وكالة متكاملة</div>
+      <p>
+        I'm Dhari Alhesinan — a director and cinematographer based in Kuwait. For six years, I've been crafting visual stories for banks, galleries, and brands that care about craft over quantity.
+      </p>
+      <a href="about.html" class="about-content-link">
+        MORE ABOUT ME →
+      </a>
+    </div>
+  </section>
+
+  <!-- JOURNAL -->
+  <div class="section-label" id="journal">
+    <div>
+      <div class="num">04 / JOURNAL</div>
+      <h2 class="title">From the<br>Studio.</h2>
+    </div>
+    <div class="ar">من الاستوديو</div>
+  </div>
+
+  <div class="journal">
+    <div class="journal-grid">
+      <a href="#" class="journal-card">
+        <div class="journal-card-meta">
+          <span>PROCESS</span>
+          <span>APR 2026</span>
+        </div>
+        <div class="journal-card-image" data-label="// BEHIND THE SCENES"></div>
+        <div class="journal-card-title">Behind the scenes of the Sunbula campaign</div>
+        <div class="journal-card-excerpt">How we approached a 3-day shoot with 8 locations and limited lighting gear.</div>
+      </a>
+      <a href="#" class="journal-card">
+        <div class="journal-card-meta">
+          <span>INSIGHT</span>
+          <span>MAR 2026</span>
+        </div>
+        <div class="journal-card-image" data-label="// STUDIO NOTES"></div>
+        <div class="journal-card-title">Why we shoot on prime lenses only</div>
+        <div class="journal-card-excerpt">A story about commitment, constraint, and why less gear makes better films.</div>
+      </a>
+      <a href="#" class="journal-card">
+        <div class="journal-card-meta">
+          <span>INDUSTRY</span>
+          <span>FEB 2026</span>
+        </div>
+        <div class="journal-card-image" data-label="// OPINION"></div>
+        <div class="journal-card-title">The state of commercial video in the GCC</div>
+        <div class="journal-card-excerpt">Thoughts on where the regional production industry is headed in 2026.</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- CLIENTS -->
+  <div class="clients">
+    <div class="clients-label">05 / TRUSTED BY · بثقة</div>
+    <div class="clients-track">
+      <span>NBK</span>
+      <span>WARBA BANK</span>
+      <span>BOUBYAN</span>
+      <span>OMEGA</span>
+      <span>DEN GALLERY</span>
+      <span>HIVE</span>
+      <span>FLINT</span>
+      <span>BLIND PANDA</span>
+      <span>NBK</span>
+      <span>WARBA BANK</span>
+      <span>BOUBYAN</span>
+      <span>OMEGA</span>
+      <span>DEN GALLERY</span>
+      <span>HIVE</span>
+      <span>FLINT</span>
+      <span>BLIND PANDA</span>
+    </div>
+  </div>
+
+  <!-- CONTACT CTA -->
+  <section class="contact-cta" id="contact">
+    <div>
+      <h2>Let's build<br>something<br><span class="highlight">/ worth</span><br>sharing.</h2>
+      <div class="ar">خلنا نبني شي يستحق المشاركة</div>
+    </div>
+    <div class="contact-cta-right">
+      <a href="mailto:hello@izo-media.com" class="contact-item">
+        <div>
+          <div class="contact-item-label">EMAIL</div>
+          <div class="contact-item-value">hello@izo-media.com</div>
+        </div>
+        <span class="contact-item-arrow">↗</span>
+      </a>
+      <a href="tel:+96596690879" class="contact-item">
+        <div>
+          <div class="contact-item-label">PHONE</div>
+          <div class="contact-item-value">+965 9669 0879</div>
+        </div>
+        <span class="contact-item-arrow">↗</span>
+      </a>
+      <a href="https://instagram.com/izomedia.kw" target="_blank" class="contact-item">
+        <div>
+          <div class="contact-item-label">INSTAGRAM</div>
+          <div class="contact-item-value">@izomedia.kw</div>
+        </div>
+        <span class="contact-item-arrow">↗</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-main">
+        <div class="footer-logo">IZO<span class="dot">.</span></div>
+        <div class="footer-meta">
+          <div><span class="red">IZO MEDIA</span> — EST. 2020</div>
+          <div>OMAR BIN ALKATAB ST.</div>
+          <div>KW CITY · MORQAB · BLDG 14A</div>
+          <div>KUWAIT</div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div><span class="red">©</span> IZO MEDIA 2026 — ALL RIGHTS RESERVED</div>
+        <div>CREATIVE.MEDIA.AGENCY <span class="red">//</span> V2.0</div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

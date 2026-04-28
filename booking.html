@@ -1,0 +1,1583 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IZO MEDIA — Booking Request</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;800;900&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-alt: #f5f5f2;
+    --ink: #1a1a1a;
+    --ink-dim: #707070;        /* slightly lighter, but still readable */
+    --ink-soft: #8a8a8a;       /* for hints, sub-text */
+    --line: #e5e5e0;
+    --red: #991b1b;
+    --red-bright: #ef4444;
+    --whatsapp: #25D366;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Archivo', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  /* ===== NAV ===== */
+  nav {
+    border-bottom: 1px solid var(--line);
+    background: #fff;
+  }
+  .nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 22px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .nav-wordmark {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 900;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    text-decoration: none;
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+  }
+  .nav-wordmark .dot { color: var(--red); }
+  .nav-wordmark .sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--red);
+    margin-left: 10px;
+    align-self: center;
+  }
+  .nav-back {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--ink-dim);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-back:hover { color: var(--red); }
+
+  /* ===== PAGE HEADER ===== */
+  .page-header {
+    background: var(--ink);
+    color: #fff;
+    padding: 80px 0 70px;
+    margin-bottom: 0;
+  }
+  .page-header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  .header-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--red-bright);
+    border: 1px solid var(--red-bright);
+    padding: 6px 12px;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+  }
+  .header-status::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--red-bright);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .page-header h1 {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2.5rem, 7vw, 5.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    margin-bottom: 16px;
+    color: #fff;
+  }
+  .page-header h1 .dot { color: var(--red-bright); }
+  .page-header-ar {
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.2rem, 2.5vw, 2rem);
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 24px;
+  }
+  .page-header p {
+    font-family: 'Archivo', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.7);
+    max-width: 700px;
+  }
+
+  /* ===== FORM ===== */
+  form {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 28px 80px;
+  }
+
+  .section {
+    margin-bottom: 50px;
+    padding-bottom: 50px;
+    border-bottom: 1px dashed var(--line);
+  }
+  /* Section header dark band extends edge-to-edge of the form column */
+  .section-header {
+    margin-top: 0;
+  }
+
+  .section:last-of-type {
+    border-bottom: none;
+  }
+
+  .section-header {
+    background: var(--ink);
+    padding: 26px 28px;
+    margin-bottom: 30px;
+  }
+
+  .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--red-bright);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+
+  .section-title {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 800;
+    font-size: 28px;
+    letter-spacing: -0.02em;
+    margin-bottom: 6px;
+    color: #fff;
+  }
+
+  .section-ar {
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 0;
+  }
+
+  .field-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .field.full { grid-column: 1 / -1; }
+
+  .field label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--ink);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .field label .required {
+    color: var(--red);
+  }
+
+  .field label .optional {
+    font-size: 9px;
+    color: var(--ink-soft);
+    font-weight: normal;
+  }
+
+  .field input,
+  .field select,
+  .field textarea {
+    padding: 14px 16px;
+    background: #fff;
+    border: 1px solid var(--line);
+    color: var(--ink);
+    font-family: 'Archivo', sans-serif;
+    font-size: 15px;
+    transition: all 0.2s;
+    font-weight: 500;
+  }
+
+  .field input:focus,
+  .field select:focus,
+  .field textarea:focus {
+    outline: none;
+    border-color: var(--ink);
+    background: var(--bg-alt);
+  }
+
+  .field textarea {
+    min-height: 100px;
+    resize: vertical;
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+  }
+
+  .field .hint {
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-top: 6px;
+  }
+
+  /* Service type pills */
+  .service-pills {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 4px;
+  }
+
+  .service-pill {
+    padding: 18px 14px;
+    border: 1px solid var(--line);
+    background: #fff;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+    position: relative;
+  }
+
+  .service-pill:hover { border-color: var(--ink); }
+
+  .service-pill.selected {
+    background: var(--ink);
+    color: #fff;
+    border-color: var(--ink);
+  }
+
+  .service-pill input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .service-pill .icon {
+    font-size: 24px;
+    margin-bottom: 6px;
+  }
+
+  .service-pill .name {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: -0.01em;
+    margin-bottom: 2px;
+  }
+
+  .service-pill .ar {
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    font-size: 11px;
+    color: var(--ink-soft);
+  }
+
+  .service-pill.selected .ar { color: rgba(255,255,255,0.7); }
+
+  /* Location radio */
+  .radio-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .radio-pill {
+    padding: 14px;
+    border: 1px solid var(--line);
+    background: #fff;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    position: relative;
+  }
+
+  .radio-pill:hover { border-color: var(--ink); }
+
+  .radio-pill.selected {
+    background: var(--ink);
+    color: #fff;
+    border-color: var(--ink);
+  }
+
+  .radio-pill input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* Number stepper */
+  .stepper {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--line);
+    width: fit-content;
+  }
+
+  .stepper button {
+    width: 44px;
+    height: 44px;
+    background: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: var(--ink);
+    font-family: 'Archivo', sans-serif;
+    transition: background 0.15s;
+  }
+
+  .stepper button:hover { background: var(--bg-alt); }
+
+  .stepper input {
+    width: 60px;
+    text-align: center;
+    border: none;
+    border-left: 1px solid var(--line);
+    border-right: 1px solid var(--line);
+    height: 44px;
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+  }
+
+  .stepper input:focus { outline: none; }
+
+  /* Checkbox grid */
+  .checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .check-pill {
+    padding: 14px;
+    border: 1px solid var(--line);
+    background: #fff;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .check-pill:hover { border-color: var(--ink); }
+
+  .check-pill.selected {
+    background: var(--bg-alt);
+    border-color: var(--ink);
+  }
+
+  .check-pill input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .check-pill .check-box {
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--line);
+    background: #fff;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+  }
+
+  .check-pill.selected .check-box {
+    background: var(--ink);
+    border-color: var(--ink);
+  }
+
+  .check-pill.selected .check-box::after {
+    content: '✓';
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+  }
+
+  .check-pill .label-text {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+  }
+
+  .check-pill .label-ar {
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    font-size: 11px;
+    color: var(--ink-soft);
+    margin-top: 2px;
+  }
+
+  /* ===== SUMMARY (sticky right side) ===== */
+  .form-with-summary {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 40px;
+    align-items: start;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .summary {
+    position: sticky;
+    top: 30px;
+    background: #fff;
+    color: var(--ink);
+    padding: 28px 24px;
+    border: 1px solid var(--ink);
+  }
+
+  .summary-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--red);
+    margin-bottom: 16px;
+    text-transform: uppercase;
+  }
+
+  .summary-title {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    margin-bottom: 24px;
+    line-height: 1.2;
+    color: var(--ink);
+  }
+
+  .summary-list {
+    list-style: none;
+    margin-bottom: 24px;
+  }
+
+  .summary-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--line);
+    font-family: 'Archivo', sans-serif;
+    font-size: 13px;
+    gap: 12px;
+  }
+
+  .summary-item .key {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    color: var(--red);
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+
+  .summary-item .val {
+    color: var(--ink);
+    text-align: right;
+    word-break: break-word;
+    font-weight: 600;
+  }
+
+  .summary-item .val.empty {
+    color: var(--ink-dim);
+    font-style: italic;
+    font-weight: 400;
+    opacity: 0.4;
+  }
+
+  /* Submit area */
+  .submit-area {
+    margin-top: 40px;
+    padding: 30px;
+    background: var(--bg-alt);
+    border: 1px solid var(--line);
+  }
+
+  .submit-area h3 {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 800;
+    font-size: 20px;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+
+  .submit-area p {
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-bottom: 20px;
+    line-height: 1.6;
+  }
+
+  .submit-btn {
+    width: 100%;
+    padding: 18px;
+    background: var(--whatsapp);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    font-weight: 700;
+    text-transform: uppercase;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .submit-btn:hover {
+    background: #1da851;
+    transform: translateY(-1px);
+  }
+
+  .submit-btn:disabled {
+    background: #aaa;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .submit-btn::before {
+    content: '';
+    width: 24px;
+    height: 24px;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23fff'><path d='M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z'/></svg>");
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+  .submit-help {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    color: var(--ink-soft);
+    margin-top: 12px;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  /* ===== SUCCESS SCREEN ===== */
+  .success-screen {
+    display: none;
+    max-width: 700px;
+    margin: 60px auto;
+    padding: 60px 28px;
+    text-align: center;
+  }
+
+  .success-screen.visible { display: block; }
+
+  .success-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 30px;
+    border: 2px solid var(--whatsapp);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--whatsapp);
+    font-size: 40px;
+  }
+
+  .success-screen h2 {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+
+  .success-screen .ar {
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    font-weight: 600;
+    font-size: 1.4rem;
+    color: var(--ink-dim);
+    margin-bottom: 30px;
+  }
+
+  .success-screen p {
+    font-family: 'Archivo', sans-serif;
+    font-size: 16px;
+    color: var(--ink-dim);
+    line-height: 1.7;
+    margin-bottom: 30px;
+  }
+
+  .success-meta {
+    padding: 20px;
+    background: var(--bg-alt);
+    border: 1px solid var(--line);
+    margin-bottom: 30px;
+    text-align: left;
+  }
+
+  .success-meta-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-dim);
+  }
+
+  .success-meta-item .red { color: var(--red); }
+
+  /* FOOTER */
+  footer {
+    padding: 40px 28px 30px;
+    border-top: 1px solid var(--line);
+  }
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--ink-dim);
+    text-transform: uppercase;
+  }
+  .footer-inner .red { color: var(--red); }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 900px) {
+    .form-with-summary {
+      grid-template-columns: 1fr;
+    }
+    .summary {
+      position: static;
+      margin-bottom: 30px;
+    }
+    .field-grid { grid-template-columns: 1fr; }
+    .service-pills { grid-template-columns: 1fr; }
+    .checkbox-grid { grid-template-columns: 1fr; }
+    .footer-inner { flex-direction: column; gap: 8px; text-align: center; }
+  }
+
+  /* Mixed Arabic-English text fix - render Arabic correctly without flipping layout position */
+  [dir="rtl"][lang="ar"] {
+    direction: rtl;
+    unicode-bidi: embed;
+  }
+  /* Pure Arabic labels: render as RTL internally but keep left-aligned in layout */
+  .section-ar,
+  .page-header-ar {
+    direction: rtl;
+    unicode-bidi: embed;
+    text-align: left;
+  }
+  /* The hint text should also flow RTL when Arabic */
+  .field .hint[dir="rtl"] {
+    text-align: left;
+  }
+
+
+  /* ===== PRINT / PDF EXPORT (A4) ===== */
+  @media print {
+    @page {
+      size: A4;
+      margin: 0;
+    }
+    body {
+      background: #fff !important;
+      color: #000 !important;
+      font-size: 10pt;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+    /* Wrapper with content margin */
+    #formScreen {
+      padding: 0 14mm 12mm !important;
+    }
+    /* Hide non-essential parts */
+    nav,
+    .submit-area,
+    .submit-btn,
+    .pdf-btn,
+    footer {
+      display: none !important;
+    }
+    /* Stack to single column */
+    .form-with-summary {
+      grid-template-columns: 1fr !important;
+      display: block !important;
+    }
+    /* Hide the editable summary, we'll make our own print header */
+    .summary {
+      display: none !important;
+    }
+    /* Tighter page header */
+    .page-header {
+      background: #1a1a1a !important;
+      padding: 14mm 14mm 12mm !important;
+      margin: 0 -14mm 8mm !important;
+      page-break-after: avoid;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .page-header-inner {
+      padding: 0 !important;
+      max-width: 100% !important;
+    }
+    .page-header-inner {
+      padding: 0 !important;
+    }
+    .page-header h1 {
+      font-size: 36pt !important;
+      margin-bottom: 8px !important;
+      color: #fff !important;
+    }
+    .page-header-ar {
+      font-size: 14pt !important;
+      margin-bottom: 12px !important;
+    }
+    .page-header p {
+      font-size: 9pt !important;
+      max-width: 100% !important;
+      width: 100%;
+      margin-right: 0 !important;
+    }
+    .page-header p[dir="rtl"] {
+      text-align: right;
+    }
+    .header-status {
+      font-size: 8pt !important;
+      padding: 3px 8px !important;
+      margin-bottom: 14px !important;
+    }
+    /* Form container */
+    form {
+      padding: 0 !important;
+      max-width: 100% !important;
+    }
+    /* Section spacing */
+    .section {
+      margin-bottom: 14px !important;
+      padding-bottom: 14px !important;
+      page-break-inside: avoid;
+    }
+    .section-header {
+      background: #1a1a1a !important;
+      padding: 8px 12px !important;
+      margin-bottom: 10px !important;
+      page-break-after: avoid;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .section-num {
+      font-size: 7pt !important;
+      color: #ef4444 !important;
+      margin-bottom: 2px !important;
+    }
+    .section-title {
+      font-size: 13pt !important;
+      margin-bottom: 0 !important;
+      color: #fff !important;
+    }
+    .section-ar {
+      font-size: 8pt !important;
+      color: rgba(255,255,255,0.7) !important;
+    }
+    /* Field spacing */
+    .field {
+      margin-bottom: 6px !important;
+    }
+    .field label {
+      font-size: 7pt !important;
+      margin-bottom: 2px !important;
+    }
+    .field input,
+    .field textarea,
+    .field select {
+      padding: 6px 8px !important;
+      font-size: 9.5pt !important;
+      border-color: #ccc !important;
+      background: #fff !important;
+      min-height: auto !important;
+    }
+    .field textarea {
+      min-height: 30px !important;
+    }
+    .field-grid {
+      gap: 8px !important;
+    }
+    .hint {
+      display: none !important;
+    }
+    /* Service pills - show selected only as "filled" */
+    .service-pills {
+      display: flex !important;
+      flex-wrap: wrap !important;
+      gap: 4px !important;
+    }
+    .service-pill {
+      padding: 4px 8px !important;
+      font-size: 8pt !important;
+      border: 1px solid #ddd !important;
+      flex: 0 0 auto !important;
+    }
+    .service-pill .icon {
+      display: none !important;
+    }
+    .service-pill .name {
+      font-size: 9pt !important;
+      margin-bottom: 0 !important;
+    }
+    .service-pill .ar {
+      font-size: 7pt !important;
+    }
+    .service-pill.selected {
+      background: #1a1a1a !important;
+      color: #fff !important;
+      border: 2px solid #1a1a1a !important;
+      box-shadow: inset 0 0 0 1000px #1a1a1a !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .service-pill.selected .name {
+      color: #fff !important;
+      font-weight: 700 !important;
+    }
+    .service-pill.selected .ar {
+      color: rgba(255,255,255,0.7) !important;
+    }
+    /* Radio pills */
+    .radio-pill {
+      padding: 5px 10px !important;
+      font-size: 8pt !important;
+    }
+    .radio-pill.selected {
+      background: #1a1a1a !important;
+      color: #fff !important;
+      border: 2px solid #1a1a1a !important;
+      box-shadow: inset 0 0 0 1000px #1a1a1a !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    /* Stepper */
+    .stepper button {
+      width: 24px !important;
+      height: 24px !important;
+      font-size: 11pt !important;
+    }
+    .stepper input {
+      height: 24px !important;
+      width: 36px !important;
+    }
+    /* Checkbox grid */
+    .checkbox-grid {
+      grid-template-columns: repeat(3, 1fr) !important;
+      gap: 4px !important;
+    }
+    .check-pill {
+      padding: 5px 8px !important;
+      gap: 5px !important;
+    }
+    .check-pill .label-text {
+      font-size: 8.5pt !important;
+    }
+    .check-pill .label-ar {
+      font-size: 6.5pt !important;
+    }
+    .check-pill .check-box {
+      width: 11px !important;
+      height: 11px !important;
+    }
+    .check-pill.selected {
+      background: #1a1a1a !important;
+      color: #fff !important;
+      border: 2px solid #1a1a1a !important;
+      box-shadow: inset 0 0 0 1000px #1a1a1a !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+      color-adjust: exact !important;
+    }
+    .check-pill.selected * {
+      color: #fff !important;
+    }
+    .check-pill.selected .label-text {
+      color: #fff !important;
+      font-weight: 700 !important;
+    }
+    .check-pill.selected .label-ar {
+      color: rgba(255,255,255,0.7) !important;
+    }
+    .check-pill.selected .check-box {
+      background: #ef4444 !important;
+      border: 2px solid #ef4444 !important;
+      box-shadow: inset 0 0 0 1000px #ef4444 !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .check-pill.selected .check-box::after {
+      content: '✓' !important;
+      color: #fff !important;
+      font-size: 10px !important;
+      font-weight: bold !important;
+    }
+    /* Add document footer for PDF */
+    .pdf-footer {
+      display: flex !important;
+      justify-content: space-between;
+      margin-top: 14mm;
+      padding-top: 6px;
+      border-top: 1px solid #1a1a1a;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 7pt;
+      letter-spacing: 0.15em;
+      color: #555;
+      text-transform: uppercase;
+    }
+    .pdf-footer .red {
+      color: #991b1b !important;
+    }
+  }
+  /* Hidden by default — only shows when printing */
+  .pdf-footer { display: none; }
+</style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="nav-wordmark">
+        IZO<span class="dot">.</span>
+        <span class="sub">CREATIVE.MEDIA.AGENCY</span>
+      </a>
+      <a href="index.html" class="nav-back">← BACK TO SITE</a>
+    </div>
+  </nav>
+
+  <!-- FORM SCREEN -->
+  <div id="formScreen">
+
+    <!-- HEADER -->
+    <div class="page-header">
+      <div class="page-header-inner">
+        <div class="header-status">ACCEPTING BOOKINGS · 2026</div>
+        <h1>Book a<br>shoot<span class="dot">.</span></h1>
+        <div class="page-header-ar">احجز جلسة تصوير</div>
+        <p dir="rtl" lang="ar">يُرجى تعبئة التفاصيل أدناه، وسنتواصل معكم خلال 24 ساعة لتأكيد الحجز ومناقشة التفاصيل النهائية.</p>
+      </div>
+    </div>
+
+    <!-- FORM -->
+    <form id="bookingForm" onsubmit="handleSubmit(event)">
+      <div class="form-with-summary">
+
+        <!-- LEFT: Form fields -->
+        <div>
+
+          <!-- 01 Contact -->
+          <div class="section">
+            <div class="section-header">
+              <div class="section-num">01 / CONTACT</div>
+              <h2 class="section-title">Contact Information</h2>
+              <div class="section-ar">معلومات التواصل</div>
+            </div>
+
+            <div class="field-grid">
+              <div class="field">
+                <label>Full Name <span class="required">*</span></label>
+                <input type="text" id="name" required oninput="updateSummary()" placeholder="Your full name">
+              </div>
+              <div class="field">
+                <label>Project Owner <span class="optional">if different</span></label>
+                <input type="text" id="projectOwner" oninput="updateSummary()" placeholder="Person responsible for the project">
+              </div>
+              <div class="field">
+                <label>Company / Organization <span class="optional">optional</span></label>
+                <input type="text" id="company" oninput="updateSummary()" placeholder="Company or organization name">
+              </div>
+              <div class="field">
+                <label>Phone Number <span class="required">*</span></label>
+                <input type="tel" id="phone" required oninput="updateSummary()" placeholder="+965 XXXX XXXX">
+              </div>
+              <div class="field full">
+                <label>Email <span class="required">*</span></label>
+                <input type="email" id="email" required oninput="updateSummary()" placeholder="your.email@example.com">
+              </div>
+            </div>
+          </div>
+
+          <!-- 02 Service Type -->
+          <div class="section">
+            <div class="section-header">
+              <div class="section-num">02 / SERVICE</div>
+              <h2 class="section-title">Service Type</h2>
+              <div class="section-ar">نوع الخدمة المطلوبة</div>
+            </div>
+
+            <div class="service-pills">
+              <label class="service-pill" onclick="selectService(this, 'Video Production', event)">
+                <input type="radio" name="service" value="Video Production">
+                <div class="icon">🎬</div>
+                <div class="name">Video Production</div>
+                <div class="ar">إنتاج فيديو</div>
+              </label>
+              <label class="service-pill" onclick="selectService(this, 'Photography', event)">
+                <input type="radio" name="service" value="Photography">
+                <div class="icon">📸</div>
+                <div class="name">Photography</div>
+                <div class="ar">تصوير فوتوغرافي</div>
+              </label>
+              <label class="service-pill" onclick="selectService(this, 'Event Coverage', event)">
+                <input type="radio" name="service" value="Event Coverage">
+                <div class="icon">🎤</div>
+                <div class="name">Event Coverage</div>
+                <div class="ar">تغطية فعاليات</div>
+              </label>
+              <label class="service-pill" onclick="selectService(this, 'Commercial Ad', event)">
+                <input type="radio" name="service" value="Commercial Ad">
+                <div class="icon">📺</div>
+                <div class="name">Commercial Ad</div>
+                <div class="ar">إعلان تجاري</div>
+              </label>
+              <label class="service-pill" onclick="selectService(this, 'Social Content', event)">
+                <input type="radio" name="service" value="Social Content">
+                <div class="icon">📱</div>
+                <div class="name">Social Content</div>
+                <div class="ar">محتوى سوشيال</div>
+              </label>
+              <label class="service-pill" onclick="selectService(this, 'Other', event)">
+                <input type="radio" name="service" value="Other">
+                <div class="icon">✨</div>
+                <div class="name">Other</div>
+                <div class="ar">شيء ثاني</div>
+              </label>
+            </div>
+
+            <div class="field full" style="margin-top: 24px;">
+              <label>Project Name / Title <span class="required">*</span></label>
+              <input type="text" id="projectName" required oninput="updateSummary()" placeholder="Project or campaign title">
+            </div>
+
+            <div class="field full" style="margin-top: 16px;">
+              <label>Project Description <span class="required">*</span></label>
+              <textarea id="description" required oninput="updateSummary()" placeholder="يُرجى توضيح تفاصيل المشروع، الأسلوب المطلوب، وأي أمثلة مرجعية إن وُجدت."></textarea>
+            </div>
+          </div>
+
+          <!-- 03 Schedule -->
+          <div class="section">
+            <div class="section-header">
+              <div class="section-num">03 / SCHEDULE</div>
+              <h2 class="section-title">Date & Location</h2>
+              <div class="section-ar">الموعد والموقع</div>
+            </div>
+
+            <div class="field-grid">
+              <div class="field">
+                <label>Preferred Date <span class="required">*</span></label>
+                <input type="date" id="date" required oninput="updateSummary()">
+              </div>
+              <div class="field">
+                <label>Estimated Duration <span class="optional">hours</span></label>
+                <input type="number" id="duration" min="1" max="24" value="4" oninput="updateSummary()">
+              </div>
+              <div class="field">
+                <label>Start Time <span class="required">*</span></label>
+                <input type="time" id="startTime" required oninput="updateSummary()">
+              </div>
+              <div class="field">
+                <label>Location Type <span class="required">*</span></label>
+                <div class="radio-group">
+                  <label class="radio-pill" onclick="selectLocation(this, 'Indoor', event)">
+                    <input type="radio" name="location" value="Indoor">
+                    Indoor / داخلي
+                  </label>
+                  <label class="radio-pill" onclick="selectLocation(this, 'Outdoor', event)">
+                    <input type="radio" name="location" value="Outdoor">
+                    Outdoor / خارجي
+                  </label>
+                </div>
+              </div>
+              <div class="field full">
+                <label>Location Address / Google Maps Link <span class="required">*</span></label>
+                <input type="text" id="address" required oninput="updateSummary()" placeholder="Full address or Google Maps link">
+                <div class="hint" dir="rtl" lang="ar">يُرجى إدخال العنوان الكامل أو رابط الموقع على خرائط جوجل</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 04 Crew & Equipment -->
+          <div class="section">
+            <div class="section-header">
+              <div class="section-num">04 / CREW & GEAR</div>
+              <h2 class="section-title">Crew & Equipment</h2>
+              <div class="section-ar">الفريق والمعدات المطلوبة</div>
+            </div>
+
+            <div class="field-grid">
+              <div class="field">
+                <label>Number of Camera Operators <span class="optional">required</span></label>
+                <div class="stepper">
+                  <button type="button" onclick="stepNumber('crew', -1)">−</button>
+                  <input type="number" id="crew" min="1" max="20" value="1" oninput="updateSummary()" readonly>
+                  <button type="button" onclick="stepNumber('crew', 1)">+</button>
+                </div>
+                <div class="hint" dir="rtl" lang="ar">عدد المصورين المطلوبين للتغطية</div>
+              </div>
+              <div class="field">
+                <label>Estimated Budget (KWD) <span class="optional">optional</span></label>
+                <input type="text" id="budget" oninput="updateSummary()" placeholder="Approximate range in KWD">
+                <div class="hint" dir="rtl" lang="ar">الميزانية التقريبية تساعدنا في تقديم العرض الأنسب</div>
+              </div>
+            </div>
+
+            <div class="field full" style="margin-top: 24px;">
+              <label>Special Equipment <span class="optional">select what you need</span></label>
+              <div class="checkbox-grid">
+                <label class="check-pill" onclick="toggleCheckbox(this, 'Drone', event)">
+                  <input type="checkbox" name="equipment" value="Drone">
+                  <div class="check-box"></div>
+                  <div>
+                    <div class="label-text">🚁 Drone</div>
+                    <div class="label-ar">طائرة بدون طيار</div>
+                  </div>
+                </label>
+                <label class="check-pill" onclick="toggleCheckbox(this, 'Gimbal', event)">
+                  <input type="checkbox" name="equipment" value="Gimbal">
+                  <div class="check-box"></div>
+                  <div>
+                    <div class="label-text">📹 Gimbal</div>
+                    <div class="label-ar">ستابلايزر</div>
+                  </div>
+                </label>
+                <label class="check-pill" onclick="toggleCheckbox(this, 'Extra Lighting', event)">
+                  <input type="checkbox" name="equipment" value="Extra Lighting">
+                  <div class="check-box"></div>
+                  <div>
+                    <div class="label-text">💡 Extra Lighting</div>
+                    <div class="label-ar">إضاءة إضافية</div>
+                  </div>
+                </label>
+                <label class="check-pill" onclick="toggleCheckbox(this, 'Audio Recording', event)">
+                  <input type="checkbox" name="equipment" value="Audio Recording">
+                  <div class="check-box"></div>
+                  <div>
+                    <div class="label-text">🎙 Audio Setup</div>
+                    <div class="label-ar">تسجيل صوت</div>
+                  </div>
+                </label>
+                <label class="check-pill" onclick="toggleCheckbox(this, 'Teleprompter', event)">
+                  <input type="checkbox" name="equipment" value="Teleprompter">
+                  <div class="check-box"></div>
+                  <div>
+                    <div class="label-text">📜 Teleprompter</div>
+                    <div class="label-ar">قارئ نصوص</div>
+                  </div>
+                </label>
+                <label class="check-pill" onclick="toggleCheckbox(this, 'Studio Setup', event)">
+                  <input type="checkbox" name="equipment" value="Studio Setup">
+                  <div class="check-box"></div>
+                  <div>
+                    <div class="label-text">🎬 Studio Setup</div>
+                    <div class="label-ar">إعداد ستوديو</div>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- 05 Notes -->
+          <div class="section">
+            <div class="section-header">
+              <div class="section-num">05 / NOTES</div>
+              <h2 class="section-title">Additional Notes</h2>
+              <div class="section-ar">ملاحظات إضافية</div>
+            </div>
+
+            <div class="field full">
+              <label>Anything else we should know? <span class="optional">optional</span></label>
+              <textarea id="notes" oninput="updateSummary()" placeholder="أي معلومات إضافية، مواعيد نهائية، أو متطلبات خاصة."></textarea>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT: Sticky Summary -->
+        <div>
+          <div class="summary">
+            <div class="summary-label">// REQUEST SUMMARY</div>
+            <div class="summary-title">Request<br>Summary.</div>
+            <ul class="summary-list">
+              <li class="summary-item">
+                <span class="key">Name</span>
+                <span class="val empty" id="sm-name">—</span>
+              </li>
+              <li class="summary-item">
+                <span class="key">Project Owner</span>
+                <span class="val empty" id="sm-projectOwner">—</span>
+              </li>
+              <li class="summary-item">
+                <span class="key">Company</span>
+                <span class="val empty" id="sm-company">—</span>
+              </li>
+              <li class="summary-item">
+                <span class="key">Service</span>
+                <span class="val empty" id="sm-service">—</span>
+              </li>
+              <li class="summary-item">
+                <span class="key">Project</span>
+                <span class="val empty" id="sm-project">—</span>
+              </li>
+              <li class="summary-item">
+                <span class="key">Date</span>
+                <span class="val empty" id="sm-date">—</span>
+              </li>
+              <li class="summary-item">
+                <span class="key">Time</span>
+                <span class="val empty" id="sm-time">—</span>
+              </li>
+              <li class="summary-item">
+                <span class="key">Location</span>
+                <span class="val empty" id="sm-location">—</span>
+              </li>
+              <li class="summary-item">
+                <span class="key">Crew</span>
+                <span class="val" id="sm-crew">1 operator</span>
+              </li>
+              <li class="summary-item">
+                <span class="key">Equipment</span>
+                <span class="val empty" id="sm-equipment">None</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="submit-area">
+            <h3>Submit your request</h3>
+            <p dir="rtl" lang="ar">سيتم تحويلكم إلى تطبيق واتساب مع جميع تفاصيل الطلب جاهزة للإرسال.</p>
+            <button type="submit" class="submit-btn">Send via WhatsApp</button>
+            <button type="button" class="pdf-btn" onclick="saveAsPDF()">⬇ Save as PDF</button>
+            <div class="submit-help">RESPONSE WITHIN 24H</div>
+          </div>
+        </div>
+
+      </div>
+    </form>
+
+    <!-- Footer only visible when printing -->
+    <div class="pdf-footer">
+      <div><span class="red">IZO MEDIA</span> // CREATIVE.MEDIA.AGENCY</div>
+      <div>BOOKING REQUEST · PRINTED COPY</div>
+    </div>
+  </div>
+
+  <!-- SUCCESS SCREEN -->
+  <div class="success-screen" id="successScreen">
+    <div class="success-icon">✓</div>
+    <h2>Request sent<span style="color:var(--red);">.</span></h2>
+    <div class="ar">تم إرسال الطلب</div>
+    <p>
+      Your booking request has been received and recorded.<br>
+      Our team will respond within 24 hours.
+    </p>
+    <div class="success-meta">
+      <div class="success-meta-item">
+        <span class="red">REQUEST ID</span>
+        <span id="requestId">—</span>
+      </div>
+      <div class="success-meta-item">
+        <span class="red">SUBMITTED AT</span>
+        <span id="submittedAt">—</span>
+      </div>
+      <div class="success-meta-item">
+        <span class="red">EXPECTED REPLY</span>
+        <span>WITHIN 24 HOURS</span>
+      </div>
+    </div>
+    <a href="index.html" class="nav-back" style="display:inline-block; padding: 16px 30px; border: 1px solid var(--ink); text-decoration: none;">← BACK TO SITE</a>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div><span class="red">©</span> IZO MEDIA 2026 — ALL RIGHTS RESERVED</div>
+      <div>BOOKING SYSTEM <span class="red">//</span> V1.0</div>
+    </div>
+  </footer>
+
+<script>
+  // ===== CONFIG (تعدل هذي القيم) =====
+  const WHATSAPP_NUMBER = '96596690879'; // بدون + أو زيرو، فقط الأرقام
+  const GOOGLE_SCRIPT_URL = ''; // اضف رابط Google Apps Script هنا (أعلمك كيف لاحقاً)
+
+  // ===== STATE =====
+  let formData = {
+    name: '', projectOwner: '', company: '', phone: '', email: '',
+    service: '', projectName: '', description: '',
+    date: '', startTime: '', duration: 4, location: '', address: '',
+    crew: 1, budget: '', equipment: [],
+    notes: ''
+  };
+
+  // ===== HELPERS =====
+  window.selectService = function(el, value, event) {
+    if (event) event.preventDefault();
+    document.querySelectorAll('.service-pill').forEach(p => {
+      p.classList.remove('selected');
+      const inp = p.querySelector('input');
+      if (inp) inp.checked = false;
+    });
+    el.classList.add('selected');
+    el.querySelector('input').checked = true;
+    formData.service = value;
+    updateSummary();
+  };
+
+  window.selectLocation = function(el, value, event) {
+    if (event) event.preventDefault();
+    document.querySelectorAll('.radio-pill').forEach(p => {
+      p.classList.remove('selected');
+      const inp = p.querySelector('input');
+      if (inp) inp.checked = false;
+    });
+    el.classList.add('selected');
+    el.querySelector('input').checked = true;
+    formData.location = value;
+    updateSummary();
+  };
+
+  window.toggleCheckbox = function(el, value, event) {
+    if (event) event.preventDefault();
+    const input = el.querySelector('input');
+    const newState = !input.checked;
+    input.checked = newState;
+    el.classList.toggle('selected', newState);
+    if (newState) {
+      if (!formData.equipment.includes(value)) formData.equipment.push(value);
+    } else {
+      formData.equipment = formData.equipment.filter(e => e !== value);
+    }
+    updateSummary();
+  };
+
+  window.stepNumber = function(field, delta) {
+    const input = document.getElementById(field);
+    const newVal = Math.max(1, Math.min(20, parseInt(input.value) + delta));
+    input.value = newVal;
+    formData[field] = newVal;
+    updateSummary();
+  };
+
+  function updateSummary() {
+    formData.name = document.getElementById('name').value;
+    formData.projectOwner = document.getElementById('projectOwner').value;
+    formData.company = document.getElementById('company').value;
+    formData.phone = document.getElementById('phone').value;
+    formData.email = document.getElementById('email').value;
+    formData.projectName = document.getElementById('projectName').value;
+    formData.description = document.getElementById('description').value;
+    formData.date = document.getElementById('date').value;
+    formData.startTime = document.getElementById('startTime').value;
+    formData.duration = parseInt(document.getElementById('duration').value) || 4;
+    formData.address = document.getElementById('address').value;
+    formData.crew = parseInt(document.getElementById('crew').value) || 1;
+    formData.budget = document.getElementById('budget').value;
+    formData.notes = document.getElementById('notes').value;
+
+    setSummary('sm-name', formData.name);
+    setSummary('sm-projectOwner', formData.projectOwner);
+    setSummary('sm-company', formData.company);
+    setSummary('sm-service', formData.service);
+    setSummary('sm-project', formData.projectName);
+    setSummary('sm-date', formData.date ? formatDate(formData.date) : '');
+    setSummary('sm-time', formData.startTime ? `${formData.startTime} (${formData.duration}h)` : '');
+    setSummary('sm-location', formData.location && formData.address ? `${formData.location}` : '');
+    setSummary('sm-crew', `${formData.crew} operator${formData.crew > 1 ? 's' : ''}`, false);
+    setSummary('sm-equipment', formData.equipment.length ? formData.equipment.join(', ') : '');
+  }
+
+  function setSummary(id, value, allowEmpty = true) {
+    const el = document.getElementById(id);
+    if (value && value.trim()) {
+      el.textContent = value;
+      el.classList.remove('empty');
+    } else if (allowEmpty) {
+      el.textContent = '—';
+      el.classList.add('empty');
+    }
+  }
+
+  function formatDate(isoDate) {
+    if (!isoDate) return '';
+    const d = new Date(isoDate);
+    return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+  }
+
+  function generateRequestId() {
+    const now = new Date();
+    const ymd = now.getFullYear().toString().slice(2) +
+                String(now.getMonth() + 1).padStart(2, '0') +
+                String(now.getDate()).padStart(2, '0');
+    const rand = Math.floor(Math.random() * 9000 + 1000);
+    return `IZO-${ymd}-${rand}`;
+  }
+
+  function buildWhatsAppMessage(reqId) {
+    const lines = [];
+    lines.push(`*🎬 NEW BOOKING REQUEST*`);
+    lines.push(`*${reqId}*`);
+    lines.push('');
+    lines.push(`━━━━━━━━━━━━━━━━━`);
+    lines.push(`*👤 CONTACT*`);
+    lines.push(`Name: ${formData.name}`);
+    if (formData.projectOwner) lines.push(`Project Owner: ${formData.projectOwner}`);
+    if (formData.company) lines.push(`Company: ${formData.company}`);
+    lines.push(`Phone: ${formData.phone}`);
+    lines.push(`Email: ${formData.email}`);
+    lines.push('');
+    lines.push(`*🎯 PROJECT*`);
+    lines.push(`Service: ${formData.service}`);
+    lines.push(`Title: ${formData.projectName}`);
+    lines.push(`Description: ${formData.description}`);
+    lines.push('');
+    lines.push(`*📅 SCHEDULE*`);
+    lines.push(`Date: ${formatDate(formData.date)}`);
+    lines.push(`Start: ${formData.startTime}`);
+    lines.push(`Duration: ${formData.duration} hours`);
+    lines.push(`Location: ${formData.location}`);
+    lines.push(`Address: ${formData.address}`);
+    lines.push('');
+    lines.push(`*🎥 CREW & GEAR*`);
+    lines.push(`Camera Operators: ${formData.crew}`);
+    if (formData.budget) lines.push(`Budget: ${formData.budget} KWD`);
+    if (formData.equipment.length) {
+      lines.push(`Equipment: ${formData.equipment.join(', ')}`);
+    }
+    if (formData.notes) {
+      lines.push('');
+      lines.push(`*📝 NOTES*`);
+      lines.push(formData.notes);
+    }
+    lines.push('');
+    lines.push(`━━━━━━━━━━━━━━━━━`);
+    lines.push(`Submitted via izo-media.com/booking`);
+    return lines.join('\n');
+  }
+
+  async function saveToGoogleSheet(reqId) {
+    if (!GOOGLE_SCRIPT_URL) return; // skip if not configured
+    try {
+      await fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          requestId: reqId,
+          submittedAt: new Date().toISOString(),
+          ...formData,
+          equipment: formData.equipment.join(', ')
+        })
+      });
+    } catch (e) {
+      console.warn('Google Sheet save failed:', e);
+    }
+  }
+
+  window.handleSubmit = async function(e) {
+    e.preventDefault();
+
+    // Validation: service must be selected
+    if (!formData.service) {
+      alert('من فضلك اختر نوع الخدمة');
+      document.querySelector('.service-pills').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+    if (!formData.location) {
+      alert('من فضلك اختر نوع الموقع (داخلي / خارجي)');
+      return;
+    }
+
+    const requestId = generateRequestId();
+    const submittedAt = new Date().toLocaleString('en-GB');
+
+    // Save to Google Sheet (in background)
+    saveToGoogleSheet(requestId);
+
+    // Build WhatsApp message
+    const message = buildWhatsAppMessage(requestId);
+    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+
+    // Open WhatsApp
+    window.open(whatsappUrl, '_blank');
+
+    // Show success screen
+    document.getElementById('formScreen').style.display = 'none';
+    document.getElementById('successScreen').classList.add('visible');
+    document.getElementById('requestId').textContent = requestId;
+    document.getElementById('submittedAt').textContent = submittedAt;
+
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Save form as PDF (uses browser's print → save as PDF)
+  window.saveAsPDF = function() {
+    // Set helpful filename
+    const reqId = formData.name ? formData.name.replace(/\s+/g, '_') : 'IZO_Booking';
+    const dateStr = new Date().toISOString().slice(0, 10);
+    document.title = `IZO_Booking_${reqId}_${dateStr}`;
+    window.print();
+  };
+
+  // Initialize
+  updateSummary();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,119 @@
+# IZO Media — Decap CMS Configuration
+# Edit this file to change what you can manage from the admin panel
+
+backend:
+  name: git-gateway
+  branch: main
+
+# Where uploaded images go
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
+
+# Friendly site URL shown in admin
+site_url: https://izo-media.com
+display_url: https://izo-media.com
+logo_url: /assets/logo.png
+
+# What you can manage
+collections:
+
+  # ==========================================
+  # PROJECTS — Your portfolio work
+  # ==========================================
+  - name: "projects"
+    label: "Projects"
+    label_singular: "Project"
+    folder: "projects"
+    create: true
+    slug: "{{slug}}"
+    summary: "{{title}} — {{client}} ({{year}})"
+    sortable_fields: ['date', 'title', 'client']
+    fields:
+      - { label: "Project Title", name: "title", widget: "string", required: true }
+      - { label: "Title in Arabic", name: "title_ar", widget: "string", required: false }
+      - { label: "Client", name: "client", widget: "string", required: true }
+      - label: "Category"
+        name: "category"
+        widget: "select"
+        options:
+          - { label: "Video Production", value: "video" }
+          - { label: "Photography", value: "photo" }
+          - { label: "Event Coverage", value: "event" }
+          - { label: "Commercial Ad", value: "commercial" }
+          - { label: "Music Video", value: "music" }
+          - { label: "Social Content", value: "social" }
+        required: true
+      - { label: "Year", name: "year", widget: "number", default: 2026, value_type: "int", min: 2020, max: 2030, required: true }
+      - { label: "Date", name: "date", widget: "datetime", required: true }
+      - { label: "Cover Image", name: "cover", widget: "image", required: true }
+      - { label: "Short Description", name: "summary", widget: "string", required: true, hint: "One sentence shown on the project card" }
+      - { label: "Show on Homepage", name: "featured", widget: "boolean", default: true, required: false }
+      - { label: "Vimeo or YouTube Embed URL", name: "video_url", widget: "string", required: false, hint: "Paste the share/embed link" }
+      - label: "Photo Gallery"
+        name: "gallery"
+        widget: "list"
+        required: false
+        summary: "{{fields.image}}"
+        field: { label: "Image", name: "image", widget: "image" }
+      - { label: "Full Description", name: "body", widget: "markdown", required: false }
+
+  # ==========================================
+  # JOURNAL — Blog posts / Studio notes
+  # ==========================================
+  - name: "posts"
+    label: "Journal"
+    label_singular: "Post"
+    folder: "posts"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Post Title", name: "title", widget: "string", required: true }
+      - { label: "Date", name: "date", widget: "datetime", required: true }
+      - label: "Category"
+        name: "category"
+        widget: "select"
+        options:
+          - { label: "Process", value: "process" }
+          - { label: "Insight", value: "insight" }
+          - { label: "Industry", value: "industry" }
+          - { label: "Studio Notes", value: "notes" }
+        required: true
+      - { label: "Cover Image", name: "cover", widget: "image", required: false }
+      - { label: "Excerpt", name: "excerpt", widget: "text", required: true, hint: "Short summary shown on the journal listing" }
+      - { label: "Body", name: "body", widget: "markdown", required: true }
+
+  # ==========================================
+  # SETTINGS — Site-wide info you control
+  # ==========================================
+  - name: "settings"
+    label: "Settings"
+    files:
+      # Showreel
+      - name: "showreel"
+        label: "Showreel"
+        file: "_settings/showreel.json"
+        fields:
+          - { label: "Showreel Video URL", name: "video_url", widget: "string", required: false, hint: "Vimeo or YouTube link" }
+          - { label: "Showreel Title", name: "title", widget: "string", default: "See what we've been building." }
+          - { label: "Year", name: "year", widget: "number", default: 2026, value_type: "int" }
+
+      # Homepage stats
+      - name: "stats"
+        label: "Homepage Stats"
+        file: "_settings/stats.json"
+        fields:
+          - { label: "Projects Count", name: "projects", widget: "string", default: "150+" }
+          - { label: "Clients Count", name: "clients", widget: "string", default: "40+" }
+          - { label: "Years Active", name: "years", widget: "string", default: "06" }
+          - { label: "Status", name: "status", widget: "string", default: "ACTIVE · AVAILABLE FOR NEW PROJECTS · 2026" }
+
+      # Contact info
+      - name: "contact"
+        label: "Contact Info"
+        file: "_settings/contact.json"
+        fields:
+          - { label: "Email", name: "email", widget: "string", default: "hello@izo-media.com" }
+          - { label: "Phone", name: "phone", widget: "string", default: "+965 9669 0879" }
+          - { label: "Instagram Handle", name: "instagram", widget: "string", default: "@izomedia.kw" }
+          - { label: "Address Line 1", name: "address1", widget: "string", default: "Omar Bin Alkatab St." }
+          - { label: "Address Line 2", name: "address2", widget: "string", default: "KW City · Morqab · Bldg 14a" }

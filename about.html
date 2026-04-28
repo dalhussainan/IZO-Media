@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — IZO MEDIA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;800;900&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-alt: #f5f5f2;
+    --ink: #1a1a1a;
+    --ink-dim: #555555;
+    --line: #e5e5e0;
+    --red: #991b1b;
+    --red-bright: #ef4444;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Archivo', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* TICKER */
+  .ticker-bar {
+    background: var(--ink); color: #fff; padding: 7px 0;
+    overflow: hidden; white-space: nowrap;
+  }
+  .ticker-track { display: inline-flex; animation: ticker 40s linear infinite; }
+  .ticker-track span {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.25em; padding: 0 2rem; text-transform: uppercase;
+  }
+  .ticker-track span .red { color: var(--red-bright); }
+  @keyframes ticker {
+    from { transform: translateX(0); } to { transform: translateX(-50%); }
+  }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner {
+    max-width: 1440px; margin: 0 auto; padding: 22px 40px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .nav-wordmark {
+    font-family: 'Archivo', sans-serif; font-weight: 900;
+    font-size: 22px; letter-spacing: -0.02em;
+    color: var(--ink); text-decoration: none;
+    display: flex; align-items: baseline; gap: 2px;
+  }
+  .nav-wordmark .dot { color: var(--red); }
+  .nav-wordmark .sub {
+    font-family: 'JetBrains Mono', monospace; font-weight: 500;
+    font-size: 9px; letter-spacing: 0.2em;
+    color: var(--red); margin-left: 10px; align-self: center;
+  }
+  .nav-links {
+    display: flex; align-items: center; gap: 36px; list-style: none;
+  }
+  .nav-links a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.2em;
+    color: var(--ink); text-decoration: none; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--red); }
+  .nav-links a.active { color: var(--red); }
+  .nav-links a::before {
+    content: '/'; color: var(--red); margin-right: 4px; opacity: 0.4;
+  }
+  .nav-cta {
+    background: var(--ink); color: #fff !important; padding: 10px 18px;
+  }
+  .nav-cta::before { display: none; }
+  .nav-cta:hover { background: var(--red); color: #fff !important; }
+
+  /* ===== PAGE HEADER ===== */
+  .page-header {
+    max-width: 1440px; margin: 0 auto;
+    padding: 80px 40px 60px;
+    border-bottom: 1px solid var(--ink);
+  }
+  .breadcrumbs {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.25em;
+    color: var(--ink-dim); margin-bottom: 40px;
+    text-transform: uppercase;
+  }
+  .breadcrumbs a {
+    color: var(--ink-dim); text-decoration: none;
+    transition: color 0.2s;
+  }
+  .breadcrumbs a:hover { color: var(--red); }
+  .breadcrumbs .sep { color: var(--red); margin: 0 10px; }
+  .breadcrumbs .current { color: var(--red); }
+
+  .page-header h1 {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 900;
+    font-size: clamp(3.5rem, 10vw, 9rem);
+    line-height: 0.9; letter-spacing: -0.04em;
+    margin-bottom: 24px;
+  }
+  .page-header h1 .dot { color: var(--red); font-weight: 400; }
+  .page-header-ar {
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    font-weight: 700; font-size: clamp(1.8rem, 3.5vw, 3rem);
+    color: var(--ink); letter-spacing: -0.02em;
+  }
+
+  /* ===== INTRO (portrait + bio) ===== */
+  .intro {
+    max-width: 1440px; margin: 0 auto;
+    padding: 100px 40px;
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .intro-photo {
+    aspect-ratio: 4/5;
+    background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+    position: relative;
+    overflow: hidden;
+    position: sticky;
+    top: 100px;
+  }
+  .intro-photo::before {
+    content: 'PORTRAIT';
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; letter-spacing: 0.3em;
+    color: rgba(255,255,255,0.3);
+  }
+  .intro-photo-caption {
+    position: absolute;
+    bottom: 16px; left: 16px; right: 16px;
+    display: flex; justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; letter-spacing: 0.2em;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+  }
+
+  .intro-content-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.25em;
+    color: var(--red); margin-bottom: 30px; text-transform: uppercase;
+  }
+  .intro-content h2 {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2rem, 4vw, 3.4rem);
+    line-height: 1; letter-spacing: -0.03em;
+    margin-bottom: 30px;
+  }
+  .intro-content h2 .highlight { color: var(--red); }
+
+  .intro-content p {
+    font-family: 'Archivo', sans-serif;
+    font-size: 18px; line-height: 1.7;
+    color: var(--ink-dim); margin-bottom: 24px;
+  }
+  .intro-content p.lead {
+    font-size: 22px; color: var(--ink);
+    font-weight: 500;
+  }
+  .intro-content .ar-block {
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    font-size: 17px; line-height: 1.9;
+    color: var(--ink-dim);
+    padding-top: 30px; margin-top: 30px;
+    border-top: 1px dashed var(--line);
+    direction: rtl; text-align: right;
+  }
+
+  /* ===== PHILOSOPHY (4 pillars from brand guide) ===== */
+  .philosophy-wrap {
+    background: var(--ink); color: #fff;
+    padding: 120px 40px;
+  }
+  .philosophy-inner { max-width: 1440px; margin: 0 auto; }
+  .philosophy-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.25em;
+    color: var(--red-bright); margin-bottom: 30px; text-transform: uppercase;
+  }
+  .philosophy-title {
+    font-family: 'Archivo', sans-serif; font-weight: 900;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    line-height: 0.95; letter-spacing: -0.03em;
+    color: #fff; margin-bottom: 16px;
+  }
+  .philosophy-title .highlight { color: var(--red-bright); }
+  .philosophy-sub {
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    font-weight: 500; font-size: 1.3rem;
+    color: rgba(255,255,255,0.6); margin-bottom: 80px;
+  }
+  .pillars {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+  }
+  .pillar {
+    padding: 40px 30px;
+    border: 1px solid rgba(255,255,255,0.15);
+    transition: all 0.3s;
+  }
+  .pillar:hover {
+    background: rgba(239, 68, 68, 0.08);
+    border-color: var(--red-bright);
+  }
+  .pillar-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.25em;
+    color: var(--red-bright); margin-bottom: 16px;
+    text-transform: uppercase;
+  }
+  .pillar-name {
+    font-family: 'Archivo', sans-serif; font-weight: 800;
+    font-size: 2.2rem; letter-spacing: -0.02em;
+    margin-bottom: 6px;
+  }
+  .pillar-ar {
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    font-weight: 600; font-size: 1.4rem;
+    color: rgba(255,255,255,0.7); margin-bottom: 20px;
+  }
+  .pillar-desc {
+    font-family: 'Archivo', sans-serif; font-size: 14px;
+    line-height: 1.7; color: rgba(255,255,255,0.55);
+  }
+
+  /* ===== TIMELINE ===== */
+  .timeline-wrap {
+    max-width: 1440px; margin: 0 auto;
+    padding: 120px 40px;
+  }
+  .timeline-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.25em;
+    color: var(--red); margin-bottom: 30px; text-transform: uppercase;
+  }
+  .timeline-title {
+    font-family: 'Archivo', sans-serif; font-weight: 900;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    line-height: 1; letter-spacing: -0.03em;
+    margin-bottom: 60px;
+  }
+  .timeline-list { list-style: none; }
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 140px 1fr 280px;
+    gap: 40px;
+    padding: 32px 0;
+    border-top: 1px solid var(--line);
+    align-items: baseline;
+  }
+  .timeline-item:last-child { border-bottom: 1px solid var(--line); }
+  .timeline-year {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px; font-weight: 500;
+    letter-spacing: 0.2em; color: var(--red);
+  }
+  .timeline-title-text {
+    font-family: 'Archivo', sans-serif; font-weight: 700;
+    font-size: 1.4rem; letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+  .timeline-desc {
+    font-family: 'Archivo', sans-serif; font-size: 14px;
+    line-height: 1.6; color: var(--ink-dim);
+  }
+
+  /* ===== SKILLS / GEAR ===== */
+  .skills-wrap {
+    background: var(--bg-alt);
+    padding: 120px 40px;
+  }
+  .skills-inner {
+    max-width: 1440px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+  }
+  .skills-column-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.25em;
+    color: var(--red); margin-bottom: 24px; text-transform: uppercase;
+  }
+  .skills-column h3 {
+    font-family: 'Archivo', sans-serif; font-weight: 900;
+    font-size: 2.5rem; letter-spacing: -0.02em;
+    margin-bottom: 40px;
+  }
+  .skills-list { list-style: none; }
+  .skills-list li {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line);
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: 'Archivo', sans-serif;
+  }
+  .skills-list li .name {
+    font-weight: 700; font-size: 16px;
+  }
+  .skills-list li .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; letter-spacing: 0.2em;
+    color: var(--red); text-transform: uppercase;
+  }
+
+  /* ===== CTA ===== */
+  .contact-cta {
+    max-width: 1440px; margin: 0 auto;
+    padding: 140px 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr; gap: 80px;
+    align-items: center;
+    border-bottom: 1px solid var(--ink);
+  }
+  .contact-cta h2 {
+    font-family: 'Archivo', sans-serif; font-weight: 900;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    line-height: 0.95; letter-spacing: -0.03em;
+    margin-bottom: 24px;
+  }
+  .contact-cta h2 .highlight { color: var(--red); }
+  .contact-cta .ar {
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    font-weight: 600; font-size: 1.3rem;
+    color: var(--ink-dim); margin-bottom: 40px;
+  }
+  .contact-cta-right {
+    display: flex; flex-direction: column; gap: 20px;
+  }
+  .contact-item {
+    padding: 24px; border: 1px solid var(--ink);
+    text-decoration: none; color: var(--ink);
+    display: flex; justify-content: space-between; align-items: center;
+    transition: all 0.2s;
+  }
+  .contact-item:hover { background: var(--ink); color: #fff; }
+  .contact-item-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.25em;
+    color: var(--red); margin-bottom: 6px; text-transform: uppercase;
+  }
+  .contact-item:hover .contact-item-label { color: var(--red-bright); }
+  .contact-item-value {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700; font-size: 18px;
+  }
+  .contact-item-arrow { font-size: 20px; transition: transform 0.2s; }
+  .contact-item:hover .contact-item-arrow { transform: translate(4px, -4px); }
+
+  /* FOOTER */
+  footer { padding: 50px 40px 30px; }
+  .footer-inner { max-width: 1440px; margin: 0 auto; }
+  .footer-main {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 40px;
+  }
+  .footer-logo {
+    font-family: 'Archivo', sans-serif; font-weight: 900;
+    font-size: clamp(4rem, 12vw, 12rem);
+    line-height: 0.85; letter-spacing: -0.05em;
+    color: var(--ink);
+  }
+  .footer-logo .dot { color: var(--red); }
+  .footer-meta {
+    text-align: right;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.2em;
+    color: var(--ink-dim); line-height: 2; text-transform: uppercase;
+  }
+  .footer-meta .red { color: var(--red); }
+  .footer-bottom {
+    padding-top: 24px; border-top: 1px solid var(--line);
+    display: flex; justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; letter-spacing: 0.2em;
+    color: var(--ink-dim); text-transform: uppercase;
+  }
+  .footer-bottom .red { color: var(--red); }
+
+  @media (max-width: 900px) {
+    .nav-links { gap: 20px; }
+    .nav-links a:not(.nav-cta) { display: none; }
+    .intro { grid-template-columns: 1fr; }
+    .intro-photo { position: static; max-width: 400px; }
+    .pillars { grid-template-columns: 1fr; }
+    .timeline-item { grid-template-columns: 80px 1fr; }
+    .timeline-desc { grid-column: 2; }
+    .skills-inner { grid-template-columns: 1fr; }
+    .contact-cta { grid-template-columns: 1fr; gap: 40px; }
+    .footer-main { flex-direction: column; align-items: flex-start; gap: 30px; }
+    .footer-meta { text-align: left; }
+    .footer-bottom { flex-direction: column; gap: 8px; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="ticker-bar">
+    <div class="ticker-track">
+      <span>IZO MEDIA <span class="red">//</span> ABOUT · من أنا <span class="red">//</span> KUWAIT</span>
+      <span>DIRECTOR <span class="red">//</span> CINEMATOGRAPHER <span class="red">//</span> STORYTELLER</span>
+      <span>IZO MEDIA <span class="red">//</span> ABOUT · من أنا <span class="red">//</span> KUWAIT</span>
+      <span>DIRECTOR <span class="red">//</span> CINEMATOGRAPHER <span class="red">//</span> STORYTELLER</span>
+    </div>
+  </div>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="nav-wordmark">
+        IZO<span class="dot">.</span>
+        <span class="sub">CREATIVE.MEDIA.AGENCY</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html#work">Work</a></li>
+        <li><a href="index.html#services">Services</a></li>
+        <li><a href="about.html" class="active">About</a></li>
+        <li><a href="index.html#journal">Journal</a></li>
+        <li><a href="index.html#contact" class="nav-cta">Start a Project →</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="breadcrumbs">
+      <a href="index.html">HOME</a>
+      <span class="sep">/</span>
+      <span class="current">ABOUT</span>
+    </div>
+    <h1>About<span class="dot">.</span></h1>
+    <div class="page-header-ar">من أنا</div>
+  </div>
+
+  <!-- INTRO -->
+  <section class="intro">
+    <div class="intro-photo">
+      <div class="intro-photo-caption">
+        <span>// DHARI.ALHESINAN</span>
+        <span>KW · 2026</span>
+      </div>
+    </div>
+    <div class="intro-content">
+      <div class="intro-content-label">// INTRO · تعريف</div>
+      <h2>A director with a <span class="highlight">/ camera,</span><br>a point of view,<br>and a deadline.</h2>
+      <p class="lead">
+        I'm Dhari Alhesinan — founder, director, and cinematographer at IZO Media.
+      </p>
+      <p>
+        For six years, I've been building visual stories for banks, galleries, artists, and brands across Kuwait and the GCC. What started as a one-person operation with a single camera has become a studio that punches above its weight — working with clients like Warba Bank, NBK, and Boubyan, while still caring about every frame like it's the first one.
+      </p>
+      <p>
+        I believe a film doesn't need a big crew to feel big. It needs a clear point of view, obsessive attention to craft, and someone who loves the work enough to stay up editing until it's right.
+      </p>
+      <div class="ar-block">
+        ظهري، مصور، ومخرج من الكويت. أسست IZO Media في 2020، وخلال ست سنوات اشتغلت مع بنوك، معارض فنية، فنانين، وشركات في الكويت ودول الخليج. عندي اقتناع واحد: الفيديو الحلو مب محتاج فريق ضخم، محتاج رؤية واضحة واهتمام بكل تفصيل.
+      </div>
+    </div>
+  </section>
+
+  <!-- PHILOSOPHY (from brand guide) -->
+  <section class="philosophy-wrap">
+    <div class="philosophy-inner">
+      <div class="philosophy-label">// PHILOSOPHY · الفلسفة</div>
+      <h2 class="philosophy-title">Built with <span class="highlight">intention.</span></h2>
+      <div class="philosophy-sub">مبنيّة بنيّة واضحة</div>
+      <div class="pillars">
+        <div class="pillar">
+          <div class="pillar-num">01 / CONFIDENT</div>
+          <div class="pillar-name">Confident</div>
+          <div class="pillar-ar">واثقة</div>
+          <div class="pillar-desc">I know the work. I don't need to oversell it. Every film, every frame, speaks from quiet confidence — without exaggeration or noise.</div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-num">02 / DIRECT</div>
+          <div class="pillar-name">Direct</div>
+          <div class="pillar-ar">مباشرة</div>
+          <div class="pillar-desc">I call things by their name. No filler, no corporate fluff, no wasted frames. Every cut has a purpose — if it doesn't, it's out.</div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-num">03 / CRAFTED</div>
+          <div class="pillar-name">Crafted</div>
+          <div class="pillar-ar">مشغولة بعناية</div>
+          <div class="pillar-desc">Every word, every shot, every transition is chosen with intention. Detail is where the work lives. If it's worth doing, it's worth doing obsessively.</div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-num">04 / BILINGUAL</div>
+          <div class="pillar-name">Bilingual</div>
+          <div class="pillar-ar">ثنائية بطلاقة</div>
+          <div class="pillar-desc">Arabic and English, seamlessly. I shift between them the way the story needs — never forcing one on the other, always serving clarity.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIMELINE -->
+  <section class="timeline-wrap">
+    <div class="timeline-label">// TIMELINE · المسيرة</div>
+    <h2 class="timeline-title">The journey.</h2>
+    <ul class="timeline-list">
+      <li class="timeline-item">
+        <div class="timeline-year">2020</div>
+        <div class="timeline-title-text">IZO Media Founded</div>
+        <div class="timeline-desc">Started as a solo operation out of Kuwait City. First client: a local retail brand.</div>
+      </li>
+      <li class="timeline-item">
+        <div class="timeline-year">2021</div>
+        <div class="timeline-title-text">First Bank Client</div>
+        <div class="timeline-desc">Produced the first commercial campaign for a major Kuwaiti bank — opened doors to financial sector.</div>
+      </li>
+      <li class="timeline-item">
+        <div class="timeline-year">2022</div>
+        <div class="timeline-title-text">Studio Setup · Morqab</div>
+        <div class="timeline-desc">Moved into a dedicated production studio in Kuwait City. Invested in full cinema-grade gear.</div>
+      </li>
+      <li class="timeline-item">
+        <div class="timeline-year">2023</div>
+        <div class="timeline-title-text">50+ Projects Milestone</div>
+        <div class="timeline-desc">Crossed 50 completed projects. Expanded into event coverage and art gallery documentation.</div>
+      </li>
+      <li class="timeline-item">
+        <div class="timeline-year">2024</div>
+        <div class="timeline-title-text">Den Gallery · Shackles Exhibition</div>
+        <div class="timeline-desc">Covered a major art exhibition, marking the studio's move into cultural and editorial work.</div>
+      </li>
+      <li class="timeline-item">
+        <div class="timeline-year">2025</div>
+        <div class="timeline-title-text">Warba Techcity Campaign</div>
+        <div class="timeline-desc">Produced a multi-platform campaign that ran across TV, cinema, and digital.</div>
+      </li>
+      <li class="timeline-item">
+        <div class="timeline-year">2026</div>
+        <div class="timeline-title-text">Brand Refresh · V2.0</div>
+        <div class="timeline-desc">Launched a refreshed visual identity, a new website, and a cleaner studio system. Here we are.</div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- SKILLS & GEAR -->
+  <section class="skills-wrap">
+    <div class="skills-inner">
+      <div class="skills-column">
+        <div class="skills-column-label">// DISCIPLINES · التخصصات</div>
+        <h3>What I do.</h3>
+        <ul class="skills-list">
+          <li><span class="name">Direction</span><span class="tag">LEAD</span></li>
+          <li><span class="name">Cinematography</span><span class="tag">LEAD</span></li>
+          <li><span class="name">Editing</span><span class="tag">LEAD</span></li>
+          <li><span class="name">Color Grading</span><span class="tag">LEAD</span></li>
+          <li><span class="name">Photography</span><span class="tag">LEAD</span></li>
+          <li><span class="name">Creative Direction</span><span class="tag">LEAD</span></li>
+          <li><span class="name">Sound Design</span><span class="tag">COLLAB</span></li>
+          <li><span class="name">Motion Graphics</span><span class="tag">COLLAB</span></li>
+        </ul>
+      </div>
+      <div class="skills-column">
+        <div class="skills-column-label">// GEAR · المعدات</div>
+        <h3>Tools of the trade.</h3>
+        <ul class="skills-list">
+          <li><span class="name">Sony FX Series</span><span class="tag">CAMERA</span></li>
+          <li><span class="name">Prime Lenses Only</span><span class="tag">GLASS</span></li>
+          <li><span class="name">DaVinci Resolve</span><span class="tag">POST</span></li>
+          <li><span class="name">Premiere Pro</span><span class="tag">POST</span></li>
+          <li><span class="name">Aputure / Nanlite</span><span class="tag">LIGHTING</span></li>
+          <li><span class="name">DJI Ronin</span><span class="tag">STABILIZATION</span></li>
+          <li><span class="name">Rode / Sennheiser</span><span class="tag">AUDIO</span></li>
+          <li><span class="name">Adobe Creative Suite</span><span class="tag">DESIGN</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="contact-cta">
+    <div>
+      <h2>Got a project<br><span class="highlight">/ in mind?</span></h2>
+      <div class="ar">عندك مشروع في بالك؟</div>
+    </div>
+    <div class="contact-cta-right">
+      <a href="mailto:hello@izo-media.com" class="contact-item">
+        <div>
+          <div class="contact-item-label">EMAIL</div>
+          <div class="contact-item-value">hello@izo-media.com</div>
+        </div>
+        <span class="contact-item-arrow">↗</span>
+      </a>
+      <a href="tel:+96596690879" class="contact-item">
+        <div>
+          <div class="contact-item-label">PHONE</div>
+          <div class="contact-item-value">+965 9669 0879</div>
+        </div>
+        <span class="contact-item-arrow">↗</span>
+      </a>
+      <a href="https://instagram.com/izomedia.kw" target="_blank" class="contact-item">
+        <div>
+          <div class="contact-item-label">INSTAGRAM</div>
+          <div class="contact-item-value">@izomedia.kw</div>
+        </div>
+        <span class="contact-item-arrow">↗</span>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-main">
+        <div class="footer-logo">IZO<span class="dot">.</span></div>
+        <div class="footer-meta">
+          <div><span class="red">IZO MEDIA</span> — EST. 2020</div>
+          <div>OMAR BIN ALKATAB ST.</div>
+          <div>KW CITY · MORQAB · BLDG 14A</div>
+          <div>KUWAIT</div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div><span class="red">©</span> IZO MEDIA 2026 — ALL RIGHTS RESERVED</div>
+        <div>CREATIVE.MEDIA.AGENCY <span class="red">//</span> V2.0</div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
