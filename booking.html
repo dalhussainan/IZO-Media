@@ -1079,6 +1079,55 @@
     .check-grid-2col { grid-template-columns: 1fr !important; }
   }
 
+
+
+  /* Mini label for sub-sections */
+  .field-label-block {
+    margin-bottom: 12px;
+  }
+  .field-mini-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    color: var(--ink);
+    text-transform: uppercase;
+    display: block;
+  }
+  .field-mini-label .required {
+    color: var(--red);
+    margin-left: 2px;
+  }
+
+
+
+  /* Service availability note */
+  .service-note {
+    margin-top: 24px;
+    padding: 16px 20px;
+    background: var(--bg-alt);
+    border-left: 3px solid var(--red);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .service-note-en {
+    font-family: 'Archivo', sans-serif;
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+
+  .service-note-ar {
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--ink-dim);
+    direction: rtl;
+    text-align: right;
+  }
+
 </style>
 </head>
 <body>
@@ -1150,10 +1199,13 @@
           <div class="section">
             <div class="section-header">
               <div class="section-num">02 / SERVICE</div>
-              <h2 class="section-title">Service Type</h2>
-              <div class="section-ar">نوع الخدمة المطلوبة</div>
+              <h2 class="section-title">Project Details</h2>
+              <div class="section-ar">تفاصيل المشروع</div>
             </div>
 
+            <div class="field-label-block">
+              <label class="field-mini-label">Service Type <span class="required">*</span></label>
+            </div>
             <div class="check-grid-2col" id="services-list">
               <label class="check-row" onclick="toggleService(this, 'Video Production', event)">
                 <input type="checkbox" name="service" value="Video Production">
@@ -1195,6 +1247,22 @@
                   <div class="check-ar">محتوى سوشيال</div>
                 </div>
               </label>
+              <label class="check-row" onclick="toggleService(this, 'Animation', event)">
+                <input type="checkbox" name="service" value="Animation">
+                <div class="check-box"></div>
+                <div class="check-content">
+                  <div class="check-name">Animation</div>
+                  <div class="check-ar">رسوم متحركة</div>
+                </div>
+              </label>
+              <label class="check-row" onclick="toggleService(this, 'AI Content', event)">
+                <input type="checkbox" name="service" value="AI Content">
+                <div class="check-box"></div>
+                <div class="check-content">
+                  <div class="check-name">AI Content</div>
+                  <div class="check-ar">محتوى بالذكاء الاصطناعي</div>
+                </div>
+              </label>
               <label class="check-row" onclick="toggleService(this, 'Other', event)">
                 <input type="checkbox" name="service" value="Other">
                 <div class="check-box"></div>
@@ -1223,6 +1291,41 @@
             <div class="field full" style="margin-top: 16px;">
               <label>Project Description <span class="required">*</span></label>
               <textarea id="description" required oninput="updateSummary()" placeholder="يُرجى توضيح تفاصيل المشروع، الأسلوب المطلوب، وأي أمثلة مرجعية إن وُجدت."></textarea>
+            </div>
+
+            <!-- Script Available? -->
+            <div class="field full" style="margin-top: 24px;">
+              <div class="field-label-block">
+                <label class="field-mini-label">Script Available? <span class="optional">optional</span></label>
+              </div>
+              <div class="check-grid-2col" id="script-list">
+                <label class="check-row" onclick="toggleScript(this, 'Yes', event)">
+                  <input type="checkbox" name="script" value="Yes">
+                  <div class="check-box"></div>
+                  <div class="check-content">
+                    <div class="check-name">Yes</div>
+                    <div class="check-ar">نعم، السكربت جاهز</div>
+                  </div>
+                </label>
+                <label class="check-row" onclick="toggleScript(this, 'No', event)">
+                  <input type="checkbox" name="script" value="No">
+                  <div class="check-box"></div>
+                  <div class="check-content">
+                    <div class="check-name">No</div>
+                    <div class="check-ar">لا، نحتاج مساعدة</div>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <!-- Service availability note -->
+            <div class="service-note">
+              <div class="service-note-en">
+                Service availability and project duration vary based on type and timing. The team will assess the project timeline upon review.
+              </div>
+              <div class="service-note-ar" dir="rtl" lang="ar">
+                يختلف وقت توفير الخدمة حسب نوع المشروع وتوقيته، وسيتم تقييم فترة المشروع من قبل الفريق المعني.
+              </div>
             </div>
           </div>
 
@@ -1470,12 +1573,27 @@
   let formData = {
     name: '', projectOwner: '', company: '', phone: '', email: '',
     service: [], otherService: '', projectName: '', description: '',
+    scriptAvailable: '',
     date: '', startTime: '', duration: 4, location: '', address: '',
     crew: 1, budget: '', equipment: [],
     notes: ''
   };
 
   // ===== HELPERS =====
+  window.toggleScript = function(el, value, event) {
+    if (event) event.preventDefault();
+    // Single-select: clicking deselects others
+    document.querySelectorAll('#script-list .check-row').forEach(p => {
+      p.classList.remove('selected');
+      const inp = p.querySelector('input');
+      if (inp) inp.checked = false;
+    });
+    el.classList.add('selected');
+    el.querySelector('input').checked = true;
+    formData.scriptAvailable = value;
+    updateSummary();
+  };
+
   window.toggleService = function(el, value, event) {
     if (event) event.preventDefault();
     const input = el.querySelector('input');
@@ -1624,6 +1742,9 @@
     }
     lines.push(`Title: ${formData.projectName}`);
     lines.push(`Description: ${formData.description}`);
+    if (formData.scriptAvailable) {
+      lines.push(`Script Available: ${formData.scriptAvailable}`);
+    }
     lines.push('');
     lines.push(`*SCHEDULE*`);
     lines.push(`Date: ${formatDate(formData.date)}`);
