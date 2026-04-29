@@ -28,32 +28,6 @@
     overflow-x: hidden;
   }
 
-  /* ===== TICKER ===== */
-  .ticker-bar {
-    background: var(--ink);
-    color: #fff;
-    padding: 7px 0;
-    overflow: hidden;
-    white-space: nowrap;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-  }
-  .ticker-track {
-    display: inline-flex;
-    animation: ticker 40s linear infinite;
-  }
-  .ticker-track span {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.25em;
-    padding: 0 2rem;
-    text-transform: uppercase;
-  }
-  .ticker-track span .red { color: var(--red-bright); }
-  @keyframes ticker {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
-  }
-
   /* ===== NAV (no logo — text only) ===== */
   nav {
     position: sticky;
@@ -871,16 +845,6 @@
 </head>
 <body>
 
-  <!-- TICKER -->
-  <div class="ticker-bar">
-    <div class="ticker-track">
-      <span>IZO MEDIA <span class="red">//</span> CREATIVE.MEDIA.AGENCY <span class="red">//</span> KUWAIT <span class="red">//</span> EST. 2020</span>
-      <span>VIDEO PRODUCTION <span class="red">//</span> PHOTOGRAPHY <span class="red">//</span> EVENT COVERAGE <span class="red">//</span> COMMERCIAL</span>
-      <span>IZO MEDIA <span class="red">//</span> CREATIVE.MEDIA.AGENCY <span class="red">//</span> KUWAIT <span class="red">//</span> EST. 2020</span>
-      <span>VIDEO PRODUCTION <span class="red">//</span> PHOTOGRAPHY <span class="red">//</span> EVENT COVERAGE <span class="red">//</span> COMMERCIAL</span>
-    </div>
-  </div>
-
   <!-- NAV (wordmark only, no logo icon) -->
   <nav>
     <div class="nav-inner">
@@ -891,8 +855,7 @@
       <ul class="nav-links">
         <li><a href="#work">Work</a></li>
         <li><a href="#services">Services</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="#journal">Journal</a></li>
+        <li><a href="/admin-tools.html" class="nav-cta nav-admin" id="nav-admin" style="display:none; background:#991b1b; margin-right:8px;">⚙ Admin</a></li>
         <li><a href="#contact" class="nav-cta">Start a Project →</a></li>
       </ul>
     </div>
@@ -941,13 +904,66 @@
     </div>
   </section>
 
-  <!-- WORK -->
+  <!-- SERVICES -->
+  <div class="services-wrap" id="services">
+    <div class="services-inner">
+      <div class="services-label">02 / SERVICES</div>
+      <ul class="services-list">
+        <li>
+          <div class="num">01</div>
+          <div class="name">Video Production</div>
+          
+          <div class="arrow">→</div>
+        </li>
+        <li>
+          <div class="num">02</div>
+          <div class="name">Photography</div>
+          
+          <div class="arrow">→</div>
+        </li>
+        <li>
+          <div class="num">03</div>
+          <div class="name">Event Coverage</div>
+          
+          <div class="arrow">→</div>
+        </li>
+        <li>
+          <div class="num">04</div>
+          <div class="name">Commercial Ads</div>
+          
+          <div class="arrow">→</div>
+        </li>
+        <li>
+          <div class="num">05</div>
+          <div class="name">Social Content</div>
+          
+          <div class="arrow">→</div>
+        </li>
+        <li>
+          <div class="num">06</div>
+          <div class="name">Post-Production</div>
+          
+          <div class="arrow">→</div>
+        </li>
+        <li>
+          <div class="num">07</div>
+          <div class="name">AI Content</div>
+          
+          <div class="arrow">→</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  
+
+<!-- WORK -->
   <div class="section-label" id="work">
     <div>
       <div class="num">01 / SELECTIVE.WORK</div>
       <h2 class="title">Selected<br>Work.</h2>
     </div>
-    <div class="ar">أعمال مختارة</div>
+    
   </div>
 
   <div class="work-grid">
@@ -1011,130 +1027,11 @@
     <a href="#">VIEW ALL WORK →</a>
   </div>
 
-  <!-- SERVICES -->
-  <div class="services-wrap" id="services">
-    <div class="services-inner">
-      <div class="services-label">02 / SERVICES · ما نقدمه</div>
-      <ul class="services-list">
-        <li>
-          <div class="num">01</div>
-          <div class="name">Video Production</div>
-          <div class="desc">إنتاج فيديو احترافي — تصور، مونتاج، إخراج</div>
-          <div class="arrow">→</div>
-        </li>
-        <li>
-          <div class="num">02</div>
-          <div class="name">Photography</div>
-          <div class="desc">تصوير تجاري وتحريري لوسائل التواصل والحملات</div>
-          <div class="arrow">→</div>
-        </li>
-        <li>
-          <div class="num">03</div>
-          <div class="name">Event Coverage</div>
-          <div class="desc">تغطية كاملة للفعاليات، الحفلات، والمؤتمرات</div>
-          <div class="arrow">→</div>
-        </li>
-        <li>
-          <div class="num">04</div>
-          <div class="name">Commercial Ads</div>
-          <div class="desc">إعلانات تجارية للشركات والبنوك والعلامات التجارية</div>
-          <div class="arrow">→</div>
-        </li>
-        <li>
-          <div class="num">05</div>
-          <div class="name">Social Content</div>
-          <div class="desc">محتوى قصير لانستغرام، تيك توك، وسناب</div>
-          <div class="arrow">→</div>
-        </li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- ABOUT PREVIEW -->
-  <section class="about-preview">
-    <div class="about-photo"></div>
-    <div class="about-content">
-      <div class="about-content-label">03 / ABOUT · من أنا</div>
-      <h2>A one-person<br>studio that<br><span class="highlight">/ thinks</span><br>like an agency.</h2>
-      <div class="ar">استوديو بشخص واحد يفكر بعقلية وكالة متكاملة</div>
-      <p>
-        I'm Dhari Alhesinan — a director and cinematographer based in Kuwait. For six years, I've been crafting visual stories for banks, galleries, and brands that care about craft over quantity.
-      </p>
-      <a href="about.html" class="about-content-link">
-        MORE ABOUT ME →
-      </a>
-    </div>
-  </section>
-
-  <!-- JOURNAL -->
-  <div class="section-label" id="journal">
-    <div>
-      <div class="num">04 / JOURNAL</div>
-      <h2 class="title">From the<br>Studio.</h2>
-    </div>
-    <div class="ar">من الاستوديو</div>
-  </div>
-
-  <div class="journal">
-    <div class="journal-grid">
-      <a href="#" class="journal-card">
-        <div class="journal-card-meta">
-          <span>PROCESS</span>
-          <span>APR 2026</span>
-        </div>
-        <div class="journal-card-image" data-label="// BEHIND THE SCENES"></div>
-        <div class="journal-card-title">Behind the scenes of the Sunbula campaign</div>
-        <div class="journal-card-excerpt">How we approached a 3-day shoot with 8 locations and limited lighting gear.</div>
-      </a>
-      <a href="#" class="journal-card">
-        <div class="journal-card-meta">
-          <span>INSIGHT</span>
-          <span>MAR 2026</span>
-        </div>
-        <div class="journal-card-image" data-label="// STUDIO NOTES"></div>
-        <div class="journal-card-title">Why we shoot on prime lenses only</div>
-        <div class="journal-card-excerpt">A story about commitment, constraint, and why less gear makes better films.</div>
-      </a>
-      <a href="#" class="journal-card">
-        <div class="journal-card-meta">
-          <span>INDUSTRY</span>
-          <span>FEB 2026</span>
-        </div>
-        <div class="journal-card-image" data-label="// OPINION"></div>
-        <div class="journal-card-title">The state of commercial video in the GCC</div>
-        <div class="journal-card-excerpt">Thoughts on where the regional production industry is headed in 2026.</div>
-      </a>
-    </div>
-  </div>
-
-  <!-- CLIENTS -->
-  <div class="clients">
-    <div class="clients-label">05 / TRUSTED BY · بثقة</div>
-    <div class="clients-track">
-      <span>NBK</span>
-      <span>WARBA BANK</span>
-      <span>BOUBYAN</span>
-      <span>OMEGA</span>
-      <span>DEN GALLERY</span>
-      <span>HIVE</span>
-      <span>FLINT</span>
-      <span>BLIND PANDA</span>
-      <span>NBK</span>
-      <span>WARBA BANK</span>
-      <span>BOUBYAN</span>
-      <span>OMEGA</span>
-      <span>DEN GALLERY</span>
-      <span>HIVE</span>
-      <span>FLINT</span>
-      <span>BLIND PANDA</span>
-    </div>
-  </div>
-
-  <!-- CONTACT CTA -->
+    <!-- CONTACT CTA -->
   <section class="contact-cta" id="contact">
     <div>
       <h2>Let's build<br>something<br><span class="highlight">/ worth</span><br>sharing.</h2>
-      <div class="ar">خلنا نبني شي يستحق المشاركة</div>
+      
     </div>
     <div class="contact-cta-right">
       <a href="mailto:hello@izo-media.com" class="contact-item">
@@ -1173,12 +1070,48 @@
           <div>KUWAIT</div>
         </div>
       </div>
+
+  
       <div class="footer-bottom">
         <div><span class="red">©</span> IZO MEDIA 2026 — ALL RIGHTS RESERVED</div>
         <div>CREATIVE.MEDIA.AGENCY <span class="red">//</span> V2.0</div>
       </div>
     </div>
   </footer>
+
+
+<script>
+  (function() {
+    if (!window.netlifyIdentity) return;
+
+    netlifyIdentity.on('init', user => {
+      const adminLink = document.getElementById('nav-admin');
+      if (user && adminLink) {
+        adminLink.style.display = 'inline-block';
+      }
+      // If redirected from admin-tools (logged out), open login modal
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('admin') === '1' && !user) {
+        netlifyIdentity.open('login');
+      }
+    });
+
+    netlifyIdentity.on('login', user => {
+      const adminLink = document.getElementById('nav-admin');
+      if (adminLink) adminLink.style.display = 'inline-block';
+      // Redirect to admin-tools after login
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('admin') === '1') {
+        window.location.href = '/admin-tools.html';
+      }
+    });
+
+    netlifyIdentity.on('logout', () => {
+      const adminLink = document.getElementById('nav-admin');
+      if (adminLink) adminLink.style.display = 'none';
+    });
+  })();
+</script>
 
 </body>
 </html>
