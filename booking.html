@@ -986,6 +986,99 @@
   }
   /* Hidden by default — only shows when printing */
   .pdf-footer { display: none; }
+
+  /* ===== Two-column checkbox grid (NEW) ===== */
+  .check-grid-2col {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px;
+  }
+
+  .check-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 14px;
+    padding: 14px 16px;
+    background: #fff;
+    border: 1px solid var(--line);
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+    position: relative;
+  }
+
+  .check-row:hover {
+    border-color: var(--ink);
+    background: var(--bg-alt);
+  }
+
+  .check-row.selected {
+    background: var(--ink);
+    color: #fff;
+    border-color: var(--ink);
+  }
+
+  .check-row.selected .check-name { color: #fff; }
+  .check-row.selected .check-ar { color: rgba(255,255,255,0.6); }
+
+  .check-row input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .check-row .check-box {
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--line);
+    background: #fff;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+  }
+
+  .check-row.selected .check-box {
+    background: var(--red);
+    border-color: var(--red);
+  }
+
+  .check-row.selected .check-box::after {
+    content: '✓';
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+  }
+
+  .check-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .check-name {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--ink);
+    line-height: 1.2;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+  }
+
+  .check-ar {
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    font-size: 11px;
+    color: var(--ink-soft);
+    direction: rtl;
+    text-align: left;
+    line-height: 1.3;
+  }
+
+  @media (max-width: 700px) {
+    .check-grid-2col { grid-template-columns: 1fr !important; }
+  }
+
 </style>
 </head>
 <body>
@@ -1061,48 +1154,70 @@
               <div class="section-ar">نوع الخدمة المطلوبة</div>
             </div>
 
-            <div class="service-pills">
-              <label class="service-pill" onclick="selectService(this, 'Video Production', event)">
-                <input type="radio" name="service" value="Video Production">
-                <div class="icon">🎬</div>
-                <div class="name">Video Production</div>
-                <div class="ar">إنتاج فيديو</div>
+            <div class="check-grid-2col" id="services-list">
+              <label class="check-row" onclick="toggleService(this, 'Video Production', event)">
+                <input type="checkbox" name="service" value="Video Production">
+                <div class="check-box"></div>
+                <div class="check-content">
+                  <div class="check-name">Video Production</div>
+                  <div class="check-ar">إنتاج فيديو</div>
+                </div>
               </label>
-              <label class="service-pill" onclick="selectService(this, 'Photography', event)">
-                <input type="radio" name="service" value="Photography">
-                <div class="icon">📸</div>
-                <div class="name">Photography</div>
-                <div class="ar">تصوير فوتوغرافي</div>
+              <label class="check-row" onclick="toggleService(this, 'Photography', event)">
+                <input type="checkbox" name="service" value="Photography">
+                <div class="check-box"></div>
+                <div class="check-content">
+                  <div class="check-name">Photography</div>
+                  <div class="check-ar">تصوير فوتوغرافي</div>
+                </div>
               </label>
-              <label class="service-pill" onclick="selectService(this, 'Event Coverage', event)">
-                <input type="radio" name="service" value="Event Coverage">
-                <div class="icon">🎤</div>
-                <div class="name">Event Coverage</div>
-                <div class="ar">تغطية فعاليات</div>
+              <label class="check-row" onclick="toggleService(this, 'Event Coverage', event)">
+                <input type="checkbox" name="service" value="Event Coverage">
+                <div class="check-box"></div>
+                <div class="check-content">
+                  <div class="check-name">Event Coverage</div>
+                  <div class="check-ar">تغطية فعاليات</div>
+                </div>
               </label>
-              <label class="service-pill" onclick="selectService(this, 'Commercial Ad', event)">
-                <input type="radio" name="service" value="Commercial Ad">
-                <div class="icon">📺</div>
-                <div class="name">Commercial Ad</div>
-                <div class="ar">إعلان تجاري</div>
+              <label class="check-row" onclick="toggleService(this, 'Commercial Ad', event)">
+                <input type="checkbox" name="service" value="Commercial Ad">
+                <div class="check-box"></div>
+                <div class="check-content">
+                  <div class="check-name">Commercial Ad</div>
+                  <div class="check-ar">إعلان تجاري</div>
+                </div>
               </label>
-              <label class="service-pill" onclick="selectService(this, 'Social Content', event)">
-                <input type="radio" name="service" value="Social Content">
-                <div class="icon">📱</div>
-                <div class="name">Social Content</div>
-                <div class="ar">محتوى سوشيال</div>
+              <label class="check-row" onclick="toggleService(this, 'Social Content', event)">
+                <input type="checkbox" name="service" value="Social Content">
+                <div class="check-box"></div>
+                <div class="check-content">
+                  <div class="check-name">Social Content</div>
+                  <div class="check-ar">محتوى سوشيال</div>
+                </div>
               </label>
-              <label class="service-pill" onclick="selectService(this, 'Other', event)">
-                <input type="radio" name="service" value="Other">
-                <div class="icon">✨</div>
-                <div class="name">Other</div>
-                <div class="ar">شيء ثاني</div>
+              <label class="check-row" onclick="toggleService(this, 'Other', event)">
+                <input type="checkbox" name="service" value="Other">
+                <div class="check-box"></div>
+                <div class="check-content">
+                  <div class="check-name">Other</div>
+                  <div class="check-ar">شيء ثاني</div>
+                </div>
               </label>
+            </div>
+            <div class="field full" id="otherServiceField" style="margin-top: 16px; display: none;">
+              <label>Please specify <span class="required">*</span></label>
+              <input type="text" id="otherService" oninput="updateSummary()" placeholder="Describe the service you need" dir="auto">
             </div>
 
             <div class="field full" style="margin-top: 24px;">
               <label>Project Name / Title <span class="required">*</span></label>
               <input type="text" id="projectName" required oninput="updateSummary()" placeholder="Project or campaign title">
+            </div>
+
+            <div class="field full" style="margin-top: 16px;">
+              <label>Estimated Budget (KWD) <span class="optional">optional</span></label>
+              <input type="text" id="budget" oninput="updateSummary()" placeholder="Approximate range in KWD">
+              <div class="hint" dir="rtl" lang="ar">الميزانية التقريبية تساعدنا في تقديم العرض الأنسب</div>
             </div>
 
             <div class="field full" style="margin-top: 16px;">
@@ -1162,7 +1277,7 @@
             </div>
 
             <div class="field-grid">
-              <div class="field">
+              <div class="field full">
                 <label>Number of Camera Operators <span class="optional">required</span></label>
                 <div class="stepper">
                   <button type="button" onclick="stepNumber('crew', -1)">−</button>
@@ -1171,62 +1286,57 @@
                 </div>
                 <div class="hint" dir="rtl" lang="ar">عدد المصورين المطلوبين للتغطية</div>
               </div>
-              <div class="field">
-                <label>Estimated Budget (KWD) <span class="optional">optional</span></label>
-                <input type="text" id="budget" oninput="updateSummary()" placeholder="Approximate range in KWD">
-                <div class="hint" dir="rtl" lang="ar">الميزانية التقريبية تساعدنا في تقديم العرض الأنسب</div>
-              </div>
             </div>
 
             <div class="field full" style="margin-top: 24px;">
               <label>Special Equipment <span class="optional">select what you need</span></label>
-              <div class="checkbox-grid">
-                <label class="check-pill" onclick="toggleCheckbox(this, 'Drone', event)">
+              <div class="check-grid-2col" id="equipment-list">
+                <label class="check-row" onclick="toggleCheckbox(this, 'Drone', event)">
                   <input type="checkbox" name="equipment" value="Drone">
                   <div class="check-box"></div>
-                  <div>
-                    <div class="label-text">🚁 Drone</div>
-                    <div class="label-ar">طائرة بدون طيار</div>
+                  <div class="check-content">
+                    <div class="check-name">Drone</div>
+                    <div class="check-ar">طائرة بدون طيار</div>
                   </div>
                 </label>
-                <label class="check-pill" onclick="toggleCheckbox(this, 'Gimbal', event)">
+                <label class="check-row" onclick="toggleCheckbox(this, 'Gimbal', event)">
                   <input type="checkbox" name="equipment" value="Gimbal">
                   <div class="check-box"></div>
-                  <div>
-                    <div class="label-text">📹 Gimbal</div>
-                    <div class="label-ar">ستابلايزر</div>
+                  <div class="check-content">
+                    <div class="check-name">Gimbal</div>
+                    <div class="check-ar">ستابلايزر</div>
                   </div>
                 </label>
-                <label class="check-pill" onclick="toggleCheckbox(this, 'Extra Lighting', event)">
+                <label class="check-row" onclick="toggleCheckbox(this, 'Extra Lighting', event)">
                   <input type="checkbox" name="equipment" value="Extra Lighting">
                   <div class="check-box"></div>
-                  <div>
-                    <div class="label-text">💡 Extra Lighting</div>
-                    <div class="label-ar">إضاءة إضافية</div>
+                  <div class="check-content">
+                    <div class="check-name">Extra Lighting</div>
+                    <div class="check-ar">إضاءة إضافية</div>
                   </div>
                 </label>
-                <label class="check-pill" onclick="toggleCheckbox(this, 'Audio Recording', event)">
+                <label class="check-row" onclick="toggleCheckbox(this, 'Audio Recording', event)">
                   <input type="checkbox" name="equipment" value="Audio Recording">
                   <div class="check-box"></div>
-                  <div>
-                    <div class="label-text">🎙 Audio Setup</div>
-                    <div class="label-ar">تسجيل صوت</div>
+                  <div class="check-content">
+                    <div class="check-name">Audio Setup</div>
+                    <div class="check-ar">تسجيل صوت</div>
                   </div>
                 </label>
-                <label class="check-pill" onclick="toggleCheckbox(this, 'Teleprompter', event)">
+                <label class="check-row" onclick="toggleCheckbox(this, 'Teleprompter', event)">
                   <input type="checkbox" name="equipment" value="Teleprompter">
                   <div class="check-box"></div>
-                  <div>
-                    <div class="label-text">📜 Teleprompter</div>
-                    <div class="label-ar">قارئ نصوص</div>
+                  <div class="check-content">
+                    <div class="check-name">Teleprompter</div>
+                    <div class="check-ar">قارئ نصوص</div>
                   </div>
                 </label>
-                <label class="check-pill" onclick="toggleCheckbox(this, 'Studio Setup', event)">
+                <label class="check-row" onclick="toggleCheckbox(this, 'Studio Setup', event)">
                   <input type="checkbox" name="equipment" value="Studio Setup">
                   <div class="check-box"></div>
-                  <div>
-                    <div class="label-text">🎬 Studio Setup</div>
-                    <div class="label-ar">إعداد ستوديو</div>
+                  <div class="check-content">
+                    <div class="check-name">Studio Setup</div>
+                    <div class="check-ar">إعداد ستوديو</div>
                   </div>
                 </label>
               </div>
@@ -1359,23 +1469,38 @@
   // ===== STATE =====
   let formData = {
     name: '', projectOwner: '', company: '', phone: '', email: '',
-    service: '', projectName: '', description: '',
+    service: [], otherService: '', projectName: '', description: '',
     date: '', startTime: '', duration: 4, location: '', address: '',
     crew: 1, budget: '', equipment: [],
     notes: ''
   };
 
   // ===== HELPERS =====
-  window.selectService = function(el, value, event) {
+  window.toggleService = function(el, value, event) {
     if (event) event.preventDefault();
-    document.querySelectorAll('.service-pill').forEach(p => {
-      p.classList.remove('selected');
-      const inp = p.querySelector('input');
-      if (inp) inp.checked = false;
-    });
-    el.classList.add('selected');
-    el.querySelector('input').checked = true;
-    formData.service = value;
+    const input = el.querySelector('input');
+    const newState = !input.checked;
+    input.checked = newState;
+    el.classList.toggle('selected', newState);
+
+    // Initialize as array if it's a string from old code
+    if (typeof formData.service === 'string') formData.service = [];
+
+    if (newState) {
+      if (!formData.service.includes(value)) formData.service.push(value);
+    } else {
+      formData.service = formData.service.filter(s => s !== value);
+    }
+
+    // Toggle "Other" text field visibility
+    const otherField = document.getElementById('otherServiceField');
+    if (otherField) {
+      const isOtherSelected = formData.service.includes('Other');
+      otherField.style.display = isOtherSelected ? '' : 'none';
+      const otherInput = document.getElementById('otherService');
+      if (otherInput) otherInput.required = isOtherSelected;
+    }
+
     updateSummary();
   };
 
@@ -1429,11 +1554,19 @@
     formData.crew = parseInt(document.getElementById('crew').value) || 1;
     formData.budget = document.getElementById('budget').value;
     formData.notes = document.getElementById('notes').value;
+    const otherSrv = document.getElementById('otherService');
+    if (otherSrv) formData.otherService = otherSrv.value;
 
     setSummary('sm-name', formData.name);
     setSummary('sm-projectOwner', formData.projectOwner);
     setSummary('sm-company', formData.company);
-    setSummary('sm-service', formData.service);
+    {
+      let svcDisplay = formData.service.length ? formData.service.join(', ') : '';
+      if (formData.service.includes('Other') && formData.otherService) {
+        svcDisplay = svcDisplay.replace('Other', `Other (${formData.otherService})`);
+      }
+      setSummary('sm-service', svcDisplay);
+    }
     setSummary('sm-project', formData.projectName);
     setSummary('sm-date', formData.date ? formatDate(formData.date) : '');
     setSummary('sm-time', formData.startTime ? `${formData.startTime} (${formData.duration}h)` : '');
@@ -1470,30 +1603,36 @@
 
   function buildWhatsAppMessage(reqId) {
     const lines = [];
-    lines.push(`*🎬 NEW BOOKING REQUEST*`);
+    lines.push(`*// NEW BOOKING REQUEST*`);
     lines.push(`*${reqId}*`);
     lines.push('');
-    lines.push(`━━━━━━━━━━━━━━━━━`);
-    lines.push(`*👤 CONTACT*`);
+    lines.push(`-----------------------------`);
+    lines.push(`*CONTACT*`);
     lines.push(`Name: ${formData.name}`);
     if (formData.projectOwner) lines.push(`Project Owner: ${formData.projectOwner}`);
     if (formData.company) lines.push(`Company: ${formData.company}`);
     lines.push(`Phone: ${formData.phone}`);
     lines.push(`Email: ${formData.email}`);
     lines.push('');
-    lines.push(`*🎯 PROJECT*`);
-    lines.push(`Service: ${formData.service}`);
+    lines.push(`*PROJECT*`);
+    {
+      let svcStr = formData.service.length ? formData.service.join(', ') : 'Not specified';
+      if (formData.service.includes('Other') && formData.otherService) {
+        svcStr = svcStr.replace('Other', `Other (${formData.otherService})`);
+      }
+      lines.push(`Service: ${svcStr}`);
+    }
     lines.push(`Title: ${formData.projectName}`);
     lines.push(`Description: ${formData.description}`);
     lines.push('');
-    lines.push(`*📅 SCHEDULE*`);
+    lines.push(`*SCHEDULE*`);
     lines.push(`Date: ${formatDate(formData.date)}`);
     lines.push(`Start: ${formData.startTime}`);
     lines.push(`Duration: ${formData.duration} hours`);
     lines.push(`Location: ${formData.location}`);
     lines.push(`Address: ${formData.address}`);
     lines.push('');
-    lines.push(`*🎥 CREW & GEAR*`);
+    lines.push(`*CREW & GEAR*`);
     lines.push(`Camera Operators: ${formData.crew}`);
     if (formData.budget) lines.push(`Budget: ${formData.budget} KWD`);
     if (formData.equipment.length) {
@@ -1501,11 +1640,11 @@
     }
     if (formData.notes) {
       lines.push('');
-      lines.push(`*📝 NOTES*`);
+      lines.push(`*NOTES*`);
       lines.push(formData.notes);
     }
     lines.push('');
-    lines.push(`━━━━━━━━━━━━━━━━━`);
+    lines.push(`-----------------------------`);
     lines.push(`Submitted via izo-media.com/booking`);
     return lines.join('\n');
   }
@@ -1533,9 +1672,14 @@
     e.preventDefault();
 
     // Validation: service must be selected
-    if (!formData.service) {
+    if (!formData.service || formData.service.length === 0) {
       alert('من فضلك اختر نوع الخدمة');
-      document.querySelector('.service-pills').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      document.querySelector('#services-list').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+    if (formData.service.includes('Other') && !formData.otherService.trim()) {
+      alert('من فضلك حدد نوع الخدمة في خانة Other');
+      document.getElementById('otherService').focus();
       return;
     }
     if (!formData.location) {
