@@ -487,11 +487,12 @@
   }
 
   .hero-title-ar {
+    display: inline-block;
     font-family: 'IBM Plex Sans Arabic', sans-serif;
     font-weight: 700;
-    font-size: 48pt;
+    font-size: 20px;
+    letter-spacing: 0;
     color: var(--ink);
-    letter-spacing: -0.02em;
     line-height: 1;
   }
 
@@ -939,18 +940,18 @@
         <div class="totals-right">
           <div class="total-line">
             <span class="key">Subtotal</span>
-            <span class="val" id="pvSubtotal">0.000</span>
+            <span class="val" id="pvSubtotal">0</span>
           </div>
           <div class="total-line">
             <span class="key">Tax</span>
-            <span class="val">0.000</span>
+            <span class="val">0</span>
           </div>
           <div class="grand-total">
             <div>
               <div class="key">TOTAL / KWD</div>
               <div class="key-sub">الإجمالي</div>
             </div>
-            <div class="val" id="pvTotal">0.000</div>
+            <div class="val" id="pvTotal">0</div>
           </div>
         </div>
       </div>
@@ -1119,7 +1120,14 @@
   };
 
   const fmt = (n) => {
+    // Smart KWD format: strip ".000" if no fils, keep 3 decimals if fils exist
     const num = parseFloat(n) || 0;
+    const fils = Math.round((num - Math.floor(num)) * 1000);
+    if (fils === 0) {
+      // Whole number — no decimals, just thousands separator
+      return Math.floor(num).toLocaleString('en-US');
+    }
+    // Has fils — show 3 decimals
     return num.toLocaleString('en-US', {
       minimumFractionDigits: 3,
       maximumFractionDigits: 3
@@ -1183,7 +1191,7 @@
     renderPreview();
   };
 
-  function renderPreview() {
+    function renderPreview() {
     const clientEn = document.getElementById('clientEn').value || '—';
     const clientFull = document.getElementById('clientFull').value.trim();
     const number = document.getElementById('number').value || '—';
