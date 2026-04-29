@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IZO Admin — Tools</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;800;900&family=IBM+Plex+Sans+Arabic:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<!-- Netlify Identity for auth check -->
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-alt: #f5f5f2;
+    --ink: #1a1a1a;
+    --ink-dim: #707070;
+    --line: #e5e5e0;
+    --red: #991b1b;
+    --red-bright: #ef4444;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Archivo', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  /* Hide everything until authenticated */
+  body { visibility: hidden; }
+  body.authed { visibility: visible; }
+
+  /* Loading screen */
+  .auth-loading {
+    position: fixed;
+    inset: 0;
+    background: var(--ink);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    visibility: visible;
+    z-index: 9999;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+  }
+
+  .auth-loading::after {
+    content: '';
+    width: 7px;
+    height: 7px;
+    background: var(--red-bright);
+    border-radius: 50%;
+    margin-top: 16px;
+    animation: pulse 1s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  body.authed .auth-loading { display: none; }
+
+  /* HEADER */
+  header {
+    background: var(--ink);
+    color: white;
+    padding: 30px 40px;
+  }
+
+  .header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .header-brand {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+
+  .header-brand .name {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 900;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+    color: white;
+  }
+
+  .header-brand .name .dot { color: var(--red-bright); }
+
+  .header-brand .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    color: var(--red-bright);
+    text-transform: uppercase;
+  }
+
+  .user-info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: rgba(255,255,255,0.7);
+    text-transform: uppercase;
+  }
+
+  .user-info button {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.3);
+    color: white;
+    padding: 8px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+
+  .user-info button:hover {
+    background: var(--red-bright);
+    border-color: var(--red-bright);
+  }
+
+  /* MAIN */
+  main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 40px;
+  }
+
+  .page-title {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    margin-bottom: 12px;
+  }
+
+  .page-title .dot { color: var(--red); }
+
+  .page-subtitle {
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    font-weight: 600;
+    font-size: 1.2rem;
+    color: var(--ink-dim);
+    margin-bottom: 60px;
+  }
+
+  /* SECTION */
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: var(--red);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+
+  .section-title {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 800;
+    font-size: 2rem;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+
+  .section-desc {
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    font-size: 14px;
+    color: var(--ink-dim);
+    margin-bottom: 30px;
+  }
+
+  /* TOOL CARDS */
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+    margin-bottom: 60px;
+  }
+
+  .tool-card {
+    border: 1px solid var(--line);
+    padding: 32px;
+    text-decoration: none;
+    color: var(--ink);
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background: white;
+    cursor: pointer;
+  }
+
+  .tool-card:hover {
+    border-color: var(--ink);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  }
+
+  .tool-card-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--red);
+    text-transform: uppercase;
+  }
+
+  .tool-card-title {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 800;
+    font-size: 1.5rem;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+
+  .tool-card-ar {
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--ink-dim);
+  }
+
+  .tool-card-desc {
+    font-family: 'Archivo', sans-serif;
+    font-size: 14px;
+    color: var(--ink-dim);
+    line-height: 1.5;
+  }
+
+  .tool-card-arrow {
+    margin-top: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--ink);
+    text-transform: uppercase;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+    transition: color 0.2s;
+  }
+
+  .tool-card:hover .tool-card-arrow {
+    color: var(--red);
+  }
+
+  /* PUBLIC LINKS SECTION */
+  .public-links {
+    background: var(--bg-alt);
+    padding: 32px;
+    border: 1px solid var(--line);
+  }
+
+  .link-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0;
+    border-bottom: 1px dashed var(--line);
+    gap: 16px;
+  }
+
+  .link-row:last-child { border-bottom: none; }
+
+  .link-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .link-info-title {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 4px;
+  }
+
+  .link-info-url {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-dim);
+    word-break: break-all;
+  }
+
+  .link-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .link-btn {
+    background: white;
+    border: 1px solid var(--ink);
+    color: var(--ink);
+    padding: 10px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .link-btn:hover {
+    background: var(--ink);
+    color: white;
+  }
+
+  .link-btn.primary {
+    background: var(--ink);
+    color: white;
+  }
+
+  .link-btn.primary:hover {
+    background: var(--red);
+    border-color: var(--red);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 700px) {
+    header { padding: 20px; }
+    main { padding: 40px 20px; }
+    .header-inner { flex-direction: column; gap: 16px; align-items: flex-start; }
+    .tools-grid { grid-template-columns: 1fr; }
+    .link-row { flex-direction: column; align-items: flex-start; }
+    .link-actions { width: 100%; justify-content: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- Loading screen -->
+  <div class="auth-loading">
+    <span>VERIFYING ACCESS</span>
+  </div>
+
+  <!-- Main content (hidden until authed) -->
+  <header>
+    <div class="header-inner">
+      <div class="header-brand">
+        <div class="name">IZO<span class="dot">.</span></div>
+        <span class="label">// ADMIN PORTAL</span>
+      </div>
+      <div class="user-info">
+        <span id="user-email">—</span>
+        <button onclick="netlifyIdentity.logout()">LOGOUT</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <h1 class="page-title">Tools<span class="dot">.</span></h1>
+    <div class="page-subtitle">أدوات الإدارة</div>
+
+    <!-- Content Management -->
+    <div class="section-label">01 / CONTENT MANAGEMENT</div>
+    <h2 class="section-title">Manage your content</h2>
+    <p class="section-desc">Add or edit projects, journal posts, and site settings.</p>
+
+    <div class="tools-grid">
+      <a href="/admin/" class="tool-card">
+        <div class="tool-card-num">// CMS</div>
+        <div>
+          <div class="tool-card-title">Content Manager</div>
+          <div class="tool-card-ar">إدارة المحتوى</div>
+        </div>
+        <p class="tool-card-desc">Projects, journal posts, homepage stats, contact info.</p>
+        <span class="tool-card-arrow">OPEN CMS →</span>
+      </a>
+    </div>
+
+    <!-- Internal Tools -->
+    <div class="section-label">02 / INTERNAL TOOLS</div>
+    <h2 class="section-title">Studio tools</h2>
+    <p class="section-desc">Generate documents and manage administrative tasks.</p>
+
+    <div class="tools-grid">
+      <a href="/admin/tools/doc-builder.html" class="tool-card">
+        <div class="tool-card-num">// DOCUMENTS</div>
+        <div>
+          <div class="tool-card-title">Doc Builder</div>
+          <div class="tool-card-ar">منشئ الفواتير وعروض الأسعار</div>
+        </div>
+        <p class="tool-card-desc">Create estimates and invoices with brand styling, signature, and PDF export.</p>
+        <span class="tool-card-arrow">OPEN BUILDER →</span>
+      </a>
+    </div>
+
+    <!-- Public Links -->
+    <div class="section-label">03 / PUBLIC LINKS</div>
+    <h2 class="section-title">Shareable forms</h2>
+    <p class="section-desc">Send these links to clients. They work without login.</p>
+
+    <div class="public-links">
+      <div class="link-row">
+        <div class="link-info">
+          <div class="link-info-title">Booking Request Form</div>
+          <div class="link-info-url" id="booking-url">/booking.html</div>
+        </div>
+        <div class="link-actions">
+          <button class="link-btn" onclick="copyLink('booking-url')">COPY</button>
+          <a href="/booking.html" target="_blank" class="link-btn primary">OPEN ↗</a>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    // Auth gate
+    const idy = window.netlifyIdentity;
+
+    function showAdmin(user) {
+      document.body.classList.add('authed');
+      document.getElementById('user-email').textContent = user.email;
+      // Build full URLs
+      const origin = window.location.origin;
+      document.getElementById('booking-url').textContent = origin + '/booking.html';
+    }
+
+    function redirectToLogin() {
+      // Send to homepage with auth modal open, then back here
+      window.location.href = '/?admin=1';
+    }
+
+    if (idy) {
+      idy.on('init', user => {
+        if (user) {
+          showAdmin(user);
+        } else {
+          redirectToLogin();
+        }
+      });
+      idy.on('logout', () => {
+        window.location.href = '/';
+      });
+    }
+
+    // Copy link helper
+    function copyLink(elementId) {
+      const text = document.getElementById(elementId).textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        event.target.textContent = 'COPIED ✓';
+        setTimeout(() => {
+          event.target.textContent = 'COPY';
+        }, 2000);
+      });
+    }
+  </script>
+
+</body>
+</html>
