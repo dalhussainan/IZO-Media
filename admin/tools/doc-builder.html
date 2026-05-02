@@ -1037,15 +1037,87 @@
     }
   }
 
+  // ===== GOOGLE SHEETS ARCHIVE INTEGRATION =====
+  const ARCHIVE_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzqiIXxSazDIw3x2MTJp7C82WhN6RAIpcKS274CDskr4u8S-WTsbLywRWrFle-yMEAy/exec';
+
+  function showToast(message, type) {
+    type = type || 'success';
+    let toast = document.getElementById('izo-toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'izo-toast';
+      toast.style.cssText = 'position:fixed;top:24px;right:24px;padding:14px 22px;background:#1a1a1a;color:white;font-family:JetBrains Mono,monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;font-weight:700;z-index:99999;border-left:3px solid #ef4444;box-shadow:0 4px 20px rgba(0,0,0,0.15);transition:all 200ms ease;opacity:0;transform:translateY(-10px);';
+      document.body.appendChild(toast);
+    }
+    toast.style.borderLeftColor = type === 'success' ? '#22c55e' : (type === 'error' ? '#ef4444' : '#ef4444');
+    toast.textContent = message;
+    setTimeout(function() {
+      toast.style.opacity = '1';
+      toast.style.transform = 'translateY(0)';
+    }, 10);
+    setTimeout(function() {
+      toast.style.opacity = '0';
+      toast.style.transform = 'translateY(-10px)';
+    }, 3500);
+  }
+
+  function saveToArchive() {
+    // Build payload from current form state
+    const number = document.getElementById('number').value || '';
+    const clientEn = document.getElementById('clientEn').value || '';
+    const clientFull = document.getElementById('clientFull').value || '';
+    const date = document.getElementById('date').value || '';
+    const notes = document.getElementById('notes').value || '';
+
+    const subtotal = state.items.reduce(function(sum, it) {
+      return sum + (parseFloat(it.rate) || 0) * (parseFloat(it.qty) || 0);
+    }, 0);
+
+    // Build items string: "Item 1 (qty x rate); Item 2 (qty x rate)"
+    const itemsStr = state.items.map(function(item) {
+      return (item.descEn || 'Item') + ' (' + (item.qty || 0) + ' × ' + (item.rate || 0) + ')';
+    }).join('; ');
+
+    const payload = {
+      number: number,
+      type: docType,
+      clientName: clientEn,
+      clientFull: clientFull,
+      date: date,
+      subtotal: subtotal,
+      total: subtotal,
+      items: itemsStr,
+      notes: notes
+    };
+
+    // Send to Google Sheets via fetch (non-blocking — don't await)
+    // Using text/plain to avoid CORS preflight
+    fetch(ARCHIVE_ENDPOINT, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    })
+    .then(function() {
+      showToast('✓ SAVED TO ARCHIVE', 'success');
+    })
+    .catch(function(err) {
+      console.warn('Archive save failed:', err);
+      showToast('⚠ ARCHIVE OFFLINE — DOC PRINTED', 'warning');
+    });
+  }
+
   function commitDocNumber() {
     // Called when user is about to print/finalize the doc
-    // This actually increments the counter
+    // This actually increments the counter AND saves to archive
     const numField = document.getElementById('number');
     if (numField && !numField.dataset.committed) {
       const newNum = generateDocNumber(docType);
       numField.value = newNum;
       numField.dataset.committed = 'true';
     }
+    // Always save to archive (even on re-print)
+    saveToArchive();
   }
 
   function resetNumberField() {
