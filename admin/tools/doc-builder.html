@@ -335,6 +335,35 @@
     border-color: var(--red);
   }
 
+  /* Service dropdown — matches dark theme */
+  .service-select {
+    width: 100%;
+    background: #2a2a2a;
+    color: white;
+    border: 1px solid #444;
+    border-radius: 0;
+    padding: 10px 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23999' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 32px;
+  }
+  .service-select:focus {
+    outline: none;
+    border-color: var(--red);
+  }
+  .service-select option {
+    background: #2a2a2a;
+    color: white;
+  }
+
   .item-card {
     background: rgba(255,255,255,0.04);
     border: 1px solid rgba(255,255,255,0.1);
@@ -1096,6 +1125,32 @@
   // ===== GOOGLE SHEETS ARCHIVE INTEGRATION =====
   const ARCHIVE_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzqiIXxSazDIw3x2MTJp7C82WhN6RAIpcKS274CDskr4u8S-WTsbLywRWrFle-yMEAy/exec';
 
+  // ===== GOOGLE SHEETS SERVICES LIST =====
+  const SERVICES_ENDPOINT = 'https://script.google.com/a/macros/izo-media.com/s/AKfycbzQicsvKPTh5HUN7Dua_k2xER5csUuAZ8oCQzmDGHRM4c1ByZmxdmbnEw3xnOb54N0A_Q/exec';
+  let servicesList = []; // Will be populated on load
+
+  function loadServices() {
+    fetch(SERVICES_ENDPOINT)
+      .then(r => r.json())
+      .then(data => {
+        if (data && data.success && Array.isArray(data.services)) {
+          servicesList = data.services;
+          // Re-render items so dropdowns get populated
+          if (typeof renderItemsEditor === 'function') {
+            renderItemsEditor();
+          }
+          console.log('Loaded ' + servicesList.length + ' services');
+        }
+      })
+      .catch(err => {
+        console.warn('Could not load services list:', err);
+        // Fail silently — dropdown will show "Custom" only
+      });
+  }
+
+  // Trigger fetch on load
+  loadServices();
+
   function showToast(message, type) {
     type = type || 'success';
     let toast = document.getElementById('izo-toast');
@@ -1336,10 +1391,23 @@
 
   function renderItemsEditor() {
     const container = document.getElementById('itemsEditor');
-    container.innerHTML = state.items.map((item, i) => `
+    container.innerHTML = state.items.map((item, i) => {
+      // Build services dropdown options
+      const servicesOptions = servicesList.length > 0
+        ? servicesList.map(s => `<option value="${escapeAttr(s.nameEn)}">${escapeHtml(s.nameEn)}</option>`).join('')
+        : '<option value="" disabled>Loading...</option>';
+
+      return `
       <div class="item-card">
         <div class="item-label">ITEM ${String(i + 1).padStart(2, '0')}</div>
         <button class="item-remove" onclick="removeItem(${i})" title="Remove">×</button>
+        <div class="field">
+          <label>Service</label>
+          <select class="service-select" onchange="selectService(${i}, this.value)">
+            <option value="">— Custom (enter manually) —</option>
+            ${servicesOptions}
+          </select>
+        </div>
         <div class="field">
           <label>Description</label>
           <input type="text" value="${escapeAttr(item.descEn)}" oninput="updateItem(${i}, 'descEn', this.value)">
@@ -1359,8 +1427,25 @@
           </div>
         </div>
       </div>
-    `).join('');
+    `;
+    }).join('');
   }
+
+  // Called when user picks a service from dropdown
+  window.selectService = function(itemIndex, serviceName) {
+    if (!serviceName) return; // "Custom" selected, do nothing
+    const service = servicesList.find(s => s.nameEn === serviceName);
+    if (!service) return;
+
+    // Auto-fill the item with service data
+    state.items[itemIndex].descEn = service.nameEn;
+    state.items[itemIndex].descAr = service.nameAr || '';
+    state.items[itemIndex].rate = service.rate || 0;
+
+    // Re-render to show updated values
+    renderItemsEditor();
+    renderPreview();
+  };
 
   function escapeAttr(s) {
     return String(s || '').replace(/"/g, '&quot;').replace(/</g, '&lt;');
