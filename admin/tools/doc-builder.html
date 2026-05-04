@@ -390,6 +390,24 @@
 
   .btn:hover { border-color: var(--red-bright); color: var(--red-bright); }
 
+  .btn-new {
+    background: var(--ink-soft, #2a2a2a);
+    color: white;
+    border: 1px solid #444;
+    width: 100%;
+    padding: 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .btn-new:hover {
+    background: var(--red);
+    border-color: var(--red);
+  }
+
   .btn-primary {
     background: var(--red-bright);
     border-color: var(--red-bright);
@@ -912,8 +930,12 @@
       </div>
     </div>
 
-    <button class="btn-primary btn" onclick="commitDocNumber(); window.print();">
+    <button class="btn-primary btn" onclick="printDoc()">
       ⬇ Print / Save as PDF
+    </button>
+
+    <button class="btn btn-new" onclick="newDoc()" style="margin-top: 10px;">
+      + NEW DOCUMENT
     </button>
 
     <div class="help">
@@ -1162,6 +1184,78 @@
       refreshNumberField();
     }
   }
+
+  // Print flow: commit → print → after print, auto-advance to next number
+  window.printDoc = function() {
+    commitDocNumber();
+    window.print();
+    // After print dialog closes, advance to next preview number
+    // Use setTimeout to wait for print dialog to be dismissed
+    setTimeout(function() {
+      const numField = document.getElementById('number');
+      if (numField) {
+        delete numField.dataset.committed;
+        refreshNumberField();
+        renderPreview();
+      }
+    }, 1000);
+  };
+
+  // NEW: Reset all fields to defaults for a fresh document
+  window.newDoc = function() {
+    // Confirm before clearing
+    if (state.items.length > 0 && state.items.some(it => it.descEn !== 'New Item' || it.rate > 0)) {
+      if (!confirm('Start a new document? All current data will be cleared.')) {
+        return;
+      }
+    }
+
+    // Reset to estimate mode
+    docType = 'estimate';
+    document.getElementById('btnEstimate').classList.add('active');
+    document.getElementById('btnInvoice').classList.remove('active');
+
+    // Clear client fields
+    document.getElementById('clientEn').value = '';
+    document.getElementById('clientFull').value = '';
+
+    // Reset date to today
+    const dateField = document.getElementById('date');
+    if (dateField) {
+      delete dateField.dataset.userEdited;
+      const d = new Date();
+      const dd = String(d.getDate()).padStart(2, '0');
+      const mm = String(d.getMonth() + 1).padStart(2, '0');
+      const yyyy = d.getFullYear();
+      dateField.value = `${dd}/${mm}/${yyyy}`;
+    }
+
+    // Clear notes
+    const notesField = document.getElementById('notes');
+    if (notesField) notesField.value = '';
+
+    // Reset items to one empty item
+    state.items = [{ descEn: 'New Item', descAr: '', rate: 0, qty: 1 }];
+    renderItemsEditor();
+
+    // Reset signature toggle to default
+    sigEnabled = false;
+    const sigToggle = document.getElementById('sigToggle');
+    if (sigToggle) sigToggle.checked = false;
+
+    // Reset doc number to next preview
+    const numField = document.getElementById('number');
+    if (numField) {
+      delete numField.dataset.committed;
+      refreshNumberField();
+    }
+
+    // Re-render preview
+    renderPreview();
+
+    // Toast confirmation
+    showToast('✓ NEW DOCUMENT', 'success');
+  };
 
   let sigEnabled = false;
   let sigSource = 'default';
