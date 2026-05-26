@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IZO MEDIA — Project</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;800;900&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-alt: #f5f5f2;
+    --ink: #1a1a1a;
+    --ink-dim: #555555;
+    --line: #e5e5e0;
+    --red: #991b1b;
+    --red-bright: #ef4444;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Archivo', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* ===== NAV ===== */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 22px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .nav-wordmark {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 900;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    text-decoration: none;
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+  }
+  .nav-wordmark .dot { color: var(--red); }
+  .nav-wordmark .sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--red);
+    margin-left: 10px;
+    align-self: center;
+  }
+  .nav-back {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--ink);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-back:hover { color: var(--red); }
+
+  /* ===== PROJECT HEADER ===== */
+  .project-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 70px 40px 120px;
+  }
+  .project-cat {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.25em;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .project-title {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2.5rem, 7vw, 5.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    margin-bottom: 16px;
+  }
+  .project-client {
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    font-weight: 500;
+    font-size: 1.3rem;
+    color: var(--ink-dim);
+    margin-bottom: 40px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--ink);
+  }
+
+  /* ===== VIDEO ===== */
+  .project-video {
+    position: relative;
+    aspect-ratio: 16/9;
+    background: #000;
+    margin-bottom: 50px;
+    overflow: hidden;
+  }
+  .project-video iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  /* ===== COVER (when no video) ===== */
+  .project-cover {
+    width: 100%;
+    margin-bottom: 50px;
+    background: var(--bg-alt);
+  }
+  .project-cover img {
+    width: 100%;
+    display: block;
+  }
+
+  /* ===== SUMMARY ===== */
+  .project-summary {
+    font-family: 'Archivo', sans-serif;
+    font-size: 18px;
+    line-height: 1.8;
+    color: var(--ink-dim);
+    max-width: 700px;
+    margin-bottom: 60px;
+  }
+
+  /* ===== GALLERY ===== */
+  .gallery-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--line);
+  }
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .gallery-item {
+    background: var(--bg-alt);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.16,1,0.3,1);
+  }
+  .gallery-item:hover { transform: scale(0.99); }
+  .gallery-item img {
+    width: 100%;
+    display: block;
+    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+  .gallery-item:hover img { transform: scale(1.03); }
+
+  /* ===== META FOOTER ===== */
+  .project-meta {
+    margin-top: 70px;
+    padding-top: 30px;
+    border-top: 1px solid var(--ink);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+  }
+  .project-meta-k {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    color: var(--red);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+  .project-meta-v {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+  }
+
+  /* ===== LIGHTBOX ===== */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.95);
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    cursor: zoom-out;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox img {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+  }
+  .lightbox-close {
+    position: absolute;
+    top: 24px;
+    right: 32px;
+    color: #fff;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 24px;
+    cursor: pointer;
+  }
+
+  /* ===== LOADING / ERROR ===== */
+  .state-msg {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 120px 40px;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    color: var(--ink-dim);
+    text-transform: uppercase;
+  }
+
+  /* ===== BACK LINK BOTTOM ===== */
+  .back-bottom {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 40px 80px;
+  }
+  .back-bottom a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.25em;
+    color: var(--ink);
+    text-decoration: none;
+    padding: 16px 32px;
+    border: 1px solid var(--ink);
+    text-transform: uppercase;
+    transition: all 0.2s;
+    display: inline-block;
+  }
+  .back-bottom a:hover { background: var(--ink); color: #fff; }
+
+  @media (max-width: 768px) {
+    .gallery-grid { grid-template-columns: 1fr; }
+    .project-meta { grid-template-columns: 1fr; gap: 20px; }
+  }
+</style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="nav-wordmark">
+        IZO<span class="dot">.</span>
+        <span class="sub">CREATIVE.MEDIA.AGENCY</span>
+      </a>
+      <a href="/#work" class="nav-back">← Back to Work</a>
+    </div>
+  </nav>
+
+  <div id="content">
+    <div class="state-msg">Loading project…</div>
+  </div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <span class="lightbox-close">×</span>
+    <img src="" alt="" id="lightbox-img">
+  </div>
+
+<script>
+(function () {
+  const GH_OWNER  = 'dalhussainan';
+  const GH_REPO   = 'IZO-Media';
+  const GH_BRANCH = 'main';
+  const PROJECTS_DIR = 'projects';
+  const RAW_BASE = `https://raw.githubusercontent.com/${GH_OWNER}/${GH_REPO}/${GH_BRANCH}/`;
+
+  // --- Front matter parser ---
+  function parseFrontMatter(text) {
+    const m = text.match(/^---\s*([\s\S]*?)\s*---/);
+    if (!m) return { data: {}, body: text };
+    const yaml = m[1];
+    const body = text.slice(m[0].length).trim();
+    const data = {};
+    let currentKey = null, listBuffer = null;
+    yaml.split('\n').forEach(line => {
+      if (/^\s*-\s+/.test(line) && currentKey) {
+        if (!Array.isArray(listBuffer)) listBuffer = [];
+        let val = line.replace(/^\s*-\s+/, '').trim().replace(/^["']|["']$/g, '');
+        listBuffer.push(val);
+        data[currentKey] = listBuffer;
+        return;
+      }
+      const kv = line.match(/^([A-Za-z0-9_-]+):\s*(.*)$/);
+      if (kv) {
+        currentKey = kv[1]; listBuffer = null;
+        let val = kv[2].trim();
+        data[currentKey] = val === '' ? '' : val.replace(/^["']|["']$/g, '');
+      }
+    });
+    return { data, body };
+  }
+
+  function resolveImg(path) {
+    if (!path) return '';
+    if (/^https?:\/\//.test(path)) return path;
+    return RAW_BASE + String(path).replace(/^\//, '');
+  }
+
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  // Extract YouTube/Vimeo embed URL from a share link
+  function videoEmbed(url) {
+    if (!url) return '';
+    url = String(url).trim();
+    // YouTube
+    let yt = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([A-Za-z0-9_-]{11})/);
+    if (yt) return `https://www.youtube.com/embed/${yt[1]}`;
+    // Vimeo
+    let vm = url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+    if (vm) return `https://player.vimeo.com/video/${vm[1]}`;
+    return '';
+  }
+
+  function getParam(name) {
+    return new URLSearchParams(window.location.search).get(name);
+  }
+
+  function render(data) {
+    const cat = esc((data.category || 'WORK')).toUpperCase();
+    const year = esc(data.year || '');
+    const catLine = year ? `${cat} · ${year}` : cat;
+    const title = esc(data.title || 'Untitled').trim();
+    const client = esc(data.client || '');
+    const summary = esc(data.summary || '');
+    const embed = videoEmbed(data.video);
+    const cover = resolveImg(data.cover);
+
+    // Media block: video if present, else cover image
+    let mediaHTML = '';
+    if (embed) {
+      mediaHTML = `<div class="project-video"><iframe src="${embed}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
+    } else if (cover) {
+      mediaHTML = `<div class="project-cover"><img src="${cover}" alt="${title}"></div>`;
+    }
+
+    // Gallery
+    let galleryHTML = '';
+    let gallery = data.gallery;
+    if (gallery && !Array.isArray(gallery)) gallery = [gallery];
+    if (Array.isArray(gallery) && gallery.length) {
+      const items = gallery.map(g => {
+        const src = resolveImg(g);
+        return `<div class="gallery-item" data-full="${src}"><img src="${src}" alt="${title}" loading="lazy"></div>`;
+      }).join('');
+      galleryHTML = `<div class="gallery-label">// Gallery</div><div class="gallery-grid">${items}</div>`;
+    }
+
+    // Document title
+    document.title = `${title} — IZO MEDIA`;
+
+    document.getElementById('content').innerHTML = `
+      <div class="project-wrap">
+        <div class="project-cat">${catLine}</div>
+        <h1 class="project-title">${title}</h1>
+        <div class="project-client">${client}</div>
+        ${mediaHTML}
+        ${summary ? `<div class="project-summary">${summary}</div>` : ''}
+        ${galleryHTML}
+        <div class="project-meta">
+          ${client ? `<div><div class="project-meta-k">Client</div><div class="project-meta-v">${client}</div></div>` : ''}
+          ${data.category ? `<div><div class="project-meta-k">Category</div><div class="project-meta-v">${esc(data.category)}</div></div>` : ''}
+          ${year ? `<div><div class="project-meta-k">Year</div><div class="project-meta-v">${year}</div></div>` : ''}
+        </div>
+      </div>
+      <div class="back-bottom"><a href="/#work">← Back to all work</a></div>
+    `;
+
+    // Wire up lightbox for gallery
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lightbox-img');
+    document.querySelectorAll('.gallery-item').forEach(item => {
+      item.addEventListener('click', () => {
+        lbImg.src = item.getAttribute('data-full');
+        lb.classList.add('open');
+      });
+    });
+    lb.addEventListener('click', () => lb.classList.remove('open'));
+  }
+
+  async function load() {
+    const id = getParam('id');
+    if (!id) {
+      document.getElementById('content').innerHTML =
+        '<div class="state-msg">No project specified. <a href="/#work" style="color:var(--red);">← Back to work</a></div>';
+      return;
+    }
+
+    // Try fetching the markdown file directly by filename
+    const fileName = id.endsWith('.md') ? id : id + '.md';
+    const url = RAW_BASE + PROJECTS_DIR + '/' + fileName;
+
+    try {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error('Not found: ' + res.status);
+      const text = await res.text();
+      const { data } = parseFrontMatter(text);
+      render(data);
+    } catch (err) {
+      console.error('Project load failed:', err);
+      document.getElementById('content').innerHTML =
+        '<div class="state-msg">Project not found. <a href="/#work" style="color:var(--red);">← Back to work</a></div>';
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', load);
+  } else {
+    load();
+  }
+})();
+</script>
+
+</body>
+</html>
