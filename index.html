@@ -1120,6 +1120,7 @@
    IZO MEDIA — Dynamic Projects Loader
    Reads projects/*.md from GitHub and renders
    them into the .work-grid section.
+   Cards link to project.html?id=<filename>
    ============================================ */
 (function () {
   const GH_OWNER  = 'dalhussainan';
@@ -1130,45 +1131,30 @@
   const API_BASE = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${PROJECTS_DIR}?ref=${GH_BRANCH}`;
   const RAW_BASE = `https://raw.githubusercontent.com/${GH_OWNER}/${GH_REPO}/${GH_BRANCH}/`;
 
-  // --- Minimal YAML front matter parser ---
   function parseFrontMatter(text) {
     const m = text.match(/^---\s*([\s\S]*?)\s*---/);
     if (!m) return { data: {}, body: text };
     const yaml = m[1];
-    const body = text.slice(m[0].length).trim();
     const data = {};
-    let currentKey = null;
-    let listBuffer = null;
-
+    let currentKey = null, listBuffer = null;
     yaml.split('\n').forEach(line => {
       if (/^\s*-\s+/.test(line) && currentKey) {
-        // list item
         if (!Array.isArray(listBuffer)) listBuffer = [];
-        let val = line.replace(/^\s*-\s+/, '').trim();
-        val = val.replace(/^["']|["']$/g, '');
+        let val = line.replace(/^\s*-\s+/, '').trim().replace(/^["']|["']$/g, '');
         listBuffer.push(val);
         data[currentKey] = listBuffer;
         return;
       }
       const kv = line.match(/^([A-Za-z0-9_-]+):\s*(.*)$/);
       if (kv) {
-        // flush previous list
-        currentKey = kv[1];
-        listBuffer = null;
+        currentKey = kv[1]; listBuffer = null;
         let val = kv[2].trim();
-        if (val === '') {
-          // possibly a list follows
-          data[currentKey] = '';
-        } else {
-          val = val.replace(/^["']|["']$/g, '');
-          data[currentKey] = val;
-        }
+        data[currentKey] = val === '' ? '' : val.replace(/^["']|["']$/g, '');
       }
     });
-    return { data, body };
+    return { data };
   }
 
-  // Normalize an image path to an absolute raw URL
   function resolveImg(path) {
     if (!path) return '';
     if (/^https?:\/\//.test(path)) return path;
@@ -1181,22 +1167,22 @@
       .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
 
-  // Build a single work-card matching the existing design
   function cardHTML(p) {
     const cat   = esc((p.category || 'WORK')).toUpperCase();
     const year  = esc(p.year || '');
     const catLine = year ? `${cat} · ${year}` : cat;
-    const title = esc(p.title || 'Untitled');
+    const title = esc((p.title || 'Untitled')).trim();
     const client = esc(p.client || '');
     const cover = resolveImg(p.cover);
     const label = '// ' + cat;
+    const slug = esc((p._filename || '').replace(/\.md$/, ''));
 
     const bgStyle = cover
       ? `background-image:url('${cover}');background-size:cover;background-position:center;`
       : '';
 
     return `
-      <div class="work-card">
+      <a class="work-card" href="project.html?id=${slug}" style="text-decoration:none;color:inherit;display:block;">
         <div class="work-card-image" data-label="${label}" style="${bgStyle}"></div>
         <div class="work-card-overlay"><div class="view-btn">VIEW PROJECT →</div></div>
         <div class="work-card-info">
@@ -1204,7 +1190,7 @@
           <div class="work-card-title">${title}</div>
           <div class="work-card-client">${client}</div>
         </div>
-      </div>`;
+      </a>`;
   }
 
   async function loadProjects() {
@@ -1219,9 +1205,8 @@
       const files = await res.json();
 
       const mdFiles = files.filter(f => f.name.endsWith('.md'));
-      if (mdFiles.length === 0) return; // keep existing hardcoded cards
+      if (mdFiles.length === 0) return;
 
-      // Fetch + parse all
       const projects = [];
       for (const f of mdFiles) {
         try {
@@ -1230,10 +1215,9 @@
           const { data } = parseFrontMatter(text);
           data._filename = f.name;
           projects.push(data);
-        } catch (e) { /* skip bad file */ }
+        } catch (e) {}
       }
 
-      // Sort: featured first, then by date/year descending
       projects.sort((a, b) => {
         const fa = (a.featured === true || a.featured === 'true') ? 1 : 0;
         const fb = (b.featured === true || b.featured === 'true') ? 1 : 0;
@@ -1243,11 +1227,9 @@
         return db - da;
       });
 
-      // Render
       grid.innerHTML = projects.map(cardHTML).join('');
     } catch (err) {
       console.warn('[IZO] Projects loader failed, keeping static cards:', err);
-      // Leave existing hardcoded cards in place as fallback
     }
   }
 
