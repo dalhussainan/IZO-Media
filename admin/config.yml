@@ -29,6 +29,7 @@ collections:
     summary: "{{title}} — {{client}} ({{year}})"
     sortable_fields: ['date', 'title', 'client']
     fields:
+    - { label: "Video (YouTube/Vimeo link)", name: "video", widget: "string", required: false }
       - { label: "Project Title", name: "title", widget: "string", required: true }
       - { label: "Title in Arabic", name: "title_ar", widget: "string", required: false }
       - { label: "Client", name: "client", widget: "string", required: true }
