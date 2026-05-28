@@ -10,9 +10,8 @@ summary: Action shots, team portraits, and detailed brand imagery to build a
 featured: true
 gallery:
   - /assets/uploads/flint-35.jpg
-  - /assets/uploads/flint-35.jpg
-  - /assets/uploads/flint-39.jpg
   - /assets/uploads/flint-38.jpg
+  - /assets/uploads/flint-20.jpg
 ---
 For Flint Athletic, the focus was to create strong, purposeful visuals that reflect performance, discipline, and brand identity.
 
