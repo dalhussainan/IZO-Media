@@ -29,7 +29,6 @@ collections:
     summary: "{{title}} — {{client}} ({{year}})"
     sortable_fields: ['date', 'title', 'client']
     fields:
-    - { label: "Video (YouTube/Vimeo link)", name: "video", widget: "string", required: false }
       - { label: "Project Title", name: "title", widget: "string", required: true }
       - { label: "Title in Arabic", name: "title_ar", widget: "string", required: false }
       - { label: "Client", name: "client", widget: "string", required: true }
@@ -49,7 +48,7 @@ collections:
       - { label: "Cover Image", name: "cover", widget: "image", required: true }
       - { label: "Short Description", name: "summary", widget: "string", required: true, hint: "One sentence shown on the project card" }
       - { label: "Show on Homepage", name: "featured", widget: "boolean", default: true, required: false }
-      - { label: "Vimeo or YouTube Embed URL", name: "video_url", widget: "string", required: false, hint: "Paste the share/embed link" }
+      - { label: "Video (YouTube/Vimeo link)", name: "video", widget: "string", required: false, hint: "Paste a YouTube or Vimeo share/embed link" }
       - label: "Photo Gallery"
         name: "gallery"
         widget: "list"

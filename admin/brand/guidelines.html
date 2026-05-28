@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>IZO Media — Brand Guidelines</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;800;900&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-alt: #f5f5f2;
+    --ink: #1a1a1a;
+    --ink-dim: #333333;
+    --line: #e5e5e0;
+    --red: #991b1b;
+    --red-bright: #ef4444;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Archivo', sans-serif;
+    color: var(--ink);
+    background: #888;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* A4 page */
+  .page {
+    width: 210mm;
+    height: 297mm;
+    background: var(--bg);
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    page-break-after: always;
+    padding: 22mm 20mm;
+    display: flex;
+    flex-direction: column;
+  }
+  .page:last-child { page-break-after: auto; }
+
+  .mono {
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+  }
+  .ar { font-family: 'IBM Plex Sans Arabic', sans-serif; direction: rtl; }
+
+  /* ===== Running header / footer ===== */
+  .pg-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 10px;
+    margin-bottom: 32px;
+  }
+  .pg-head .wm {
+    font-weight: 900;
+    font-size: 20px;
+    letter-spacing: -0.05em;
+    line-height: 0.85;
+  }
+  .pg-head .wm .dot { color: var(--red); }
+  .pg-head .sec {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--red);
+  }
+  .pg-foot {
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+  }
+
+  /* ===== COVER ===== */
+  .cover {
+    background: var(--ink);
+    color: white;
+    justify-content: space-between;
+  }
+  .cover .top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .cover .kick {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--red-bright);
+  }
+  .cover .big {
+    font-weight: 900;
+    font-size: 150px;
+    line-height: 0.8;
+    letter-spacing: -0.06em;
+  }
+  .cover .big .dot { color: var(--red-bright); }
+  .cover .subtitle {
+    font-weight: 800;
+    font-size: 30px;
+    letter-spacing: -0.02em;
+    margin-top: 4px;
+  }
+  .cover .ar-tag {
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    color: #bbb;
+    direction: rtl;
+    margin-top: 16px;
+  }
+  .cover .meta-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #999;
+  }
+  .cover .meta-bottom .hl { color: var(--red-bright); }
+
+  /* ===== Section title block ===== */
+  .sec-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .sec-title {
+    font-weight: 800;
+    font-size: 30px;
+    letter-spacing: -0.03em;
+    margin-bottom: 4px;
+  }
+  .sec-title-ar {
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--ink-dim);
+    direction: rtl;
+    margin-bottom: 22px;
+  }
+  .lead {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--ink-dim);
+    max-width: 150mm;
+    margin-bottom: 26px;
+  }
+
+  h3.block-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin: 22px 0 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  /* ===== Logo showcase ===== */
+  .logo-hero {
+    background: var(--bg-alt);
+    border: 1px solid var(--line);
+    padding: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+  }
+  .logo-hero .wm {
+    font-weight: 900;
+    font-size: 90px;
+    letter-spacing: -0.05em;
+    line-height: 0.85;
+    color: var(--ink);
+  }
+  .logo-hero .wm .dot { color: var(--red); }
+  .logo-hero.dark { background: var(--ink); }
+  .logo-hero.dark .wm { color: white; }
+  .logo-hero.dark .wm .dot { color: var(--red-bright); }
+
+  .two-col { display: flex; gap: 16px; }
+  .two-col > * { flex: 1; }
+
+  .caption {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    margin-top: 6px;
+  }
+
+  /* ===== Color palette ===== */
+  .colors {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .color-card {
+    border: 1px solid var(--line);
+  }
+  .swatch {
+    height: 78px;
+    display: flex;
+    align-items: flex-end;
+    padding: 10px;
+  }
+  .swatch .role {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .color-info {
+    padding: 10px 12px;
+  }
+  .color-info .name {
+    font-weight: 700;
+    font-size: 12px;
+  }
+  .color-info .hex {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-dim);
+    letter-spacing: 0.1em;
+    margin-top: 2px;
+  }
+  .color-info .token {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    color: var(--red);
+    letter-spacing: 0.1em;
+    margin-top: 4px;
+  }
+
+  /* ===== Typography specimens ===== */
+  .type-spec {
+    border: 1px solid var(--line);
+    padding: 20px 22px;
+    margin-bottom: 12px;
+  }
+  .type-spec .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 12px;
+  }
+  .type-spec .sample-archivo {
+    font-family: 'Archivo', sans-serif;
+    color: var(--ink);
+  }
+  .type-spec .sample-arabic {
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    direction: rtl;
+    color: var(--ink);
+  }
+  .type-spec .sample-mono {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--ink);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+  }
+  .type-spec .meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    margin-top: 12px;
+  }
+  .weights {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+  .weight-chip {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    padding: 4px 8px;
+    border: 1px solid var(--line);
+    color: var(--ink-dim);
+  }
+
+  /* ===== Scale table ===== */
+  table.scale {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+  }
+  table.scale th {
+    text-align: left;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    padding: 10px 8px;
+    border-bottom: 1.5px solid var(--ink);
+  }
+  table.scale td {
+    padding: 10px 8px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: middle;
+  }
+  table.scale .mono-cell {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.05em;
+    color: var(--ink-dim);
+  }
+
+  /* ===== Components ===== */
+  .btn-demo {
+    display: inline-flex;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 13px 22px;
+    margin: 0 8px 8px 0;
+  }
+  .btn-primary-demo { background: var(--ink); color: white; }
+  .btn-secondary-demo { background: transparent; color: var(--ink); border: 1px solid var(--ink); }
+  .btn-text-demo { color: var(--ink); }
+
+  .card-demo {
+    border: 1px solid var(--line);
+    padding: 22px;
+    background: var(--bg);
+  }
+  .card-demo .ct {
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 6px;
+  }
+  .card-demo .cd {
+    font-size: 11px;
+    color: var(--ink-dim);
+    line-height: 1.6;
+  }
+
+  .band-demo {
+    background: var(--ink);
+    padding: 20px 24px;
+  }
+  .band-demo .k {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--red-bright);
+    margin-bottom: 6px;
+  }
+  .band-demo .t {
+    font-weight: 800;
+    font-size: 18px;
+    color: white;
+  }
+  .band-demo .ta {
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    font-size: 12px;
+    color: #999;
+    direction: rtl;
+    margin-top: 4px;
+  }
+
+  /* ===== Do / Don't ===== */
+  .dos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .do-col h4, .dont-col h4 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    border-bottom: 1.5px solid;
+  }
+  .do-col h4 { color: #15803d; border-color: #15803d; }
+  .dont-col h4 { color: var(--red); border-color: var(--red); }
+  .rule-item {
+    font-size: 11px;
+    line-height: 1.5;
+    padding: 7px 0;
+    color: var(--ink-dim);
+    border-bottom: 1px solid var(--line);
+  }
+
+  /* glyphs */
+  .glyphs {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .glyph {
+    width: 48px;
+    height: 48px;
+    border: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: var(--ink);
+  }
+
+  /* business details */
+  table.biz {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+  table.biz td {
+    padding: 11px 8px;
+    border-bottom: 1px solid var(--line);
+  }
+  table.biz td:first-child {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    width: 38%;
+  }
+  table.biz td.ar-val {
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    direction: rtl;
+    text-align: right;
+  }
+
+  /* Screen-only print button */
+  @media screen {
+    body { padding: 30px 0; }
+    .print-bar {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      display: flex;
+      gap: 10px;
+    }
+    .print-btn {
+      background: #1a1a1a;
+      color: white;
+      border: none;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 700;
+      padding: 14px 22px;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+    .print-btn:hover { background: #ef4444; }
+    .page {
+      box-shadow: 0 4px 30px rgba(0,0,0,0.25);
+      margin-bottom: 30px;
+    }
+  }
+  @media print {
+    .print-bar { display: none !important; }
+    body { background: white; padding: 0; }
+    .page { box-shadow: none; margin: 0; }
+    @page { size: A4; margin: 0; }
+  }
+</style>
+</head>
+<body>
+<div class="print-bar">
+  <button class="print-btn" onclick="window.print()">⬇ Save as PDF / Print</button>
+</div>
+
+<!-- ============ PAGE 1 — COVER ============ -->
+<div class="page cover">
+  <div class="top-row">
+    <div class="kick">Brand Guidelines</div>
+    <div class="kick">Edition 01 · 2026</div>
+  </div>
+
+  <div>
+    <div class="big">IZO<span class="dot">.</span></div>
+    <div class="subtitle">Brand Guidelines</div>
+    <div class="ar-tag">دليل الهوية البصرية</div>
+  </div>
+
+  <div class="meta-bottom">
+    <div>
+      <div class="hl">IZO MEDIA</div>
+      <div>CREATIVE.MEDIA.AGENCY</div>
+    </div>
+    <div style="text-align:right;">
+      <div>KUWAIT</div>
+      <div>IZO-MEDIA.COM</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PAGE 2 — OVERVIEW ============ -->
+<div class="page">
+  <div class="pg-head">
+    <div class="wm">IZO<span class="dot">.</span></div>
+    <div class="sec">01 / Overview</div>
+  </div>
+
+  <div class="sec-num">01 / Overview</div>
+  <div class="sec-title">The Brand at a Glance</div>
+  <div class="sec-title-ar">نظرة عامة على الهوية</div>
+
+  <div class="lead">
+    IZO Media is a creative agency based in Kuwait specializing in photography,
+    videography, and post-production. The visual identity is editorial-minimal:
+    sharp, confident, monochrome with a single decisive red accent.
+  </div>
+
+  <h3 class="block-label">Design References</h3>
+  <div class="lead" style="margin-bottom:18px;">
+    Off-White · A24 · Apple Pro Display · Editorial print design.
+    The language is restrained and typographic — whitespace and confident
+    type do the heavy lifting, with red used sparingly as punctuation.
+  </div>
+
+  <h3 class="block-label">Core Principles</h3>
+  <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-top:4px;">
+    <div class="card-demo">
+      <div class="ct">Editorial</div>
+      <div class="cd">Type-led layouts. Generous margins. Print-inspired structure.</div>
+    </div>
+    <div class="card-demo">
+      <div class="ct">Monochrome + 1</div>
+      <div class="cd">Black, white, and a single red. Nothing else competes.</div>
+    </div>
+    <div class="card-demo">
+      <div class="ct">Confident</div>
+      <div class="cd">Bold weights, tight tracking, decisive statements.</div>
+    </div>
+  </div>
+
+  <h3 class="block-label">Founder</h3>
+  <div class="lead" style="margin-bottom:0;">Dhari Alhesinan — Founder, IZO Media.</div>
+
+  <div class="pg-foot">
+    <div>IZO Media — Brand Guidelines</div>
+    <div>02</div>
+  </div>
+</div>
+
+<!-- ============ PAGE 3 — LOGO ============ -->
+<div class="page">
+  <div class="pg-head">
+    <div class="wm">IZO<span class="dot">.</span></div>
+    <div class="sec">02 / Logo</div>
+  </div>
+
+  <div class="sec-num">02 / Logo &amp; Wordmark</div>
+  <div class="sec-title">The Mark</div>
+  <div class="sec-title-ar">العلامة</div>
+
+  <div class="lead">
+    The primary mark is a typographic wordmark: <strong>IZO.</strong> — set in
+    Archivo Black with a red period after the "O". The dot is non-negotiable;
+    it is the brand's signature.
+  </div>
+
+  <div class="logo-hero">
+    <div class="wm">IZO<span class="dot">.</span></div>
+  </div>
+  <div class="caption">Primary — ink on white · dot in deep red #991B1B</div>
+
+  <div class="two-col" style="margin-top:18px;">
+    <div>
+      <div class="logo-hero dark" style="padding:28px;">
+        <div class="wm" style="font-size:60px;">IZO<span class="dot">.</span></div>
+      </div>
+      <div class="caption">Reversed — white on ink · dot in vivid red #EF4444</div>
+    </div>
+    <div>
+      <div class="logo-hero" style="padding:28px; flex-direction:column; align-items:flex-start; justify-content:center;">
+        <div class="wm" style="font-size:42px;">IZO<span class="dot">.</span></div>
+        <div class="ar" style="font-weight:500; font-size:9px; color:var(--ink-dim); margin-top:6px;">شركة ايزو ميديا للدعاية والاعلان (ذ.م.م)</div>
+      </div>
+      <div class="caption">Lock-up with Arabic legal name (documents)</div>
+    </div>
+  </div>
+
+  <h3 class="block-label">Construction (CSS)</h3>
+  <div style="background:var(--bg-alt); border:1px solid var(--line); padding:16px; font-family:'JetBrains Mono',monospace; font-size:9.5px; line-height:1.7; color:var(--ink-dim);">
+    font-family: 'Archivo', sans-serif;<br>
+    font-weight: 900;<br>
+    letter-spacing: -0.05em;<br>
+    line-height: 0.85;<br>
+    color: #1a1a1a;<br>
+    <span style="color:var(--red);">.dot { color: #991b1b; }</span>
+  </div>
+
+  <div class="pg-foot">
+    <div>IZO Media — Brand Guidelines</div>
+    <div>03</div>
+  </div>
+</div>
+
+<!-- ============ PAGE 4 — COLOR ============ -->
+<div class="page">
+  <div class="pg-head">
+    <div class="wm">IZO<span class="dot">.</span></div>
+    <div class="sec">03 / Color</div>
+  </div>
+
+  <div class="sec-num">03 / Color Palette</div>
+  <div class="sec-title">Monochrome + Red</div>
+  <div class="sec-title-ar">لوحة الألوان</div>
+
+  <div class="lead">
+    The palette is strictly monochrome plus red. Red is an accent, never a fill —
+    use it for ≤10% of any composition. No gradients, no other hues.
+  </div>
+
+  <div class="colors">
+    <div class="color-card">
+      <div class="swatch" style="background:#ffffff; border-bottom:1px solid var(--line);"><span class="role" style="color:var(--ink-dim);">Background</span></div>
+      <div class="color-info"><div class="name">White</div><div class="hex">#FFFFFF</div><div class="token">--bg</div></div>
+    </div>
+    <div class="color-card">
+      <div class="swatch" style="background:#f5f5f2;"><span class="role" style="color:var(--ink-dim);">Paper</span></div>
+      <div class="color-info"><div class="name">Off-White</div><div class="hex">#F5F5F2</div><div class="token">--bg-alt</div></div>
+    </div>
+    <div class="color-card">
+      <div class="swatch" style="background:#1a1a1a;"><span class="role" style="color:white;">Primary Ink</span></div>
+      <div class="color-info"><div class="name">Near-Black</div><div class="hex">#1A1A1A</div><div class="token">--ink</div></div>
+    </div>
+    <div class="color-card">
+      <div class="swatch" style="background:#333333;"><span class="role" style="color:white;">Secondary</span></div>
+      <div class="color-info"><div class="name">Ink Dim</div><div class="hex">#333333</div><div class="token">--ink-dim</div></div>
+    </div>
+    <div class="color-card">
+      <div class="swatch" style="background:#e5e5e0;"><span class="role" style="color:var(--ink-dim);">Lines</span></div>
+      <div class="color-info"><div class="name">Hairline</div><div class="hex">#E5E5E0</div><div class="token">--line</div></div>
+    </div>
+    <div class="color-card">
+      <div class="swatch" style="background:#991b1b;"><span class="role" style="color:white;">Formal Accent</span></div>
+      <div class="color-info"><div class="name">Deep Red</div><div class="hex">#991B1B</div><div class="token">--red</div></div>
+    </div>
+  </div>
+
+  <div style="margin-top:12px;">
+    <div class="color-card" style="display:flex; align-items:stretch;">
+      <div class="swatch" style="background:#ef4444; flex:0 0 50%; border:none;"><span class="role" style="color:white;">Highlight / Dot / Hover</span></div>
+      <div class="color-info" style="flex:1; display:flex; flex-direction:column; justify-content:center;"><div class="name">Vivid Red</div><div class="hex">#EF4444</div><div class="token">--red-bright</div></div>
+    </div>
+  </div>
+
+  <h3 class="block-label">Usage Rules</h3>
+  <div style="font-size:11.5px; line-height:1.8; color:var(--ink-dim);">
+    Black-on-white and white-on-black are both core. Red works on both.
+    Default to deep red <strong>#991B1B</strong> for formal contexts (documents, labels);
+    vivid red <strong>#EF4444</strong> for web hover states, the wordmark dot, and highlights.
+  </div>
+
+  <div class="pg-foot">
+    <div>IZO Media — Brand Guidelines</div>
+    <div>04</div>
+  </div>
+</div>
+
+<!-- ============ PAGE 5 — TYPOGRAPHY ============ -->
+<div class="page">
+  <div class="pg-head">
+    <div class="wm">IZO<span class="dot">.</span></div>
+    <div class="sec">04 / Type</div>
+  </div>
+
+  <div class="sec-num">04 / Typography</div>
+  <div class="sec-title">Three Typefaces</div>
+  <div class="sec-title-ar">الخطوط</div>
+
+  <div class="lead">
+    Each typeface has a clear job. All three are free via Google Fonts.
+  </div>
+
+  <div class="type-spec">
+    <div class="label">01 — Display &amp; English Body</div>
+    <div class="sample-archivo" style="font-weight:900; font-size:38px; letter-spacing:-0.03em; line-height:1;">Archivo Black</div>
+    <div class="sample-archivo" style="font-weight:400; font-size:14px; margin-top:8px; color:var(--ink-dim);">The quick brown fox jumps over the lazy dog — 0123456789</div>
+    <div class="weights">
+      <span class="weight-chip">400 Regular</span>
+      <span class="weight-chip">600 SemiBold</span>
+      <span class="weight-chip">700 Bold</span>
+      <span class="weight-chip">800 ExtraBold</span>
+      <span class="weight-chip">900 Black</span>
+    </div>
+    <div class="meta">Headlines · titles · large statements · body copy (EN)</div>
+  </div>
+
+  <div class="type-spec">
+    <div class="label">02 — Arabic</div>
+    <div class="sample-arabic" style="font-weight:700; font-size:34px; line-height:1.2;">آي بي إم بلكس</div>
+    <div class="sample-arabic" style="font-weight:500; font-size:15px; margin-top:6px; color:var(--ink-dim);">قصص تستحق أن تُروى — الخط العربي الرسمي للعلامة</div>
+    <div class="weights">
+      <span class="weight-chip">300 Light</span>
+      <span class="weight-chip">400 Regular</span>
+      <span class="weight-chip">500 Medium</span>
+      <span class="weight-chip">600 SemiBold</span>
+      <span class="weight-chip">700 Bold</span>
+    </div>
+    <div class="meta">IBM Plex Sans Arabic · all Arabic text · dir="rtl" always</div>
+  </div>
+
+  <div class="type-spec">
+    <div class="label">03 — Labels &amp; Code</div>
+    <div class="sample-mono" style="font-weight:700; font-size:26px; letter-spacing:0.1em;">JetBrains Mono</div>
+    <div class="sample-mono" style="font-weight:400; font-size:11px; margin-top:10px; color:var(--ink-dim); letter-spacing:0.18em;">// SECTION · 01 / CATEGORY · EST-260504-01</div>
+    <div class="weights">
+      <span class="weight-chip">400 Regular</span>
+      <span class="weight-chip">500 Medium</span>
+      <span class="weight-chip">700 Bold</span>
+    </div>
+    <div class="meta">Kickers · labels · captions · metadata · document numbers · ALWAYS UPPERCASE</div>
+  </div>
+
+  <div class="pg-foot">
+    <div>IZO Media — Brand Guidelines</div>
+    <div>05</div>
+  </div>
+</div>
+
+<!-- ============ PAGE 6 — TYPE SCALE ============ -->
+<div class="page">
+  <div class="pg-head">
+    <div class="wm">IZO<span class="dot">.</span></div>
+    <div class="sec">05 / Scale</div>
+  </div>
+
+  <div class="sec-num">05 / Typographic Scale</div>
+  <div class="sec-title">Sizes &amp; Weights</div>
+  <div class="sec-title-ar">السلم الطباعي</div>
+
+  <div class="lead">A consistent scale keeps every layout on-brand. Use these as defaults.</div>
+
+  <table class="scale">
+    <thead>
+      <tr><th>Use Case</th><th>Family</th><th>Weight</th><th>Size</th><th>Tracking</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Display / Hero</td><td class="mono-cell">Archivo</td><td class="mono-cell">900</td><td class="mono-cell">64px+</td><td class="mono-cell">-0.04em</td></tr>
+      <tr><td>H1 / Page title</td><td class="mono-cell">Archivo</td><td class="mono-cell">800</td><td class="mono-cell">32px</td><td class="mono-cell">-0.03em</td></tr>
+      <tr><td>H2 / Section title</td><td class="mono-cell">Archivo</td><td class="mono-cell">800</td><td class="mono-cell">24px</td><td class="mono-cell">-0.02em</td></tr>
+      <tr><td>H3 / Card title</td><td class="mono-cell">Archivo</td><td class="mono-cell">700</td><td class="mono-cell">18px</td><td class="mono-cell">-0.01em</td></tr>
+      <tr><td>Body</td><td class="mono-cell">Archivo</td><td class="mono-cell">400</td><td class="mono-cell">14px</td><td class="mono-cell">0</td></tr>
+      <tr><td>Small / caption</td><td class="mono-cell">Archivo</td><td class="mono-cell">400</td><td class="mono-cell">12px</td><td class="mono-cell">0</td></tr>
+      <tr><td>Mono label / kicker</td><td class="mono-cell">JetBrains Mono</td><td class="mono-cell">700</td><td class="mono-cell">10–11px</td><td class="mono-cell">0.2–0.25em</td></tr>
+      <tr><td>Mono caption</td><td class="mono-cell">JetBrains Mono</td><td class="mono-cell">400</td><td class="mono-cell">9px</td><td class="mono-cell">0.25em</td></tr>
+      <tr><td>Arabic body</td><td class="mono-cell">IBM Plex Arabic</td><td class="mono-cell">500</td><td class="mono-cell">14px</td><td class="mono-cell">0</td></tr>
+      <tr><td>Arabic title</td><td class="mono-cell">IBM Plex Arabic</td><td class="mono-cell">700</td><td class="mono-cell">20–24px</td><td class="mono-cell">0</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="block-label">Voice &amp; Tone</h3>
+  <div style="font-size:11.5px; line-height:1.8; color:var(--ink-dim);">
+    <strong>Bilingual:</strong> English primary, Arabic in Kuwaiti dialect (formal for clients).<br>
+    <strong>Editorial &amp; minimal:</strong> let whitespace and typography speak.<br>
+    <strong>Labels read like code:</strong> <span class="mono" style="font-size:10px;">// CONTACT</span> · <span class="mono" style="font-size:10px;">01 / WORK</span> — monospace, uppercase.
+  </div>
+
+  <div class="pg-foot">
+    <div>IZO Media — Brand Guidelines</div>
+    <div>06</div>
+  </div>
+</div>
+
+<!-- ============ PAGE 7 — COMPONENTS ============ -->
+<div class="page">
+  <div class="pg-head">
+    <div class="wm">IZO<span class="dot">.</span></div>
+    <div class="sec">06 / Components</div>
+  </div>
+
+  <div class="sec-num">06 / Layout &amp; Components</div>
+  <div class="sec-title">Building Blocks</div>
+  <div class="sec-title-ar">المكونات</div>
+
+  <h3 class="block-label">Buttons</h3>
+  <div>
+    <span class="btn-demo btn-primary-demo">Primary Action</span>
+    <span class="btn-demo btn-secondary-demo">Secondary</span>
+    <span class="btn-demo btn-text-demo">Text Link →</span>
+  </div>
+  <div class="caption" style="margin-top:4px;">Primary: ink bg, hover → red. Secondary: 1px border, hover → fills ink. Text: hover → red.</div>
+
+  <h3 class="block-label">Section Header Band</h3>
+  <div class="band-demo">
+    <div class="k">// 02 / Documents</div>
+    <div class="t">Doc Builder</div>
+    <div class="ta">نظام الفواتير</div>
+  </div>
+
+  <h3 class="block-label">Cards</h3>
+  <div class="two-col">
+    <div class="card-demo">
+      <div class="ct">Card Title</div>
+      <div class="cd">White background, 1px hairline border, 28px padding. Hover: border turns ink, lifts 2px. No rounded corners, no shadows.</div>
+    </div>
+    <div class="card-demo">
+      <div class="ct">Another Card</div>
+      <div class="cd">Sharp edges are the brand. Editorial restraint over decoration.</div>
+    </div>
+  </div>
+
+  <h3 class="block-label">Iconography</h3>
+  <div class="glyphs">
+    <div class="glyph">▸</div>
+    <div class="glyph">→</div>
+    <div class="glyph">↓</div>
+    <div class="glyph">+</div>
+    <div class="glyph">×</div>
+    <div class="glyph">//</div>
+    <div class="glyph">⌘</div>
+  </div>
+  <div class="caption" style="margin-top:8px;">Minimal / none. Use typographic glyphs instead of an icon library. Prefer the zero-icon editorial aesthetic.</div>
+
+  <h3 class="block-label">Motion</h3>
+  <div style="font-size:11px; line-height:1.7; color:var(--ink-dim);">
+    All animations ≤200ms, ease. Allowed: card hover lift (150ms), button hover (150ms),
+    modal fade+slide (200ms), toast slide-in. Never: spin, bounce, elastic, decorative motion.
+    Editorial brands move quietly.
+  </div>
+
+  <div class="pg-foot">
+    <div>IZO Media — Brand Guidelines</div>
+    <div>07</div>
+  </div>
+</div>
+
+<!-- ============ PAGE 8 — DOs/DON'Ts + BUSINESS ============ -->
+<div class="page">
+  <div class="pg-head">
+    <div class="wm">IZO<span class="dot">.</span></div>
+    <div class="sec">07 / Rules</div>
+  </div>
+
+  <div class="sec-num">07 / Rules &amp; Reference</div>
+  <div class="sec-title">Do &amp; Don't</div>
+  <div class="sec-title-ar">القواعد</div>
+
+  <div class="dos">
+    <div class="do-col">
+      <h4>✓ Always</h4>
+      <div class="rule-item">Keep the red dot on the IZO. wordmark</div>
+      <div class="rule-item">Use mono + red only</div>
+      <div class="rule-item">UPPERCASE mono labels with wide tracking</div>
+      <div class="rule-item">Generous whitespace</div>
+      <div class="rule-item">Sharp corners, hairline borders</div>
+      <div class="rule-item">dir="rtl" for all Arabic</div>
+    </div>
+    <div class="dont-col">
+      <h4>✗ Never</h4>
+      <div class="rule-item">No colors outside the palette</div>
+      <div class="rule-item">No gradients</div>
+      <div class="rule-item">No rounded corners on cards/sections</div>
+      <div class="rule-item">No drop shadows (beyond subtle hover lift)</div>
+      <div class="rule-item">No emojis in formal UI or documents</div>
+      <div class="rule-item">No "AI" / "Beta" / "Pro" badges</div>
+      <div class="rule-item">Never stretch or recolor the wordmark</div>
+    </div>
+  </div>
+
+  <div class="sec-title" style="font-size:22px; margin-top:30px;">Business Details</div>
+  <div class="sec-title-ar" style="font-size:14px; margin-bottom:14px;">بيانات الشركة</div>
+
+  <table class="biz">
+    <tr><td>Legal Name (AR)</td><td class="ar-val">شركة ايزو ميديا للدعاية والاعلان (ذ.م.م)</td></tr>
+    <tr><td>Phone</td><td>+965 9669 0879</td></tr>
+    <tr><td>WhatsApp</td><td>+965 9669 0879</td></tr>
+    <tr><td>Address</td><td>Omar Bin Alkatab St., Morqab, Building 14A, Kuwait City</td></tr>
+    <tr><td>Domain</td><td>izo-media.com</td></tr>
+    <tr><td>Tagline (AR)</td><td class="ar-val">قصص تستحق أن تُروى</td></tr>
+  </table>
+
+  <div class="pg-foot">
+    <div>IZO Media — Brand Guidelines</div>
+    <div>08</div>
+  </div>
+</div>
+
+</body>
+</html>
