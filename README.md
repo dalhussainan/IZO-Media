@@ -38,4 +38,4 @@ Just open `index.html` in a browser. No build step.
 
 **Dhari Alhesinan** — Founder, IZO Media
 - 📞 96690879
-- 📧 hello@izo-media.com
+- 📧 dhari.alh@izo-media.com

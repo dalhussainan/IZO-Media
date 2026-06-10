@@ -296,6 +296,16 @@
     color: rgba(255,255,255,0.6);
     z-index: 2;
   }
+  .showreel-video iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    z-index: 3;
+  }
+  .showreel-video.has-video { cursor: default; }
+  .showreel-video.has-video:hover { transform: none; }
 
   /* ===== SECTION LABEL ===== */
   .section-label {
@@ -895,8 +905,8 @@
   <section class="showreel-wrap">
     <div class="showreel-inner">
       <div class="showreel-label">00 / SHOWREEL · 2026</div>
-      <h2 class="showreel-title">See what we've been <span class="highlight">building.</span></h2>
-      <div class="showreel-video">
+      <h2 class="showreel-title" id="showreel-title">See what we've been <span class="highlight">building.</span></h2>
+      <div class="showreel-video" id="showreel-video">
         <div class="showreel-timecode">REC // 00:00:24:12</div>
         <div class="showreel-play"></div>
         <div class="showreel-duration">02:34</div>
@@ -1034,10 +1044,10 @@
       
     </div>
     <div class="contact-cta-right">
-      <a href="mailto:hello@izo-media.com" class="contact-item">
+      <a href="mailto:dhari.alh@izo-media.com" class="contact-item">
         <div>
           <div class="contact-item-label">EMAIL</div>
-          <div class="contact-item-value">hello@izo-media.com</div>
+          <div class="contact-item-value">dhari.alh@izo-media.com</div>
         </div>
         <span class="contact-item-arrow">↗</span>
       </a>
@@ -1048,10 +1058,10 @@
         </div>
         <span class="contact-item-arrow">↗</span>
       </a>
-      <a href="https://instagram.com/izomedia.kw" target="_blank" class="contact-item">
+      <a href="https://instagram.com/izo.media" target="_blank" class="contact-item">
         <div>
           <div class="contact-item-label">INSTAGRAM</div>
-          <div class="contact-item-value">@izomedia.kw</div>
+          <div class="contact-item-value">@izo.media</div>
         </div>
         <span class="contact-item-arrow">↗</span>
       </a>
@@ -1240,6 +1250,84 @@
   }
 })();
 
+</script>
+
+
+<!-- ===== SHOWREEL LOADER (reads _settings/showreel.json from CMS) ===== -->
+<script>
+/* ============================================
+   IZO MEDIA — Showreel Loader
+   Reads _settings/showreel.json (set via /admin)
+   - If video_url is set: embeds YouTube/Vimeo
+     player into the .showreel-video container.
+   - If empty: keeps the decorative placeholder.
+   Also syncs the title text from JSON.
+   ============================================ */
+(function () {
+  const SETTINGS_URL = '/_settings/showreel.json?t=' + Date.now();
+
+  function toEmbed(url) {
+    if (!url) return null;
+    let m;
+    if ((m = String(url).match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/))) {
+      return 'https://www.youtube.com/embed/' + m[1] + '?rel=0&modestbranding=1';
+    }
+    if ((m = String(url).match(/vimeo\.com\/(?:video\/)?(\d+)/))) {
+      return 'https://player.vimeo.com/video/' + m[1];
+    }
+    return null;
+  }
+
+  function escAttr(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+  }
+
+  function applyTitle(text) {
+    const el = document.getElementById('showreel-title');
+    if (!el || !text) return;
+    // Highlight the last word in red (matches existing design pattern).
+    const t = String(text).trim();
+    const idx = t.lastIndexOf(' ');
+    if (idx > 0) {
+      const head = t.slice(0, idx);
+      const tail = t.slice(idx + 1);
+      const safeHead = head.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      const safeTail = tail.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      el.innerHTML = safeHead + ' <span class="highlight">' + safeTail + '</span>';
+    } else {
+      el.textContent = t;
+    }
+  }
+
+  async function loadShowreel() {
+    try {
+      const res = await fetch(SETTINGS_URL, { cache: 'no-store' });
+      if (!res.ok) return;
+      const data = await res.json();
+
+      if (data.title) applyTitle(data.title);
+
+      const embed = toEmbed(data.video_url);
+      const wrap = document.getElementById('showreel-video');
+      if (embed && wrap) {
+        wrap.innerHTML =
+          '<iframe src="' + escAttr(embed) + '" title="IZO Showreel" ' +
+          'allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" ' +
+          'allowfullscreen></iframe>';
+        wrap.classList.add('has-video');
+      }
+    } catch (err) {
+      console.warn('[IZO] Showreel loader failed, keeping placeholder:', err);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadShowreel);
+  } else {
+    loadShowreel();
+  }
+})();
 </script>
 
 </body>

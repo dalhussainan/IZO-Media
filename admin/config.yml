@@ -112,8 +112,8 @@ collections:
         label: "Contact Info"
         file: "_settings/contact.json"
         fields:
-          - { label: "Email", name: "email", widget: "string", default: "hello@izo-media.com" }
+          - { label: "Email", name: "email", widget: "string", default: "dhari.alh@izo-media.com" }
           - { label: "Phone", name: "phone", widget: "string", default: "+965 9669 0879" }
-          - { label: "Instagram Handle", name: "instagram", widget: "string", default: "@izomedia.kw" }
+          - { label: "Instagram Handle", name: "instagram", widget: "string", default: "@izo.media" }
           - { label: "Address Line 1", name: "address1", widget: "string", default: "Omar Bin Alkatab St." }
           - { label: "Address Line 2", name: "address2", widget: "string", default: "KW City · Morqab · Bldg 14a" }
