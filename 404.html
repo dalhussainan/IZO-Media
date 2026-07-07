@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 — IZO MEDIA</title>
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" href="/assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700;900&family=IBM+Plex+Sans+Arabic:wght@400;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --ink: #1a1a1a;
+    --ink-dim: #555555;
+    --line: #e5e5e0;
+    --red: #991b1b;
+    --red-bright: #ef4444;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Archivo', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 24px;
+  }
+  .code {
+    font-size: clamp(90px, 20vw, 200px);
+    font-weight: 900;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+  .code .dot { color: var(--red-bright); }
+  .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    margin-top: 20px;
+  }
+  .ar {
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    font-size: 16px;
+    color: var(--ink-dim);
+    margin-top: 8px;
+    direction: rtl;
+  }
+  a.home {
+    display: inline-block;
+    margin-top: 36px;
+    padding: 14px 28px;
+    border: 1px solid var(--ink);
+    color: var(--ink);
+    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    transition: all 0.2s;
+  }
+  a.home:hover { background: var(--ink); color: var(--bg); }
+</style>
+</head>
+<body>
+  <div class="code">4<span class="dot">0</span>4</div>
+  <div class="label">PAGE NOT FOUND</div>
+  <div class="ar">الصفحة غير موجودة</div>
+  <a class="home" href="/">← BACK HOME</a>
+</body>
+</html>

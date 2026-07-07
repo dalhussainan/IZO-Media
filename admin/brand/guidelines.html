@@ -3,6 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <title>IZO Media — Brand Guidelines</title>
+<meta name="robots" content="noindex, nofollow">
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<style>body{visibility:hidden}body.izo-authed{visibility:visible}</style>
+<script>
+  // Netlify Identity gate — internal page, login required
+  (function(){
+    document.addEventListener('DOMContentLoaded', function(){
+      var idy = window.netlifyIdentity;
+      if (!idy) { document.body.classList.add('izo-authed'); return; }
+      idy.on('init', function(user){
+        if (user) document.body.classList.add('izo-authed');
+        else window.location.href = '/?admin=1';
+      });
+      idy.on('logout', function(){ window.location.href = '/'; });
+      idy.init();
+      var u = idy.currentUser && idy.currentUser();
+      if (u) document.body.classList.add('izo-authed');
+    });
+  })();
+</script>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;800;900&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {

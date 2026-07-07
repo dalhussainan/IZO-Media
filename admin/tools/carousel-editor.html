@@ -3,6 +3,26 @@
 <head>
   <meta charset="utf-8">
   <title>IZO · Carousel Editor</title>
+  <meta name="robots" content="noindex, nofollow">
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <style>body{visibility:hidden}body.izo-authed{visibility:visible}</style>
+  <script>
+    // Netlify Identity gate — internal tool, login required
+    (function(){
+      document.addEventListener('DOMContentLoaded', function(){
+        var idy = window.netlifyIdentity;
+        if (!idy) { document.body.classList.add('izo-authed'); return; }
+        idy.on('init', function(user){
+          if (user) document.body.classList.add('izo-authed');
+          else window.location.href = '/?admin=1';
+        });
+        idy.on('logout', function(){ window.location.href = '/'; });
+        idy.init();
+        var u = idy.currentUser && idy.currentUser();
+        if (u) document.body.classList.add('izo-authed');
+      });
+    })();
+  </script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background: #faf9f5; display: flex; align-items: center; justify-content: center; min-height: 100vh; font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
