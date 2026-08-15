@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>قوة — ورك فلو الحلقة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;500;600;700&family=Tajawal:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F7F4EE;
+    --paper-d: #EFEAE0;
+    --ink: #1A1A1A;
+    --ink-d: #554D44;
+    --line: #DDD6C8;
+    --red: #991B1B;
+    --red-br: #C02A2A;
+    --gold: #B08D57;
+    --gold-d: #8A6E40;
+    --white: #FFFFFF;
+    --green: #2D6E3E;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Tajawal', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    padding: 30px 20px;
+    line-height: 1.5;
+  }
+  .container { max-width: 1280px; margin: 0 auto; }
+
+  /* ===== HEADER ===== */
+  .doc-header {
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 20px;
+    margin-bottom: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .doc-title h1 {
+    font-family: 'Reem Kufi', sans-serif;
+    font-size: 38px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.1;
+  }
+  .doc-title h1 em {
+    color: var(--red);
+    font-style: normal;
+  }
+  .doc-title .sub {
+    font-family: 'Tajawal', sans-serif;
+    font-size: 14px;
+    color: var(--ink-d);
+    margin-top: 6px;
+    font-style: italic;
+  }
+  .doc-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--ink-d);
+    text-align: left;
+    direction: ltr;
+  }
+  .doc-meta .code { color: var(--red); font-weight: 700; }
+  .doc-meta .ver { margin-top: 4px; }
+
+  /* ===== INTRO ===== */
+  .intro {
+    background: var(--paper-d);
+    border-right: 4px solid var(--red);
+    padding: 18px 20px;
+    margin-bottom: 30px;
+  }
+  .intro .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--red);
+    font-weight: 700;
+    margin-bottom: 6px;
+    direction: ltr;
+    text-align: right;
+  }
+  .intro p {
+    font-size: 14px;
+    color: var(--ink-d);
+    line-height: 1.7;
+  }
+
+  /* ===== LEGEND (Owners) ===== */
+  .legend {
+    margin-bottom: 35px;
+  }
+  .legend-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--red);
+    font-weight: 700;
+    margin-bottom: 12px;
+    direction: ltr;
+    text-align: right;
+  }
+  .legend-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 8px 14px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: var(--ink-d);
+    padding: 4px 0;
+  }
+  .role-tag {
+    display: inline-block;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 3px 7px;
+    letter-spacing: 1px;
+    min-width: 48px;
+    text-align: center;
+  }
+  .role-tag.red { background: var(--red); }
+  .role-tag.gold { background: var(--gold); color: var(--ink); }
+  .role-tag.green { background: var(--green); }
+  .role-tag.outline { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); }
+
+  /* ===== PHASES ===== */
+  .phase {
+    margin-bottom: 45px;
+  }
+  .phase-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .phase-header-left {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+  }
+  .phase-num {
+    font-family: 'Reem Kufi', sans-serif;
+    font-size: 56px;
+    font-weight: 700;
+    color: var(--red);
+    line-height: 0.9;
+    letter-spacing: -2px;
+  }
+  .phase-title {
+    font-family: 'Reem Kufi', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .phase-title small {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-d);
+    font-weight: 400;
+    letter-spacing: 2px;
+    margin-right: 8px;
+    direction: ltr;
+    display: inline-block;
+  }
+  .phase-duration {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--red);
+    background: var(--paper-d);
+    padding: 8px 14px;
+    border: 1px solid var(--line);
+    letter-spacing: 1px;
+    font-weight: 700;
+  }
+
+  /* Tasks table */
+  .tasks {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--white);
+    border: 1px solid var(--line);
+  }
+  .tasks thead th {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-align: right;
+    padding: 10px 14px;
+    direction: ltr;
+  }
+  .tasks thead th.center { text-align: center; }
+  .tasks thead th.first { text-align: right; direction: rtl; font-family: 'Tajawal'; font-size: 12px; letter-spacing: 0; }
+  .tasks tbody td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+    font-size: 13px;
+    color: var(--ink-d);
+  }
+  .tasks tbody tr:last-child td { border-bottom: none; }
+  .tasks tbody tr:hover { background: var(--paper-d); }
+  .tasks .task-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--red);
+    font-weight: 700;
+    width: 50px;
+    text-align: center;
+    direction: ltr;
+  }
+  .tasks .task-name {
+    color: var(--ink);
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .tasks .task-desc {
+    color: var(--ink-d);
+    font-size: 12px;
+    margin-top: 4px;
+    line-height: 1.5;
+  }
+  .tasks .deliverable {
+    font-size: 11px;
+    color: var(--gold-d);
+    margin-top: 6px;
+    font-style: italic;
+  }
+  .tasks .deliverable::before {
+    content: "◆ المُخرَج: ";
+    color: var(--gold);
+    font-style: normal;
+    font-weight: 700;
+  }
+  .tasks .owners {
+    width: 200px;
+    text-align: center;
+  }
+  .tasks .owners .role-tag { margin: 2px 2px; }
+  .tasks .duration {
+    width: 110px;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink);
+    font-weight: 700;
+    direction: ltr;
+  }
+
+  /* ===== PICTURE LOCK GATE ===== */
+  .gate {
+    margin: 20px 0;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 22px 28px;
+    border-right: 6px solid var(--red);
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .gate-icon {
+    font-family: 'Reem Kufi';
+    font-size: 48px;
+    color: var(--red-br);
+    font-weight: 700;
+  }
+  .gate-text { flex: 1; min-width: 280px; }
+  .gate-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--red-br);
+    font-weight: 700;
+    direction: ltr;
+    text-align: right;
+    margin-bottom: 4px;
+  }
+  .gate-title {
+    font-family: 'Reem Kufi', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--paper);
+    margin-bottom: 6px;
+  }
+  .gate-desc {
+    font-size: 13px;
+    color: #B5AFA3;
+    line-height: 1.6;
+  }
+
+  /* ===== SUMMARY BAR ===== */
+  .summary-bar {
+    margin-top: 50px;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 28px 32px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+  .summary-item {
+    text-align: center;
+  }
+  .summary-item .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    font-weight: 700;
+    margin-bottom: 8px;
+    direction: ltr;
+  }
+  .summary-item .value {
+    font-family: 'Reem Kufi', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--paper);
+  }
+  .summary-item .unit {
+    font-size: 13px;
+    color: #B5AFA3;
+    margin-top: 4px;
+  }
+
+  /* ===== END / FOOTER ===== */
+  .end-mark {
+    margin-top: 30px;
+    padding: 24px;
+    text-align: center;
+    background: var(--green);
+    color: var(--white);
+  }
+  .end-mark .icon {
+    font-size: 28px;
+    margin-bottom: 6px;
+    display: block;
+  }
+  .end-mark .title {
+    font-family: 'Reem Kufi';
+    font-size: 22px;
+    font-weight: 700;
+  }
+  .end-mark .sub {
+    font-size: 12px;
+    opacity: 0.9;
+    margin-top: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 2px;
+    direction: ltr;
+  }
+
+  .footer {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--ink-d);
+    letter-spacing: 2px;
+    direction: ltr;
+  }
+
+  /* PRINT */
+  @media print {
+    body { background: white; padding: 0; }
+    .container { max-width: 100%; }
+    .phase { page-break-inside: avoid; }
+    .gate { page-break-inside: avoid; }
+  }
+
+  /* Mobile */
+  @media (max-width: 720px) {
+    .tasks thead th:not(.first):not(.center-keep) { display: none; }
+    .tasks tbody td { display: block; padding: 8px 14px; }
+    .tasks tbody td.task-num { display: inline-block; width: auto; }
+    .tasks tbody .owners, .tasks tbody .duration { width: 100%; text-align: right; }
+    .tasks tbody .owners::before { content: "المسؤولون: "; font-family: 'JetBrains Mono'; font-size: 10px; color: var(--red); letter-spacing: 2px; }
+    .tasks tbody .duration::before { content: "المدة: "; font-family: 'JetBrains Mono'; font-size: 10px; color: var(--red); letter-spacing: 2px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- ============== HEADER ============== -->
+  <header class="doc-header">
+    <div class="doc-title">
+      <h1>ورك فلو <em>الحلقة</em></h1>
+      <div class="sub">من البحث الأولي إلى التسليم النهائي · للحلقة الواحدة</div>
+    </div>
+    <div class="doc-meta">
+      <div><span class="code">QUWA-WF-001</span></div>
+      <div class="ver">V1.0 · EPISODE PIPELINE</div>
+      <div class="ver">15 STEPS · 3 PHASES · 1 GATE</div>
+    </div>
+  </header>
+
+  <!-- ============== INTRO ============== -->
+  <div class="intro">
+    <div class="label">// المقدّمة</div>
+    <p>سير العمل التالي يصف رحلة الحلقة الواحدة من «قوة»، مقسّماً إلى ثلاث مراحل متسلسلة: ما قبل الإنتاج، الإنتاج، ثم ما بعد الإنتاج. كل مهمة لها مسؤول واحد ومُخرَج مُحدّد، ولا يُسمَح بالانتقال بين المراحل إلا بتسليم رسمي. المدة الإجمالية للحلقة الواحدة بين <strong style="color:var(--red);">٧ و ٩ أسابيع</strong>، مع إمكانية العمل على عدة حلقات بالتوازي.</p>
+  </div>
+
+  <!-- ============== LEGEND ============== -->
+  <section class="legend">
+    <div class="legend-title">// الأدوار والمسؤوليات (Roles)</div>
+    <div class="legend-grid">
+      <div class="legend-item"><span class="role-tag red">PROD</span>منتج / منسق الإنتاج</div>
+      <div class="legend-item"><span class="role-tag">RSR</span>الباحث</div>
+      <div class="legend-item"><span class="role-tag">WR</span>الكاتب</div>
+      <div class="legend-item"><span class="role-tag red">DIR</span>المخرج (ضاري)</div>
+      <div class="legend-item"><span class="role-tag gold">HOST</span>المقدّم (فهد)</div>
+      <div class="legend-item"><span class="role-tag">DOP</span>مدير التصوير</div>
+      <div class="legend-item"><span class="role-tag">SND</span>مهندس صوت ميداني</div>
+      <div class="legend-item"><span class="role-tag outline">DIT</span>تقني الصور الرقمية</div>
+      <div class="legend-item"><span class="role-tag">ED</span>المونتير</div>
+      <div class="legend-item"><span class="role-tag">CL</span>ملوّن (Colorist)</div>
+      <div class="legend-item"><span class="role-tag">MO</span>موشن جرافيك</div>
+      <div class="legend-item"><span class="role-tag">MIX</span>هندسة المكساج</div>
+      <div class="legend-item"><span class="role-tag red">PS</span>مشرف ما بعد الإنتاج</div>
+      <div class="legend-item"><span class="role-tag gold">CD</span>المخرج الإبداعي</div>
+      <div class="legend-item"><span class="role-tag green">CLIENT</span>العميل / الراعي</div>
+    </div>
+  </section>
+
+
+  <!-- ============== PHASE 1: PRE-PRODUCTION ============== -->
+  <section class="phase">
+    <div class="phase-header">
+      <div class="phase-header-left">
+        <div class="phase-num">٠١</div>
+        <div class="phase-title">ما قبل الإنتاج <small>// PRE-PRODUCTION</small></div>
+      </div>
+      <div class="phase-duration">⏱ ٢ – ٣ أسابيع</div>
+    </div>
+
+    <table class="tasks">
+      <thead>
+        <tr>
+          <th style="width:50px;" class="center">#</th>
+          <th class="first">المهمة والمُخرَج المطلوب</th>
+          <th class="center" style="width:200px;">المسؤولون</th>
+          <th class="center" style="width:110px;">المدة</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="task-num">01</td>
+          <td>
+            <div class="task-name">البحث والتطوير</div>
+            <div class="task-desc">بحث معمّق عن الشركة وتاريخها، تحديد القصة والزاوية، وبناء التصوّر العام للحلقة.</div>
+            <div class="deliverable">وثيقة بحث + ملف القصة (Story Outline)</div>
+          </td>
+          <td class="owners"><span class="role-tag">RSR</span><span class="role-tag red">DIR</span></td>
+          <td class="duration">٥ – ٧ أيام</td>
+        </tr>
+        <tr>
+          <td class="task-num">02</td>
+          <td>
+            <div class="task-name">الوصول والتصاريح</div>
+            <div class="task-desc">التنسيق مع الشركة، تأمين الوصول للأرشيف والمواقع، وتوقيع الاتفاقيات القانونية والإعلامية.</div>
+            <div class="deliverable">اتفاقية موقّعة + قائمة المواقع المُعتمَدة</div>
+          </td>
+          <td class="owners"><span class="role-tag red">PROD</span><span class="role-tag green">CLIENT</span></td>
+          <td class="duration">٣ – ٥ أيام</td>
+        </tr>
+        <tr>
+          <td class="task-num">03</td>
+          <td>
+            <div class="task-name">اختيار الضيوف والمقابلات التمهيدية</div>
+            <div class="task-desc">تحديد الشخصيات والمؤسسين والخبراء، إجراء Pre-interviews لفهم القصص وتحديد الأسئلة.</div>
+            <div class="deliverable">قائمة الضيوف + ملاحظات المقابلات التمهيدية</div>
+          </td>
+          <td class="owners"><span class="role-tag red">DIR</span><span class="role-tag gold">HOST</span><span class="role-tag">RSR</span></td>
+          <td class="duration">٣ أيام</td>
+        </tr>
+        <tr>
+          <td class="task-num">04</td>
+          <td>
+            <div class="task-name">كتابة السكربت التصوّري</div>
+            <div class="task-desc">صياغة سكربت الحلقة الكامل: مشاهد، تعليق صوتي، أسئلة المقابلات، خط الراوية.</div>
+            <div class="deliverable">سكربت معتمد + Shot List + Storyboard مبسّط</div>
+          </td>
+          <td class="owners"><span class="role-tag">WR</span><span class="role-tag red">DIR</span></td>
+          <td class="duration">٤ – ٥ أيام</td>
+        </tr>
+        <tr>
+          <td class="task-num">05</td>
+          <td>
+            <div class="task-name">الجدولة واللوجستيات</div>
+            <div class="task-desc">جدول التصوير، الـ Call Sheets، حجز المعدات والفريق والمواقع، تأكيد مواعيد الضيوف.</div>
+            <div class="deliverable">جدول إنتاج + Call Sheets + قائمة المعدات</div>
+          </td>
+          <td class="owners"><span class="role-tag red">PROD</span></td>
+          <td class="duration">٢ – ٣ أيام</td>
+        </tr>
+        <tr>
+          <td class="task-num">06</td>
+          <td>
+            <div class="task-name">التجهيز الفني والمعاينة</div>
+            <div class="task-desc">معاينة المواقع (Scouting)، اختبار الكاميرات والإضاءة والصوت، تجهيز ديكور الاستوديو.</div>
+            <div class="deliverable">تقرير معاينة + موافقة فنية على المواقع</div>
+          </td>
+          <td class="owners"><span class="role-tag red">DIR</span><span class="role-tag">DOP</span><span class="role-tag red">PROD</span></td>
+          <td class="duration">٢ – ٣ أيام</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+
+  <!-- ============== PHASE 2: PRODUCTION ============== -->
+  <section class="phase">
+    <div class="phase-header">
+      <div class="phase-header-left">
+        <div class="phase-num">٠٢</div>
+        <div class="phase-title">الإنتاج <small>// PRODUCTION</small></div>
+      </div>
+      <div class="phase-duration">⏱ ٢ أسبوع · ١٠ – ١١ يوم تصوير</div>
+    </div>
+
+    <table class="tasks">
+      <thead>
+        <tr>
+          <th style="width:50px;" class="center">#</th>
+          <th class="first">المهمة والمُخرَج المطلوب</th>
+          <th class="center" style="width:200px;">المسؤولون</th>
+          <th class="center" style="width:110px;">المدة</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="task-num">07</td>
+          <td>
+            <div class="task-name">تصوير المقدمة (داخل الاستوديو)</div>
+            <div class="task-desc">تصوير افتتاحية الحلقة في ركن الاستوديو المخصص للشركة. كاميرتان ARRI، Setup ثابت.</div>
+            <div class="deliverable">لقطات المقدمة + النسخ الاحتياطية</div>
+          </td>
+          <td class="owners"><span class="role-tag red">DIR</span><span class="role-tag gold">HOST</span><span class="role-tag">DOP</span><span class="role-tag">SND</span></td>
+          <td class="duration">يومان</td>
+        </tr>
+        <tr>
+          <td class="task-num">08</td>
+          <td>
+            <div class="task-name">تصوير الضيوف والمقابلات</div>
+            <div class="task-desc">تصوير المقابلات الحصرية مع المؤسسين والإدارة في الاستوديو. ٣-٤ كاميرات ARRI، نفس الـ Setup.</div>
+            <div class="deliverable">جميع المقابلات بصيغة كاملة + تسجيل صوتي</div>
+          </td>
+          <td class="owners"><span class="role-tag red">DIR</span><span class="role-tag gold">HOST</span><span class="role-tag">DOP</span><span class="role-tag">SND</span></td>
+          <td class="duration">٥ أيام</td>
+        </tr>
+        <tr>
+          <td class="task-num">09</td>
+          <td>
+            <div class="task-name">التصوير الخارجي والبرومو وتتر البداية</div>
+            <div class="task-desc">تصوير في مواقع الشركة الحقيقية + لقطات البرومو + مادة تتر البداية. كاميرا Sony FX6.</div>
+            <div class="deliverable">لقطات خارجية + مادة البرومو + مادة التتر</div>
+          </td>
+          <td class="owners"><span class="role-tag red">DIR</span><span class="role-tag">DOP</span><span class="role-tag">SND</span></td>
+          <td class="duration">٣ – ٤ أيام</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+
+  <!-- ============== PHASE 3: POST-PRODUCTION ============== -->
+  <section class="phase">
+    <div class="phase-header">
+      <div class="phase-header-left">
+        <div class="phase-num">٠٣</div>
+        <div class="phase-title">ما بعد الإنتاج <small>// POST-PRODUCTION</small></div>
+      </div>
+      <div class="phase-duration">⏱ ٤ – ٥ أسابيع</div>
+    </div>
+
+    <table class="tasks">
+      <thead>
+        <tr>
+          <th style="width:50px;" class="center">#</th>
+          <th class="first">المهمة والمُخرَج المطلوب</th>
+          <th class="center" style="width:200px;">المسؤولون</th>
+          <th class="center" style="width:110px;">المدة</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="task-num">10</td>
+          <td>
+            <div class="task-name">الاستلام والتنظيم (Ingest)</div>
+            <div class="task-desc">استلام المادة من فريق التصوير على اللوكيشن، فحص الجودة، تسمية وتنظيم وأرشفة، نسخ احتياطية.</div>
+            <div class="deliverable">مكتبة منظمة + نسخ احتياطية موثّقة</div>
+          </td>
+          <td class="owners"><span class="role-tag outline">DIT</span><span class="role-tag red">PS</span></td>
+          <td class="duration">١ – ٣ أيام</td>
+        </tr>
+        <tr>
+          <td class="task-num">11</td>
+          <td>
+            <div class="task-name">المونتاج الأولي (Rough Cut)</div>
+            <div class="task-desc">بناء النسخة الأولية للمراجعة، اختيار اللقطات الأساسية وترتيبها وفق السكربت.</div>
+            <div class="deliverable">Rough Cut جاهز للمراجعة</div>
+          </td>
+          <td class="owners"><span class="role-tag">ED</span></td>
+          <td class="duration">~٢٠٪ من زمن البوست</td>
+        </tr>
+        <tr>
+          <td class="task-num">12</td>
+          <td>
+            <div class="task-name">المونتاج النهائي (Final Cut)</div>
+            <div class="task-desc">تحسين الإيقاع، صقل القصة، دمج ملاحظات المخرج، تجهيز النسخة لاعتماد قفل الصورة.</div>
+            <div class="deliverable">Final Cut جاهز للاعتماد + شهادة قفل</div>
+          </td>
+          <td class="owners"><span class="role-tag">ED</span><span class="role-tag red">DIR</span><span class="role-tag red">PS</span></td>
+          <td class="duration">~٤٠٪ من زمن البوست</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ===== PICTURE LOCK GATE ===== -->
+    <div class="gate">
+      <div class="gate-icon">🔒</div>
+      <div class="gate-text">
+        <div class="gate-label">// CRITICAL GATE · نقطة لا رجعة</div>
+        <div class="gate-title">قفل الصورة (Picture Lock)</div>
+        <div class="gate-desc">توقيع ثلاثي: المخرج الإبداعي + مشرف البوست + العميل/الراعي. بعد هذه البوابة، لا تعديل إلا بأمر تغيير رسمي (Change Order). كسر هذه البوابة يكسر النظام كله.</div>
+      </div>
+      <div style="text-align:center; min-width:140px;">
+        <div style="font-family:'JetBrains Mono'; font-size:9px; color:#B5AFA3; letter-spacing:2px; margin-bottom:8px;">SIGN-OFF</div>
+        <span class="role-tag gold" style="margin:2px;">CD</span>
+        <span class="role-tag red" style="margin:2px;">PS</span>
+        <span class="role-tag green" style="margin:2px;">CLIENT</span>
+      </div>
+    </div>
+
+    <table class="tasks">
+      <thead>
+        <tr>
+          <th style="width:50px;" class="center">#</th>
+          <th class="first">المهمة والمُخرَج المطلوب</th>
+          <th class="center" style="width:200px;">المسؤولون</th>
+          <th class="center" style="width:110px;">المدة</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="task-num">13</td>
+          <td>
+            <div class="task-name">التشطيب (Finishing)</div>
+            <div class="task-desc">العمل بالتوازي على ثلاثة محاور: التلوين (Color Grading) + هندسة الصوت والمكساج + الموشن جرافيك والأنيميشن.</div>
+            <div class="deliverable">VFX + Motion + Color + Audio جاهز</div>
+          </td>
+          <td class="owners"><span class="role-tag">CL</span><span class="role-tag">MIX</span><span class="role-tag">MO</span></td>
+          <td class="duration">~٢٥٪ من زمن البوست</td>
+        </tr>
+        <tr>
+          <td class="task-num">14</td>
+          <td>
+            <div class="task-name">التجميع النهائي (Final Assembly)</div>
+            <div class="task-desc">دمج كل العناصر في الـ Master النهائي: الصورة الملوّنة + الصوت + الموشن + التتر + الترجمة.</div>
+            <div class="deliverable">Final Master · ملف نهائي مدمج</div>
+          </td>
+          <td class="owners"><span class="role-tag">ED</span><span class="role-tag red">PS</span></td>
+          <td class="duration">~١٠٪ من زمن البوست</td>
+        </tr>
+        <tr>
+          <td class="task-num">15</td>
+          <td>
+            <div class="task-name">المسترة والتسليم (Mastering & Delivery)</div>
+            <div class="task-desc">إنتاج نسخ التسليم وفق متطلبات قناة البث والمنصات، إصدار شهادة التسليم، أرشفة كاملة.</div>
+            <div class="deliverable">نسخ التسليم + شهادة + أرشيف نهائي</div>
+          </td>
+          <td class="owners"><span class="role-tag red">PS</span><span class="role-tag green">CLIENT</span></td>
+          <td class="duration">٣ – ٥ أيام</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+
+  <!-- ============== END MARK ============== -->
+  <div class="end-mark">
+    <span class="icon">✓</span>
+    <div class="title">تسليم نهائي · حلقة جاهزة للبث</div>
+    <div class="sub">EPISODE READY FOR AIR</div>
+  </div>
+
+
+  <!-- ============== SUMMARY BAR ============== -->
+  <div class="summary-bar">
+    <div class="summary-item">
+      <div class="label">PHASES</div>
+      <div class="value">٣</div>
+      <div class="unit">مراحل رئيسية</div>
+    </div>
+    <div class="summary-item">
+      <div class="label">TASKS</div>
+      <div class="value">١٥</div>
+      <div class="unit">مهمة محدّدة</div>
+    </div>
+    <div class="summary-item">
+      <div class="label">GATES</div>
+      <div class="value">١</div>
+      <div class="unit">بوابة قفل حرجة</div>
+    </div>
+    <div class="summary-item">
+      <div class="label">TOTAL</div>
+      <div class="value">٧ – ٩</div>
+      <div class="unit">أسابيع للحلقة</div>
+    </div>
+  </div>
+
+
+  <!-- ============== FOOTER ============== -->
+  <div class="footer">
+    <div>QUWA · EPISODE WORKFLOW · V1.0</div>
+    <div>POWERED BY IZO MEDIA</div>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>قوة — ورك فلو ما قبل الإنتاج</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;500;600;700&family=Tajawal:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F7F4EE;
+    --paper-d: #EFEAE0;
+    --ink: #1A1A1A;
+    --ink-d: #554D44;
+    --line: #DDD6C8;
+    --red: #991B1B;
+    --red-br: #C02A2A;
+    --gold: #B08D57;
+    --gold-d: #8A6E40;
+    --white: #FFFFFF;
+    --green: #2D6E3E;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Tajawal', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    padding: 30px 20px;
+    line-height: 1.5;
+  }
+  .container { max-width: 1280px; margin: 0 auto; }
+
+  /* ===== HEADER ===== */
+  .doc-header {
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .doc-title h1 {
+    font-family: 'Reem Kufi', sans-serif;
+    font-size: 38px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.1;
+  }
+  .doc-title h1 em { color: var(--red); font-style: normal; }
+  .doc-title .sub {
+    font-size: 14px;
+    color: var(--ink-d);
+    margin-top: 6px;
+    font-style: italic;
+  }
+  .doc-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--ink-d);
+    text-align: left;
+    direction: ltr;
+  }
+  .doc-meta .code { color: var(--red); font-weight: 700; }
+  .doc-meta .ver { margin-top: 4px; }
+
+  /* ===== STATS STRIP ===== */
+  .stats-strip {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+  }
+  .stat-block { display: flex; align-items: baseline; gap: 8px; }
+  .stat-block .num {
+    font-family: 'Reem Kufi';
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--red);
+  }
+  .stat-block .lbl {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--ink-d);
+    direction: ltr;
+  }
+
+  /* ===== OWNER BAR ===== */
+  .owner-bar {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 14px 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .owner-bar .right {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .owner-bar .circle {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--red);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--white);
+  }
+  .owner-bar .txt { font-size: 14px; font-weight: 700; }
+  .owner-bar .txt small {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 2px;
+    color: var(--gold);
+    font-weight: 400;
+    direction: ltr;
+    text-align: right;
+  }
+  .owner-bar .left {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: #B5AFA3;
+    direction: ltr;
+  }
+
+  /* ===== VISUAL MAP ===== */
+  .map-wrap {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-top: none;
+    padding: 40px 24px 30px;
+    margin-bottom: 14px;
+    overflow-x: auto;
+  }
+  .map {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 0;
+    min-width: 1100px;
+  }
+  .map-stage {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+  .stage-box {
+    border: 1.5px solid var(--ink);
+    background: var(--white);
+    width: 100%;
+    max-width: 158px;
+    padding: 16px 10px 14px;
+    text-align: center;
+    position: relative;
+    min-height: 158px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  .stage-box.gate-final {
+    background: var(--ink);
+    border-color: var(--ink);
+  }
+  .stage-box .st-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--ink);
+    direction: ltr;
+  }
+  .stage-box.gate-final .st-num { color: var(--gold); }
+  .stage-box .st-icon { font-size: 20px; margin: 4px 0; }
+  .stage-box .st-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 7.5px;
+    letter-spacing: 1px;
+    color: var(--red);
+    border: 1px solid var(--red);
+    padding: 2px 6px;
+    margin: 4px 0 6px;
+    direction: ltr;
+    white-space: nowrap;
+  }
+  .stage-box.gate-final .st-tag { color: var(--gold); border-color: var(--gold); }
+  .stage-box .st-name {
+    font-family: 'Reem Kufi';
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+  .stage-box.gate-final .st-name { color: var(--paper); }
+  .st-owners { margin-top: 10px; display: flex; gap: 3px; justify-content: center; flex-wrap: wrap; }
+  .st-owner-dot {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 7.5px;
+    font-weight: 700;
+    padding: 3px 5px;
+    border-radius: 999px;
+    letter-spacing: 0.5px;
+    direction: ltr;
+  }
+  .st-owner-dot.red { background: var(--red); }
+  .st-owner-dot.gold { background: var(--gold); color: var(--ink); }
+  .st-owner-dot.green { background: var(--green); }
+  .st-owner-dot.outline { background: var(--white); color: var(--ink); border: 1px solid var(--ink); }
+  .st-time {
+    margin-top: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8.5px;
+    color: var(--ink-d);
+    letter-spacing: 1px;
+    direction: ltr;
+  }
+  .st-deliv {
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px solid var(--line);
+    width: 100%;
+    font-size: 10px;
+    color: var(--gold-d);
+    font-weight: 700;
+    line-height: 1.35;
+  }
+  .st-deliv small { display:block; font-weight: 400; color: var(--ink-d); font-size: 9px; }
+
+  /* connector + gate diamond */
+  .map-conn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    position: relative;
+    flex: 0 0 52px;
+    margin-top: 62px;
+    height: 34px;
+  }
+  .map-conn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 0; left: 0;
+    height: 1.5px;
+    background: var(--ink);
+  }
+  .gate-diamond {
+    width: 26px; height: 26px;
+    background: var(--red);
+    transform: rotate(45deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    position: relative;
+  }
+  .gate-diamond span {
+    transform: rotate(-45deg);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    font-weight: 700;
+    color: var(--white);
+    direction: ltr;
+  }
+  .map-legend {
+    display: flex;
+    gap: 26px;
+    margin-top: 26px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+    flex-wrap: wrap;
+    font-size: 11px;
+    color: var(--ink-d);
+    align-items: center;
+  }
+  .map-legend .li { display: flex; align-items: center; gap: 8px; }
+  .map-legend .sq { width: 14px; height: 14px; border: 1.5px solid var(--ink); background: var(--white); }
+  .map-legend .di { width: 12px; height: 12px; background: var(--red); transform: rotate(45deg); }
+  .map-legend .fin { width: 14px; height: 14px; background: var(--ink); }
+  .map-legend .lbl-mono { font-family:'JetBrains Mono'; font-size: 9px; letter-spacing: 2px; color: var(--red); font-weight:700; direction:ltr; }
+
+  /* ===== GATES TABLE (approval gates) ===== */
+  .gates-strip {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+  .gate-card {
+    background: var(--paper-d);
+    border-right: 4px solid var(--red);
+    padding: 14px 16px;
+  }
+  .gate-card .g-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--red);
+    font-weight: 700;
+    direction: ltr;
+    text-align: right;
+    margin-bottom: 4px;
+  }
+  .gate-card .g-name {
+    font-family: 'Reem Kufi';
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .gate-card .g-desc { font-size: 11.5px; color: var(--ink-d); line-height: 1.5; }
+  .gate-card .g-sign { margin-top: 8px; }
+
+  /* ===== SECTION TITLE ===== */
+  .section-title {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+  .section-title .kick {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--red);
+    font-weight: 700;
+    direction: ltr;
+  }
+  .section-title h2 {
+    font-family: 'Reem Kufi';
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  /* ===== TASKS TABLE ===== */
+  .role-tag {
+    display: inline-block;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 3px 7px;
+    letter-spacing: 1px;
+    min-width: 44px;
+    text-align: center;
+  }
+  .role-tag.red { background: var(--red); }
+  .role-tag.gold { background: var(--gold); color: var(--ink); }
+  .role-tag.green { background: var(--green); }
+  .role-tag.outline { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); }
+
+  .tasks {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--white);
+    border: 1px solid var(--line);
+    margin-bottom: 26px;
+  }
+  .tasks thead th {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-align: right;
+    padding: 10px 14px;
+    direction: ltr;
+  }
+  .tasks thead th.first { text-align: right; direction: rtl; font-family: 'Tajawal'; font-size: 12px; letter-spacing: 0; }
+  .tasks thead th.center { text-align: center; }
+  .tasks tbody td {
+    padding: 13px 14px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+    font-size: 13px;
+    color: var(--ink-d);
+  }
+  .tasks tbody tr:last-child td { border-bottom: none; }
+  .tasks tbody tr:hover { background: var(--paper-d); }
+  .tasks .task-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--red);
+    font-weight: 700;
+    width: 46px;
+    text-align: center;
+    direction: ltr;
+  }
+  .tasks .task-name { color: var(--ink); font-weight: 700; font-size: 14px; }
+  .tasks .task-desc { color: var(--ink-d); font-size: 12px; margin-top: 4px; line-height: 1.55; }
+  .tasks .subtasks { margin-top: 8px; }
+  .tasks .subtasks li {
+    list-style: none;
+    font-size: 11.5px;
+    color: var(--ink-d);
+    padding: 2px 14px 2px 0;
+    position: relative;
+  }
+  .tasks .subtasks li::before {
+    content: "—";
+    position: absolute;
+    right: 0;
+    color: var(--gold);
+  }
+  .tasks .deliverable {
+    font-size: 11px;
+    color: var(--gold-d);
+    margin-top: 8px;
+    font-style: italic;
+  }
+  .tasks .deliverable::before {
+    content: "◆ المُخرَج: ";
+    color: var(--gold);
+    font-style: normal;
+    font-weight: 700;
+  }
+  .tasks .owners { width: 190px; text-align: center; }
+  .tasks .owners .role-tag { margin: 2px 2px; }
+  .tasks .duration {
+    width: 105px;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink);
+    font-weight: 700;
+    direction: ltr;
+  }
+  .tasks .gate-row td {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 12px 14px;
+  }
+  .tasks .gate-row .g-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--red-br);
+    font-weight: 700;
+    direction: ltr;
+    text-align: right;
+  }
+  .tasks .gate-row .g-title {
+    font-family: 'Reem Kufi';
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--paper);
+    margin-top: 2px;
+  }
+  .tasks .gate-row .g-note { font-size: 11px; color: #B5AFA3; margin-top: 3px; }
+
+  /* ===== GREEN LIGHT ===== */
+  .greenlight {
+    background: var(--green);
+    color: var(--white);
+    padding: 24px 30px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+  }
+  .greenlight .icon { font-size: 40px; }
+  .greenlight .g-text { flex: 1; min-width: 260px; }
+  .greenlight .g-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    opacity: 0.85;
+    direction: ltr;
+    text-align: right;
+    margin-bottom: 4px;
+  }
+  .greenlight .g-title {
+    font-family: 'Reem Kufi';
+    font-size: 24px;
+    font-weight: 700;
+  }
+  .greenlight .g-desc { font-size: 13px; opacity: 0.92; margin-top: 4px; line-height: 1.5; }
+  .greenlight .sign { text-align: center; min-width: 140px; }
+  .greenlight .sign .lbl {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 2px;
+    opacity: 0.8;
+    margin-bottom: 8px;
+    direction: ltr;
+  }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--ink-d);
+    letter-spacing: 2px;
+    direction: ltr;
+  }
+
+  @media print {
+    body { background: white; padding: 0; }
+    .container { max-width: 100%; }
+    .map-wrap { overflow: visible; }
+    .tasks tr, .gate-card { page-break-inside: avoid; }
+  }
+
+  @media (max-width: 720px) {
+    .tasks thead th:not(.first) { display: none; }
+    .tasks tbody td { display: block; padding: 8px 14px; }
+    .tasks tbody td.task-num { display: inline-block; width: auto; }
+    .tasks tbody .owners, .tasks tbody .duration { width: 100%; text-align: right; }
+    .tasks tbody .owners::before { content: "المسؤولون: "; font-family: 'JetBrains Mono'; font-size: 10px; color: var(--red); letter-spacing: 2px; }
+    .tasks tbody .duration::before { content: "المدة: "; font-family: 'JetBrains Mono'; font-size: 10px; color: var(--red); letter-spacing: 2px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- ============== HEADER ============== -->
+  <header class="doc-header">
+    <div class="doc-title">
+      <h1>ورك فلو <em>ما قبل الإنتاج</em></h1>
+      <div class="sub">من استلام الحلقة إلى الضوء الأخضر للتصوير · للحلقة الواحدة</div>
+    </div>
+    <div class="doc-meta">
+      <div><span class="code">QUWA-WF-PRE-001</span></div>
+      <div class="ver">V1.0 · PRE-PRODUCTION PIPELINE</div>
+      <div class="ver">6 STAGES · 3 GATES · 1 GREEN LIGHT</div>
+    </div>
+  </header>
+
+  <!-- ============== STATS ============== -->
+  <div class="stats-strip">
+    <div class="stat-block"><span class="num">٦</span><span class="lbl">STAGES</span></div>
+    <div class="stat-block"><span class="num">٣</span><span class="lbl">GATES</span></div>
+    <div class="stat-block"><span class="num">٢–٣</span><span class="lbl">WEEKS</span></div>
+    <div class="stat-block"><span class="num">١</span><span class="lbl">GREEN LIGHT</span></div>
+  </div>
+
+  <!-- ============== OWNER BAR ============== -->
+  <div class="owner-bar">
+    <div class="right">
+      <div class="circle">PROD</div>
+      <div class="txt">
+        منسق الإنتاج — يدير المرحلة كاملة ويتابع كل التسليمات
+        <small>// THE OWNER · SINGLE POINT OF CONTACT</small>
+      </div>
+    </div>
+    <div class="left">PRE-PRODUCTION · EPISODE PIPELINE</div>
+  </div>
+
+  <!-- ============== VISUAL MAP ============== -->
+  <div class="map-wrap">
+    <div class="map">
+
+      <!-- Stage 01 -->
+      <div class="map-stage">
+        <div class="stage-box">
+          <div class="st-num">01</div>
+          <div class="st-tag">RESEARCH</div>
+          <div class="st-name">البحث<br>والتطوير</div>
+          <div class="st-owners">
+            <span class="st-owner-dot">RSR</span>
+            <span class="st-owner-dot red">DIR</span>
+          </div>
+          <div class="st-time">5 - 7 DAYS</div>
+          <div class="st-deliv">ملف القصة<small>+ وثيقة البحث</small></div>
+        </div>
+      </div>
+
+      <div class="map-conn"><div class="gate-diamond"><span>01</span></div></div>
+
+      <!-- Stage 02 -->
+      <div class="map-stage">
+        <div class="stage-box">
+          <div class="st-num">02</div>
+          <div class="st-tag">ACCESS</div>
+          <div class="st-name">الوصول<br>والتصاريح</div>
+          <div class="st-owners">
+            <span class="st-owner-dot red">PROD</span>
+            <span class="st-owner-dot green">CLIENT</span>
+          </div>
+          <div class="st-time">3 - 5 DAYS</div>
+          <div class="st-deliv">اتفاقية موقّعة<small>+ مواقع معتمدة</small></div>
+        </div>
+      </div>
+
+      <div class="map-conn"></div>
+
+      <!-- Stage 03 -->
+      <div class="map-stage">
+        <div class="stage-box">
+          <div class="st-num">03</div>
+          <div class="st-tag">CASTING</div>
+          <div class="st-name">اختيار<br>الضيوف</div>
+          <div class="st-owners">
+            <span class="st-owner-dot red">DIR</span>
+            <span class="st-owner-dot gold">HOST</span>
+            <span class="st-owner-dot">RSR</span>
+          </div>
+          <div class="st-time">3 DAYS</div>
+          <div class="st-deliv">قائمة الضيوف<small>+ ملاحظات تمهيدية</small></div>
+        </div>
+      </div>
+
+      <div class="map-conn"><div class="gate-diamond"><span>02</span></div></div>
+
+      <!-- Stage 04 -->
+      <div class="map-stage">
+        <div class="stage-box">
+          <div class="st-num">04</div>
+          <div class="st-tag">SCRIPT</div>
+          <div class="st-name">كتابة<br>السكربت</div>
+          <div class="st-owners">
+            <span class="st-owner-dot">WR</span>
+            <span class="st-owner-dot red">DIR</span>
+          </div>
+          <div class="st-time">4 - 5 DAYS</div>
+          <div class="st-deliv">سكربت معتمد<small>+ Shot List</small></div>
+        </div>
+      </div>
+
+      <div class="map-conn"><div class="gate-diamond"><span>03</span></div></div>
+
+      <!-- Stage 05 -->
+      <div class="map-stage">
+        <div class="stage-box">
+          <div class="st-num">05</div>
+          <div class="st-tag">LOGISTICS</div>
+          <div class="st-name">الجدولة<br>واللوجستيات</div>
+          <div class="st-owners">
+            <span class="st-owner-dot red">PROD</span>
+          </div>
+          <div class="st-time">2 - 3 DAYS</div>
+          <div class="st-deliv">جدول إنتاج<small>+ Call Sheets</small></div>
+        </div>
+      </div>
+
+      <div class="map-conn"></div>
+
+      <!-- Stage 06 -->
+      <div class="map-stage">
+        <div class="stage-box">
+          <div class="st-num">06</div>
+          <div class="st-tag">TECH PREP</div>
+          <div class="st-name">التجهيز الفني<br>والمعاينة</div>
+          <div class="st-owners">
+            <span class="st-owner-dot red">DIR</span>
+            <span class="st-owner-dot">DOP</span>
+            <span class="st-owner-dot red">PROD</span>
+          </div>
+          <div class="st-time">2 - 3 DAYS</div>
+          <div class="st-deliv">موافقة فنية<small>+ تقرير معاينة</small></div>
+        </div>
+      </div>
+
+      <div class="map-conn"></div>
+
+      <!-- GREEN LIGHT -->
+      <div class="map-stage">
+        <div class="stage-box gate-final">
+          <div class="st-num">✓</div>
+          <div class="st-tag">GREEN LIGHT</div>
+          <div class="st-name">الضوء الأخضر<br>للتصوير</div>
+          <div class="st-owners">
+            <span class="st-owner-dot gold">CD</span>
+            <span class="st-owner-dot red">PROD</span>
+            <span class="st-owner-dot green">CLIENT</span>
+          </div>
+          <div class="st-time">SIGN-OFF</div>
+          <div class="st-deliv" style="border-color:#3a3a3a; color: var(--gold);">جاهزية كاملة<small style="color:#B5AFA3;">الانتقال للإنتاج</small></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- map legend -->
+    <div class="map-legend">
+      <span class="lbl-mono">// LEGEND</span>
+      <div class="li"><span class="sq"></span>مرحلة</div>
+      <div class="li"><span class="di"></span>بوابة اعتماد</div>
+      <div class="li"><span class="fin"></span>الضوء الأخضر النهائي</div>
+      <div class="li"><span class="role-tag" style="font-size:8px; min-width:36px;">ROLE</span>دور تخصصي</div>
+    </div>
+  </div>
+
+  <!-- ============== APPROVAL GATES ============== -->
+  <div class="gates-strip">
+    <div class="gate-card">
+      <div class="g-num">GATE 01 · بعد البحث</div>
+      <div class="g-name">اعتماد القصة</div>
+      <div class="g-desc">المخرج يعتمد زاوية القصة وملف البحث قبل فتح باب التصاريح. بدون قصة معتمدة، لا نتقدم.</div>
+      <div class="g-sign"><span class="role-tag red">DIR</span> <span class="role-tag gold">CD</span></div>
+    </div>
+    <div class="gate-card">
+      <div class="g-num">GATE 02 · بعد الضيوف</div>
+      <div class="g-name">اعتماد قائمة الضيوف</div>
+      <div class="g-desc">التأكد من موافقة الضيوف الرئيسيين وتوافر مواعيدهم قبل كتابة السكربت النهائي.</div>
+      <div class="g-sign"><span class="role-tag red">DIR</span> <span class="role-tag green">CLIENT</span></div>
+    </div>
+    <div class="gate-card">
+      <div class="g-num">GATE 03 · بعد السكربت</div>
+      <div class="g-name">اعتماد السكربت</div>
+      <div class="g-desc">توقيع نهائي على السكربت والـ Shot List. أي تعديل بعده يمر بأمر تغيير رسمي.</div>
+      <div class="g-sign"><span class="role-tag gold">CD</span> <span class="role-tag red">DIR</span> <span class="role-tag green">CLIENT</span></div>
+    </div>
+  </div>
+
+  <!-- ============== DETAILED TABLE ============== -->
+  <div class="section-title">
+    <span class="kick">// DETAILED BREAKDOWN</span>
+    <h2>الجدول التفصيلي</h2>
+  </div>
+
+  <table class="tasks">
+    <thead>
+      <tr>
+        <th style="width:46px;" class="center">#</th>
+        <th class="first">المهمة · المهام الفرعية · المُخرَج</th>
+        <th class="center" style="width:190px;">المسؤولون</th>
+        <th class="center" style="width:105px;">المدة</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="task-num">01</td>
+        <td>
+          <div class="task-name">البحث والتطوير</div>
+          <div class="task-desc">بحث معمّق عن الشركة وبناء التصوّر الكامل للحلقة.</div>
+          <ul class="subtasks">
+            <li>جمع التاريخ المؤسسي: التأسيس، المحطات، الأزمات، الأرقام</li>
+            <li>مقابلة تمهيدية مع مسؤول التواصل في الشركة</li>
+            <li>حصر الأرشيف المتاح (صور، فيديو، وثائق، قصاصات)</li>
+            <li>تحديد زاوية القصة والخط الدرامي للحلقة</li>
+            <li>كتابة Story Outline موزّع على الفصول الأربعة</li>
+          </ul>
+          <div class="deliverable">وثيقة بحث + ملف القصة (Story Outline)</div>
+        </td>
+        <td class="owners"><span class="role-tag">RSR</span><span class="role-tag red">DIR</span></td>
+        <td class="duration">٥ – ٧ أيام</td>
+      </tr>
+
+      <tr class="gate-row">
+        <td colspan="4">
+          <div class="g-label">// GATE 01</div>
+          <div class="g-title">اعتماد القصة — توقيع DIR + CD</div>
+          <div class="g-note">لا ننتقل للتصاريح إلا بقصة معتمدة وزاوية واضحة.</div>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="task-num">02</td>
+        <td>
+          <div class="task-name">الوصول والتصاريح</div>
+          <div class="task-desc">فتح الأبواب رسمياً: قانونياً وإدارياً وأرشيفياً.</div>
+          <ul class="subtasks">
+            <li>صياغة وتوقيع اتفاقية التصوير والظهور الإعلامي</li>
+            <li>تصاريح الوصول للمواقع (المقرات، المصانع، المواقع التاريخية)</li>
+            <li>تصريح استخدام الأرشيف والشعارات والعلامات التجارية</li>
+            <li>تراخيص التصوير الخارجي من الجهات الحكومية إن لزم</li>
+          </ul>
+          <div class="deliverable">اتفاقية موقّعة + قائمة المواقع المعتمدة + تصاريح الأرشيف</div>
+        </td>
+        <td class="owners"><span class="role-tag red">PROD</span><span class="role-tag green">CLIENT</span></td>
+        <td class="duration">٣ – ٥ أيام</td>
+      </tr>
+
+      <tr>
+        <td class="task-num">03</td>
+        <td>
+          <div class="task-name">اختيار الضيوف والمقابلات التمهيدية</div>
+          <div class="task-desc">بناء قائمة الشخصيات التي ستروي القصة على الشاشة.</div>
+          <ul class="subtasks">
+            <li>ترشيح المؤسسين وكبار الشخصيات والخبراء</li>
+            <li>Pre-interviews هاتفية أو حضورية لتقييم الحضور والقصص</li>
+            <li>ترتيب أولوية الضيوف (أساسي / احتياطي)</li>
+            <li>تنسيق المواعيد المبدئية مع أيام التصوير</li>
+          </ul>
+          <div class="deliverable">قائمة ضيوف معتمدة + ملاحظات المقابلات التمهيدية</div>
+        </td>
+        <td class="owners"><span class="role-tag red">DIR</span><span class="role-tag gold">HOST</span><span class="role-tag">RSR</span></td>
+        <td class="duration">٣ أيام</td>
+      </tr>
+
+      <tr class="gate-row">
+        <td colspan="4">
+          <div class="g-label">// GATE 02</div>
+          <div class="g-title">اعتماد قائمة الضيوف — توقيع DIR + CLIENT</div>
+          <div class="g-note">تأكيد موافقة الضيوف الرئيسيين وتوافر مواعيدهم قبل السكربت النهائي.</div>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="task-num">04</td>
+        <td>
+          <div class="task-name">كتابة السكربت التصوّري</div>
+          <div class="task-desc">تحويل القصة إلى سكربت جاهز للتنفيذ.</div>
+          <ul class="subtasks">
+            <li>كتابة المشاهد وفق بنية الفصول الأربعة (الانطلاق، البدايات، المحطات، الإرث)</li>
+            <li>صياغة التعليق الصوتي بخطَّي فهد (فصحى وثائقية) والراوية (كويتية مرحة)</li>
+            <li>إعداد أسئلة المقابلات لكل ضيف</li>
+            <li>بناء Shot List و Storyboard مبسّط للمشاهد الأساسية</li>
+            <li>تحديد مواد الأرشيف والأنيميشن المطلوبة لكل مشهد</li>
+          </ul>
+          <div class="deliverable">سكربت معتمد + Shot List + Storyboard + قائمة مواد الأرشيف</div>
+        </td>
+        <td class="owners"><span class="role-tag">WR</span><span class="role-tag red">DIR</span></td>
+        <td class="duration">٤ – ٥ أيام</td>
+      </tr>
+
+      <tr class="gate-row">
+        <td colspan="4">
+          <div class="g-label">// GATE 03</div>
+          <div class="g-title">اعتماد السكربت — توقيع CD + DIR + CLIENT</div>
+          <div class="g-note">توقيع نهائي. أي تعديل بعده يمر بأمر تغيير رسمي (Change Order).</div>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="task-num">05</td>
+        <td>
+          <div class="task-name">الجدولة واللوجستيات</div>
+          <div class="task-desc">ترجمة السكربت إلى خطة تنفيذ يوم-بيوم.</div>
+          <ul class="subtasks">
+            <li>جدول التصوير الكامل (يومان مقدمة + ٥ ضيوف + ٣-٤ خارجي)</li>
+            <li>إصدار Call Sheets لكل يوم تصوير</li>
+            <li>حجز المعدات: كاميرات ARRI، Sony FX6، الإضاءة، الصوت</li>
+            <li>تأكيد الفريق الفني وعقودهم</li>
+            <li>تأكيد مواعيد الضيوف النهائية والمواصلات والإعاشة</li>
+          </ul>
+          <div class="deliverable">جدول إنتاج معتمد + Call Sheets + تأكيدات الحجز</div>
+        </td>
+        <td class="owners"><span class="role-tag red">PROD</span></td>
+        <td class="duration">٢ – ٣ أيام</td>
+      </tr>
+
+      <tr>
+        <td class="task-num">06</td>
+        <td>
+          <div class="task-name">التجهيز الفني والمعاينة</div>
+          <div class="task-desc">آخر فحص فني قبل أول يوم تصوير.</div>
+          <ul class="subtasks">
+            <li>معاينة المواقع الخارجية (Scouting): الإضاءة، الصوت، الكهرباء، الزوايا</li>
+            <li>تجهيز ركن الشركة في الاستوديو (الديكور والإكسسوار)</li>
+            <li>اختبار الكاميرات والعدسات والإضاءة والصوت</li>
+            <li>بروفة Setup المقابلات (كاميرتين + إضاءة Rembrandt)</li>
+          </ul>
+          <div class="deliverable">تقرير معاينة + موافقة فنية على المواقع والاستوديو</div>
+        </td>
+        <td class="owners"><span class="role-tag red">DIR</span><span class="role-tag">DOP</span><span class="role-tag red">PROD</span></td>
+        <td class="duration">٢ – ٣ أيام</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ============== GREEN LIGHT ============== -->
+  <div class="greenlight">
+    <div class="icon">✓</div>
+    <div class="g-text">
+      <div class="g-label">// FINAL SIGN-OFF · نهاية المرحلة</div>
+      <div class="g-title">الضوء الأخضر للتصوير (Green Light)</div>
+      <div class="g-desc">اجتماع جاهزية نهائي: القصة معتمدة، الضيوف مؤكدون، السكربت موقّع، الجدول جاهز، والمعدات محجوزة. بالتوقيع الثلاثي ننتقل رسمياً لمرحلة الإنتاج.</div>
+    </div>
+    <div class="sign">
+      <div class="lbl">SIGN-OFF</div>
+      <span class="role-tag gold" style="margin:2px;">CD</span>
+      <span class="role-tag red" style="margin:2px;">PROD</span>
+      <span class="role-tag green" style="margin:2px;">CLIENT</span>
+    </div>
+  </div>
+
+  <!-- ============== FOOTER ============== -->
+  <div class="footer">
+    <div>QUWA · PRE-PRODUCTION WORKFLOW · V1.0</div>
+    <div>POWERED BY IZO MEDIA</div>
+  </div>
+
+</div>
+</body>
+</html>
