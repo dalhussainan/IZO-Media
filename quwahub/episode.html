@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>قوة · صفحة الحلقة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="auth.js"></script>
+
+<script>
+/* ⚙️ نفس رابط الـ API اللي في index.html — حطه هنا بعد */
+const API_URL = "";   // ← حط رابط Apps Script هنا (نفس اللي بالصفحة الرئيسية)
+</script>
+
+<style>
+  :root {
+    --paper:#F7F4EE; --paper-d:#EFEAE0; --ink:#1A1A1A; --ink-d:#554D44;
+    --line:#DDD6C8; --red:#991B1B; --red-br:#C02A2A; --gold:#B08D57;
+    --white:#FFFFFF; --green:#2D6E3E;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Cairo',sans-serif; background:var(--paper); color:var(--ink); line-height:1.7; }
+  .container { max-width:980px; margin:0 auto; padding:0 20px; }
+
+  nav { background:var(--white); border-bottom:1px solid var(--line); }
+  .nav-inner {
+    max-width:980px; margin:0 auto; padding:14px 20px;
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .nav-logo { font-size:22px; font-weight:900; color:var(--ink); }
+  .nav-logo span { color:var(--red); }
+  .back {
+    color:var(--ink-d); text-decoration:none; font-size:13px; font-weight:700;
+  }
+  .back:hover { color:var(--red); }
+
+  .ep-hero {
+    background:var(--white); color:var(--ink);
+    padding:40px 0 34px; border-bottom:5px solid var(--red);
+  }
+  .ep-hero .kick {
+    font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:3px;
+    color:var(--red); direction:ltr; text-align:right; margin-bottom:8px;
+  }
+  .ep-hero h1 { font-size:40px; font-weight:900; }
+  .ep-hero h1 .empty { color:#AAA; font-size:26px; font-weight:400; font-style:italic; }
+  .ep-hero .meta { display:flex; gap:22px; margin-top:14px; flex-wrap:wrap; align-items:center; }
+  .status-pill {
+    display:inline-block; padding:5px 18px; border-radius:999px;
+    font-size:13px; font-weight:700;
+  }
+  .st-none{background:#EEEBE4;color:#8a8378;} .st-research{background:#FFF3CD;color:#7a6000;}
+  .st-script{background:#FFE0B2;color:#8a4b00;} .st-shoot{background:#FFCDD2;color:var(--red);}
+  .st-post{background:#D1C4E9;color:#4a2d7a;} .st-done{background:#C8E6C9;color:var(--green);}
+  .ep-hero .m-item { font-size:13px; color:var(--ink-d); }
+  .ep-hero .m-item b { color:var(--ink); }
+
+  /* status timeline */
+  .timeline { padding:26px 0 6px; }
+  .tl-track { display:flex; align-items:center; }
+  .tl-step { flex:1; display:flex; flex-direction:column; align-items:center; position:relative; }
+  .tl-step::before {
+    content:''; position:absolute; top:13px; left:50%; right:-50%;
+    height:2px; background:var(--line); z-index:0;
+  }
+  .tl-step:first-child::before { display:none; }
+  .tl-dot {
+    width:28px; height:28px; border-radius:50%;
+    background:var(--white); border:2.5px solid var(--line);
+    z-index:1; display:flex; align-items:center; justify-content:center;
+    font-size:12px; color:transparent;
+  }
+  .tl-step.done .tl-dot { background:var(--red); border-color:var(--red); color:var(--white); }
+  .tl-step.done::before { background:var(--red); }
+  .tl-step.current .tl-dot { background:var(--white); border-color:var(--red); box-shadow:0 0 0 4px rgba(153,27,27,.15); }
+  .tl-name { font-size:11.5px; font-weight:700; margin-top:8px; color:var(--ink-d); }
+  .tl-step.done .tl-name, .tl-step.current .tl-name { color:var(--ink); }
+
+  section { padding:26px 0; }
+  .sec-head { display:flex; align-items:baseline; gap:12px; margin-bottom:16px; }
+  .sec-head .kick { font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:3px; color:var(--red); font-weight:700; direction:ltr; }
+  .sec-head h2 { font-size:21px; font-weight:800; }
+
+  .info-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:12px; }
+  .info-card { background:var(--white); border:1px solid var(--line); padding:16px 18px; }
+  .info-card .lbl { font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:2px; color:var(--red); font-weight:700; direction:ltr; text-align:right; margin-bottom:6px; }
+  .info-card .val { font-size:14px; font-weight:700; }
+  .info-card .val.mono { font-family:'JetBrains Mono',monospace; font-size:13px; direction:ltr; text-align:right; }
+  .info-card .val.empty { color:#AAA; font-weight:400; font-style:italic; font-size:13px; }
+
+  .files-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:12px; }
+  .file-card {
+    background:var(--white); border:1px solid var(--line); padding:18px;
+    text-decoration:none; color:var(--ink); display:flex; flex-direction:column; gap:6px;
+    transition:border-color .15s, transform .15s;
+  }
+  .file-card:hover { border-color:var(--red); transform:translateY(-2px); }
+  .file-card .f-tag { font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:2px; color:var(--red); font-weight:700; direction:ltr; text-align:right; }
+  .file-card .f-name { font-size:15px; font-weight:800; }
+  .file-card .f-link { margin-top:auto; font-size:12px; font-weight:700; color:var(--red); }
+  .file-card.disabled { opacity:.4; pointer-events:none; }
+  .file-card.disabled .f-link { color:var(--ink-d); }
+  .file-card.disabled .f-link::after { content:" — لسا ما نرفع"; font-weight:400; }
+
+  .notes-box {
+    background:var(--white); border:1px solid var(--line); border-right:4px solid var(--gold);
+    padding:16px 20px; font-size:14px; color:var(--ink-d);
+  }
+  .notes-box.empty { color:#AAA; font-style:italic; }
+
+  .nav-eps { display:flex; justify-content:space-between; padding:10px 0 40px; }
+  .nav-eps a {
+    color:var(--red); text-decoration:none; font-weight:700; font-size:13px;
+    padding:10px 18px; border:1px solid var(--line); background:var(--white);
+    transition:border-color .15s;
+  }
+  .nav-eps a:hover { border-color:var(--red); }
+  .nav-eps a.hidden { visibility:hidden; }
+
+  .loading, .notfound { text-align:center; padding:80px 20px; color:var(--ink-d); }
+  .notfound h2 { font-size:24px; font-weight:800; color:var(--ink); margin-bottom:8px; }
+
+  footer { background:var(--white); color:var(--ink-d); border-top:1px solid var(--line); padding:20px 0; }
+  .footer-inner {
+    max-width:980px; margin:0 auto; padding:0 20px;
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;
+    font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:2px; direction:ltr;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">قــوة<span>.</span></div>
+    <a class="back" href="index.html#episodes">→ رجوع لكل الحلقات</a>
+  </div>
+</nav>
+
+<div id="app">
+  <div class="loading">جاري تحميل بيانات الحلقة...</div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div>QUWA · EPISODE PAGE</div>
+    <div>POWERED BY IZO MEDIA</div>
+  </div>
+</footer>
+
+<script>
+const DEMO = { episodes: [
+  {ep:1, company:"Cinescape", status:"سكربت", shoot_date:"2026-09-01", guests:"مؤسسو الشركة + الإدارة الحالية", contact:"إدارة التسويق", script_url:"", brand_url:"", archive_url:"", folder_url:"", owner:"ضاري", notes:"الحلقة الأولى — نموذج الموسم. التركيز على قصة ١٩٥٤ وأول دار عرض."},
+  {ep:2, company:"البنك الوطني", status:"بحث", shoot_date:"", guests:"", contact:"", script_url:"", brand_url:"", archive_url:"", folder_url:"", owner:"", notes:""},
+  {ep:3, company:"المطاحن الكويتية", status:"لم تبدأ", shoot_date:"", guests:"", contact:"", script_url:"", brand_url:"", archive_url:"", folder_url:"", owner:"", notes:""},
+]};
+
+const STAGES = ["بحث","سكربت","تصوير","بوست","تسليم"];
+const STATUS_CLASS = {"لم تبدأ":"st-none","بحث":"st-research","سكربت":"st-script","تصوير":"st-shoot","بوست":"st-post","تسليم":"st-done"};
+
+function getEpNum() {
+  const p = new URLSearchParams(location.search);
+  return parseInt(p.get('ep') || '1', 10);
+}
+
+function timelineHTML(status) {
+  const idx = STAGES.indexOf(status); // -1 if لم تبدأ
+  return `<div class="tl-track">` + STAGES.map((s,i) => {
+    let cls = '';
+    if (idx > i) cls = 'done';
+    else if (idx === i) cls = 'done current';
+    return `<div class="tl-step ${cls}"><div class="tl-dot">✓</div><div class="tl-name">${s}</div></div>`;
+  }).join('') + `</div>`;
+}
+
+function fileCard(tag, name, url) {
+  const dis = url ? '' : 'disabled';
+  const href = url ? `href="${url}" target="_blank"` : '';
+  return `<a class="file-card ${dis}" ${href}>
+    <div class="f-tag">${tag}</div>
+    <div class="f-name">${name}</div>
+    <div class="f-link">فتح ←</div>
+  </a>`;
+}
+
+function render(e, total) {
+  const app = document.getElementById('app');
+  document.title = `قوة · حلقة ${e.ep}` + (e.company ? ` — ${e.company}` : '');
+  const stClass = STATUS_CLASS[e.status] || 'st-none';
+
+  app.innerHTML = `
+  <header class="ep-hero">
+    <div class="container">
+      <div class="kick">EPISODE ${String(e.ep).padStart(2,'0')} / ${total}</div>
+      <h1>${e.company || '<span class="empty">الشركة لم تُحدَّد بعد</span>'}</h1>
+      <div class="meta">
+        <span class="status-pill ${stClass}">${e.status || 'لم تبدأ'}</span>
+        <span class="m-item">تاريخ التصوير: <b>${e.shoot_date || 'غير محدد'}</b></span>
+        <span class="m-item">المسؤول: <b>${e.owner || 'غير محدد'}</b></span>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="timeline">${timelineHTML(e.status)}</div>
+
+    <section>
+      <div class="sec-head"><span class="kick">// INFO</span><h2>المعلومات الأساسية</h2></div>
+      <div class="info-grid">
+        <div class="info-card">
+          <div class="lbl">GUESTS</div>
+          <div class="val ${e.guests?'':'empty'}">${e.guests || 'لم يُحدَّدوا بعد'}</div>
+        </div>
+        <div class="info-card">
+          <div class="lbl">COMPANY CONTACT</div>
+          <div class="val ${e.contact?'':'empty'}">${e.contact || 'غير محدد'}</div>
+        </div>
+        <div class="info-card">
+          <div class="lbl">SHOOT DATE</div>
+          <div class="val mono ${e.shoot_date?'':'empty'}">${e.shoot_date || 'غير محدد'}</div>
+        </div>
+        <div class="info-card">
+          <div class="lbl">CURRENT OWNER</div>
+          <div class="val ${e.owner?'':'empty'}">${e.owner || 'غير محدد'}</div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head"><span class="kick">// FILES</span><h2>ملفات الحلقة</h2></div>
+      <div class="files-grid">
+        ${fileCard('SCRIPT','السكربت', e.script_url)}
+        ${fileCard('BRAND GUIDELINES','براند الشركة', e.brand_url)}
+        ${fileCard('ARCHIVE','مواد الأرشيف', e.archive_url)}
+        ${fileCard('DRIVE FOLDER','مجلد الحلقة', e.folder_url)}
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head"><span class="kick">// NOTES</span><h2>ملاحظات</h2></div>
+      <div class="notes-box ${e.notes?'':'empty'}">${e.notes || 'لا توجد ملاحظات بعد.'}</div>
+    </section>
+
+    <div class="nav-eps">
+      <a href="episode.html?ep=${e.ep+1}" class="${e.ep>=total?'hidden':''}">الحلقة التالية ←</a>
+      <a href="episode.html?ep=${e.ep-1}" class="${e.ep<=1?'hidden':''}">→ الحلقة السابقة</a>
+    </div>
+  </div>`;
+}
+
+function notFound(n) {
+  document.getElementById('app').innerHTML = `
+    <div class="notfound container">
+      <h2>الحلقة ${n} غير موجودة</h2>
+      <p>تأكد من الرقم أو ارجع لقائمة الحلقات.</p>
+      <p style="margin-top:16px;"><a href="index.html#episodes" style="color:var(--red); font-weight:700;">→ كل الحلقات</a></p>
+    </div>`;
+}
+
+async function load() {
+  const n = getEpNum();
+  let data = DEMO;
+  if (API_URL) {
+    try {
+      const res = await fetch(API_URL);
+      data = await res.json();
+    } catch (err) { console.error('API error, using demo:', err); }
+  }
+  const e = data.episodes.find(x => Number(x.ep) === n);
+  if (e) render(e, Math.max(data.episodes.length, 15));
+  else notFound(n);
+}
+load();
+</script>
+</body>
+</html>

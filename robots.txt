@@ -2,5 +2,6 @@ User-agent: *
 Allow: /
 Disallow: /admin/
 Disallow: /admin-tools.html
+Disallow: /quwahub/
 
 Sitemap: https://izo-media.com/sitemap.xml

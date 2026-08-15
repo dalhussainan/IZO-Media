@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>قوة · نموذج متطلبات الشركة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<script>
+/* ⚙️ نفس رابط الـ API — حطه هنا (نفس اللي في index.html) */
+const API_URL = "";   // ← حط رابط Apps Script هنا
+</script>
+
+<style>
+  :root {
+    --paper:#F7F4EE; --paper-d:#EFEAE0; --ink:#1A1A1A; --ink-d:#554D44;
+    --line:#DDD6C8; --red:#991B1B; --red-br:#C02A2A; --gold:#B08D57;
+    --gold-d:#8A6E40; --white:#FFFFFF; --green:#2D6E3E;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Cairo',sans-serif; background:var(--paper); color:var(--ink); line-height:1.7; }
+  .container { max-width:860px; margin:0 auto; padding:0 20px; }
+
+  nav { background:var(--white); border-bottom:1px solid var(--line); }
+  .nav-inner {
+    max-width:860px; margin:0 auto; padding:14px 20px;
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .nav-logo { font-size:22px; font-weight:900; }
+  .nav-logo span { color:var(--red); }
+  .nav-tag { font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:2px; color:var(--ink-d); direction:ltr; }
+
+  .hero {
+    background:var(--white); border-bottom:5px solid var(--red);
+    padding:36px 0 30px;
+  }
+  .hero .kick {
+    font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:3px;
+    color:var(--red); font-weight:700; direction:ltr; text-align:right; margin-bottom:8px;
+  }
+  .hero h1 { font-size:32px; font-weight:900; }
+  .hero h1 em { color:var(--red); font-style:normal; }
+  .hero .ep-line { font-size:15px; color:var(--ink-d); margin-top:6px; }
+  .hero .ep-line b { color:var(--red); }
+  .hero .note {
+    margin-top:14px; background:var(--paper); border-right:4px solid var(--gold);
+    padding:10px 16px; font-size:12.5px; color:var(--ink-d);
+  }
+
+  form { padding:30px 0 50px; }
+  .sec {
+    display:flex; align-items:baseline; gap:12px;
+    margin:30px 0 6px;
+  }
+  .sec .num {
+    font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700;
+    color:var(--white); background:var(--red); padding:3px 10px; letter-spacing:1px;
+  }
+  .sec h2 { font-size:20px; font-weight:800; }
+  .sec-desc { font-size:12.5px; color:var(--ink-d); margin-bottom:14px; }
+
+  .card {
+    background:var(--white); border:1px solid var(--line);
+    padding:20px; margin-bottom:14px;
+  }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .grid3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; }
+  @media (max-width:640px) { .grid2, .grid3 { grid-template-columns:1fr; } }
+
+  label { display:block; font-size:12.5px; font-weight:800; margin-bottom:4px; }
+  label .req-star { color:var(--red); }
+  label .opt { font-weight:400; color:var(--ink-d); font-size:11px; }
+  input[type=text], input[type=tel], input[type=email], input[type=url], textarea, select {
+    width:100%; padding:10px 14px; border:1px solid var(--line); background:var(--paper);
+    font-family:'Cairo',sans-serif; font-size:14px; color:var(--ink);
+    outline:none; transition:border-color .15s;
+  }
+  input:focus, textarea:focus { border-color:var(--red); background:var(--white); }
+  textarea { min-height:90px; resize:vertical; }
+  .field { margin-bottom:12px; }
+
+  /* dynamic rows */
+  .dyn-row {
+    border:1px solid var(--line); background:var(--paper);
+    padding:14px 16px; margin-bottom:10px; position:relative;
+  }
+  .dyn-row .row-num {
+    position:absolute; top:10px; left:12px;
+    font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--red); font-weight:700;
+  }
+  .add-btn {
+    background:var(--white); border:1.5px dashed var(--red); color:var(--red);
+    font-family:'Cairo',sans-serif; font-size:13px; font-weight:800;
+    padding:10px 20px; cursor:pointer; width:100%;
+  }
+  .add-btn:hover { background:#FDF3F3; }
+  .add-btn:disabled { opacity:.35; cursor:default; }
+
+  /* checkboxes */
+  .checks { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:8px; }
+  .check-item {
+    display:flex; align-items:center; gap:8px; background:var(--paper);
+    border:1px solid var(--line); padding:9px 12px; cursor:pointer; font-size:13px; font-weight:700;
+  }
+  .check-item input { width:16px; height:16px; accent-color:var(--red); }
+
+  /* submit */
+  .submit-wrap { margin-top:30px; text-align:center; }
+  .submit-btn {
+    background:var(--red); color:var(--white); border:none;
+    font-family:'Cairo',sans-serif; font-size:17px; font-weight:800;
+    padding:15px 60px; cursor:pointer; transition:background .15s;
+  }
+  .submit-btn:hover { background:var(--red-br); }
+  .submit-btn:disabled { opacity:.5; cursor:default; }
+  .submit-msg { margin-top:12px; font-size:13px; font-weight:700; min-height:22px; }
+  .submit-msg.err { color:var(--red); }
+  .submit-msg.ok { color:var(--green); }
+  .draft-note {
+    font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:1px;
+    color:var(--ink-d); margin-top:8px; direction:ltr;
+  }
+
+  /* success screen */
+  .success {
+    text-align:center; padding:90px 20px;
+  }
+  .success .mark {
+    width:70px; height:70px; border-radius:50%; background:var(--green);
+    color:var(--white); font-size:34px; display:flex; align-items:center; justify-content:center;
+    margin:0 auto 20px;
+  }
+  .success h2 { font-size:26px; font-weight:900; }
+  .success p { font-size:14px; color:var(--ink-d); margin-top:8px; }
+
+  footer { background:var(--white); border-top:1px solid var(--line); padding:18px 0; }
+  .footer-inner {
+    max-width:860px; margin:0 auto; padding:0 20px;
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;
+    font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:2px;
+    color:var(--ink-d); direction:ltr;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">قــوة<span>.</span></div>
+    <div class="nav-tag">COMPANY REQUIREMENTS FORM</div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <div class="kick">SPONSORED EPISODE · REQUIREMENTS</div>
+    <h1>نموذج متطلبات <em>الشركة المشاركة</em></h1>
+    <div class="ep-line" id="ep-line">جاري تحميل بيانات الحلقة...</div>
+    <div class="note">
+      نرجو تعبئة هذا النموذج بأكبر قدر من التفاصيل — إجاباتكم هي الأساس اللي نبني عليه سكربت حلقتكم.
+      إجاباتكم تُحفظ تلقائياً في جهازكم، فتقدرون تكملون التعبئة في أي وقت قبل الإرسال.
+    </div>
+  </div>
+</header>
+
+<div class="container">
+<form id="req-form" onsubmit="return false;">
+
+  <!-- ========== 01: COMPANY & CONTACT ========== -->
+  <div class="sec"><span class="num">01</span><h2>بيانات الشركة وجهة الاتصال</h2></div>
+  <div class="sec-desc">جهة الاتصال المعتمدة هي الشخص الواحد اللي نرجع له في كل التنسيق والقرارات.</div>
+  <div class="card">
+    <div class="field">
+      <label>اسم الشركة <span class="req-star">*</span></label>
+      <input type="text" id="f-company" placeholder="الاسم الرسمي للشركة">
+    </div>
+    <div class="grid2">
+      <div class="field">
+        <label>اسم جهة الاتصال المعتمدة <span class="req-star">*</span></label>
+        <input type="text" id="f-contact-name" placeholder="الاسم الكامل">
+      </div>
+      <div class="field">
+        <label>المنصب <span class="req-star">*</span></label>
+        <input type="text" id="f-contact-title" placeholder="مثال: مدير التسويق">
+      </div>
+      <div class="field">
+        <label>رقم الهاتف <span class="req-star">*</span></label>
+        <input type="tel" id="f-contact-phone" placeholder="+965 ...">
+      </div>
+      <div class="field">
+        <label>البريد الإلكتروني <span class="req-star">*</span></label>
+        <input type="email" id="f-contact-email" placeholder="name@company.com">
+      </div>
+    </div>
+    <div class="field">
+      <label>مخوّل اعتماد المحتوى <span class="opt">(الشخص اللي يوقّع على السكربت والنسخة النهائية — إذا يختلف عن جهة الاتصال)</span></label>
+      <input type="text" id="f-approver" placeholder="الاسم والمنصب">
+    </div>
+    <div class="field">
+      <label>نبذة رسمية عن الشركة وأرقامها الرئيسية <span class="opt">(سنة التأسيس، عدد الموظفين، الفروع، أهم الأرقام)</span></label>
+      <textarea id="f-bio" placeholder="اكتبوا النبذة المعتمدة اللي تحبون نستخدمها..."></textarea>
+    </div>
+  </div>
+
+  <!-- ========== 02: GUESTS ========== -->
+  <div class="sec"><span class="num">02</span><h2>الضيوف المتحدثون</h2></div>
+  <div class="sec-desc">نحتاج ٤ – ٦ ضيوف. الأولوية: المؤسس أو أحد عائلته، الرئيس التنفيذي، موظف قديم (٢٠+ سنة)، وقياديين. أضيفوا لكل ضيف سطر عن قصته أو علاقته بتاريخ الشركة.</div>
+  <div id="guests-wrap"></div>
+  <button type="button" class="add-btn" id="add-guest">+ إضافة ضيف</button>
+
+  <!-- ========== 03: LOCATIONS ========== -->
+  <div class="sec"><span class="num">03</span><h2>مواقع التصوير</h2></div>
+  <div class="sec-desc">نحتاج ٣ – ٥ مواقع: المقر الرئيسي، موقع تشغيلي، الموقع التاريخي الأول إن وُجد، وأي مكان له قيمة بصرية في قصتكم.</div>
+  <div id="locs-wrap"></div>
+  <button type="button" class="add-btn" id="add-loc">+ إضافة موقع</button>
+
+  <!-- ========== 04: STORY TOPICS ========== -->
+  <div class="sec"><span class="num">04</span><h2>المواضيع الرئيسية للحلقة</h2></div>
+  <div class="sec-desc">إجاباتكم هنا — حتى لو نقاط سريعة — هي اللي تساعدنا نبني قصة الحلقة قبل المقابلات.</div>
+  <div class="card">
+    <div class="field">
+      <label>بدايات الشركة <span class="opt">— كيف بدأت؟ منو المؤسسون؟ شنو التحديات الأولى؟</span></label>
+      <textarea id="f-story-start" placeholder="اكتبوا القصة باختصار أو نقاط..."></textarea>
+    </div>
+    <div class="field">
+      <label>المحطات والإنجازات <span class="opt">— أبرز التحولات والقرارات والتوسعات عبر تاريخكم</span></label>
+      <textarea id="f-story-milestones" placeholder="مثال: أول فرع، أكبر توسعة، قرارات جريئة، أزمات تجاوزتوها..."></textarea>
+    </div>
+    <div class="field">
+      <label>أثر الشركة في بناء الكويت <span class="opt">— دوركم في الاقتصاد والمجتمع وحياة الناس</span></label>
+      <textarea id="f-story-impact" placeholder="التوظيف، التنمية، البصمة في حياة الكويتيين..."></textarea>
+    </div>
+    <div class="field">
+      <label>المستقبل والرؤية <span class="opt">— مشاريعكم القادمة وما تورّثونه للأجيال</span></label>
+      <textarea id="f-story-future" placeholder="الرؤية، المشاريع المستقبلية، الطموح..."></textarea>
+    </div>
+  </div>
+
+  <!-- ========== 05: ARCHIVE ========== -->
+  <div class="sec"><span class="num">05</span><h2>الأرشيف والمواد التاريخية</h2></div>
+  <div class="sec-desc">حددوا المتوفر عندكم — وبنجهز لكم مجلد مشترك لرفع المواد بعد استلام النموذج.</div>
+  <div class="card">
+    <div class="field">
+      <label>المواد المتوفرة لديكم:</label>
+      <div class="checks">
+        <label class="check-item"><input type="checkbox" class="arch" value="صور تاريخية"> صور تاريخية</label>
+        <label class="check-item"><input type="checkbox" class="arch" value="فيديوهات قديمة"> فيديوهات قديمة</label>
+        <label class="check-item"><input type="checkbox" class="arch" value="وثائق ومستندات"> وثائق ومستندات</label>
+        <label class="check-item"><input type="checkbox" class="arch" value="مقتنيات ملموسة"> مقتنيات ملموسة</label>
+        <label class="check-item"><input type="checkbox" class="arch" value="شعارات قديمة"> شعارات قديمة</label>
+        <label class="check-item"><input type="checkbox" class="arch" value="دليل هوية بصرية"> دليل هوية بصرية</label>
+      </div>
+    </div>
+    <div class="grid2">
+      <div class="field">
+        <label>رابط مجلد المواد <span class="opt">(إن كانت جاهزة على Drive أو غيره)</span></label>
+        <input type="url" id="f-archive-url" placeholder="https://..." dir="ltr">
+      </div>
+      <div class="field">
+        <label>ملاحظات عن الأرشيف</label>
+        <input type="text" id="f-archive-notes" placeholder="مثال: الصور القديمة موجودة ورقياً فقط...">
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 06: NOTES ========== -->
+  <div class="sec"><span class="num">06</span><h2>ملاحظات عامة</h2></div>
+  <div class="card">
+    <div class="field">
+      <label>أي شي تحبون نعرفه <span class="opt">(اختياري)</span></label>
+      <textarea id="f-notes" placeholder="ملاحظات، طلبات خاصة، أشياء حساسة نراعيها..."></textarea>
+    </div>
+  </div>
+
+  <div class="submit-wrap">
+    <button type="button" class="submit-btn" id="submit-btn">إرسال النموذج</button>
+    <div class="submit-msg" id="submit-msg"></div>
+    <div class="draft-note">AUTO-SAVED AS DRAFT ON THIS DEVICE</div>
+  </div>
+
+</form>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div>QUWA · COMPANY FORM · V1.0</div>
+    <div>POWERED BY IZO MEDIA</div>
+  </div>
+</footer>
+
+<script>
+const MAX_GUESTS = 6, MIN_GUESTS_SHOWN = 4;
+const MAX_LOCS = 5, MIN_LOCS_SHOWN = 3;
+
+function getEp() {
+  const p = new URLSearchParams(location.search);
+  return parseInt(p.get('ep') || '0', 10);
+}
+const EP = getEp();
+const DRAFT_KEY = 'quwa_form_ep' + EP;
+
+/* ===== dynamic rows ===== */
+function guestRow(i) {
+  return `<div class="dyn-row guest-row">
+    <span class="row-num">GUEST ${String(i+1).padStart(2,'0')}</span>
+    <div class="grid2">
+      <div class="field"><label>اسم الضيف</label><input type="text" class="g-name" placeholder="الاسم الكامل"></div>
+      <div class="field"><label>المنصب / العلاقة بالشركة</label><input type="text" class="g-title" placeholder="مثال: المؤسس · الرئيس التنفيذي · موظف منذ ١٩٨٥"></div>
+      <div class="field"><label>رقم التواصل أو الإيميل</label><input type="text" class="g-contact" placeholder="+965 ... أو الإيميل"></div>
+      <div class="field"><label>قصته باختصار <span class="opt">(ليش هالضيف مهم؟)</span></label><input type="text" class="g-story" placeholder="مثال: عاصر التأسيس وعنده قصص أول محل"></div>
+    </div>
+  </div>`;
+}
+function locRow(i) {
+  return `<div class="dyn-row loc-row">
+    <span class="row-num">LOC ${String(i+1).padStart(2,'0')}</span>
+    <div class="grid3">
+      <div class="field"><label>اسم الموقع</label><input type="text" class="l-name" placeholder="مثال: المقر الرئيسي"></div>
+      <div class="field"><label>العنوان / الوصف</label><input type="text" class="l-addr" placeholder="المنطقة والوصف"></div>
+      <div class="field"><label>ملاحظات <span class="opt">(تصريح؟ مواعيد؟)</span></label><input type="text" class="l-notes" placeholder="اختياري"></div>
+    </div>
+  </div>`;
+}
+
+const gWrap = document.getElementById('guests-wrap');
+const lWrap = document.getElementById('locs-wrap');
+for (let i=0;i<MIN_GUESTS_SHOWN;i++) gWrap.insertAdjacentHTML('beforeend', guestRow(i));
+for (let i=0;i<MIN_LOCS_SHOWN;i++) lWrap.insertAdjacentHTML('beforeend', locRow(i));
+
+document.getElementById('add-guest').onclick = function(){
+  const n = gWrap.querySelectorAll('.guest-row').length;
+  if (n < MAX_GUESTS) gWrap.insertAdjacentHTML('beforeend', guestRow(n));
+  if (n+1 >= MAX_GUESTS) this.disabled = true;
+  saveDraft();
+};
+document.getElementById('add-loc').onclick = function(){
+  const n = lWrap.querySelectorAll('.loc-row').length;
+  if (n < MAX_LOCS) lWrap.insertAdjacentHTML('beforeend', locRow(n));
+  if (n+1 >= MAX_LOCS) this.disabled = true;
+  saveDraft();
+};
+
+/* ===== episode name from API ===== */
+async function loadEpisode() {
+  const line = document.getElementById('ep-line');
+  if (!EP) { line.textContent = 'نموذج عام — اكتبوا اسم شركتكم بالأسفل'; return; }
+  if (!API_URL) {
+    line.innerHTML = 'الحلقة رقم <b>' + EP + '</b> من سلسلة «قوة»';
+    return;
+  }
+  try {
+    const res = await fetch(API_URL);
+    const data = await res.json();
+    const e = data.episodes.find(x => Number(x.ep) === EP);
+    if (e && e.company) {
+      line.innerHTML = 'الحلقة رقم <b>' + EP + '</b> — شركة <b>' + e.company + '</b>';
+      const c = document.getElementById('f-company');
+      if (!c.value) c.value = e.company;
+    } else {
+      line.innerHTML = 'الحلقة رقم <b>' + EP + '</b> من سلسلة «قوة»';
+    }
+  } catch(err) {
+    line.innerHTML = 'الحلقة رقم <b>' + EP + '</b> من سلسلة «قوة»';
+  }
+}
+
+/* ===== draft save/restore ===== */
+function collect() {
+  const guests = [...gWrap.querySelectorAll('.guest-row')].map(r => ({
+    name: r.querySelector('.g-name').value.trim(),
+    title: r.querySelector('.g-title').value.trim(),
+    contact: r.querySelector('.g-contact').value.trim(),
+    story: r.querySelector('.g-story').value.trim(),
+  })).filter(g => g.name || g.title || g.contact || g.story);
+  const locs = [...lWrap.querySelectorAll('.loc-row')].map(r => ({
+    name: r.querySelector('.l-name').value.trim(),
+    addr: r.querySelector('.l-addr').value.trim(),
+    notes: r.querySelector('.l-notes').value.trim(),
+  })).filter(l => l.name || l.addr || l.notes);
+  return {
+    ep: EP,
+    company: v('f-company'),
+    contact_name: v('f-contact-name'),
+    contact_title: v('f-contact-title'),
+    contact_phone: v('f-contact-phone'),
+    contact_email: v('f-contact-email'),
+    approver: v('f-approver'),
+    bio: v('f-bio'),
+    guests, locations: locs,
+    story_start: v('f-story-start'),
+    story_milestones: v('f-story-milestones'),
+    story_impact: v('f-story-impact'),
+    story_future: v('f-story-future'),
+    archive_items: [...document.querySelectorAll('.arch:checked')].map(c => c.value),
+    archive_url: v('f-archive-url'),
+    archive_notes: v('f-archive-notes'),
+    notes: v('f-notes'),
+  };
+}
+function v(id){ return document.getElementById(id).value.trim(); }
+
+let saveTimer;
+function saveDraft() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    try { localStorage.setItem(DRAFT_KEY, JSON.stringify(collect())); } catch(e){}
+  }, 400);
+}
+document.getElementById('req-form').addEventListener('input', saveDraft);
+
+function restoreDraft() {
+  let d;
+  try { d = JSON.parse(localStorage.getItem(DRAFT_KEY) || 'null'); } catch(e){ return; }
+  if (!d) return;
+  const set = (id,val) => { if (val) document.getElementById(id).value = val; };
+  set('f-company', d.company); set('f-contact-name', d.contact_name);
+  set('f-contact-title', d.contact_title); set('f-contact-phone', d.contact_phone);
+  set('f-contact-email', d.contact_email); set('f-approver', d.approver);
+  set('f-bio', d.bio);
+  set('f-story-start', d.story_start); set('f-story-milestones', d.story_milestones);
+  set('f-story-impact', d.story_impact); set('f-story-future', d.story_future);
+  set('f-archive-url', d.archive_url); set('f-archive-notes', d.archive_notes);
+  set('f-notes', d.notes);
+  (d.archive_items||[]).forEach(val => {
+    const c = [...document.querySelectorAll('.arch')].find(x => x.value === val);
+    if (c) c.checked = true;
+  });
+  // ensure enough rows then fill
+  (d.guests||[]).forEach((g,i) => {
+    if (i >= gWrap.querySelectorAll('.guest-row').length) document.getElementById('add-guest').click();
+    const r = gWrap.querySelectorAll('.guest-row')[i];
+    if (!r) return;
+    r.querySelector('.g-name').value = g.name||''; r.querySelector('.g-title').value = g.title||'';
+    r.querySelector('.g-contact').value = g.contact||''; r.querySelector('.g-story').value = g.story||'';
+  });
+  (d.locations||[]).forEach((l,i) => {
+    if (i >= lWrap.querySelectorAll('.loc-row').length) document.getElementById('add-loc').click();
+    const r = lWrap.querySelectorAll('.loc-row')[i];
+    if (!r) return;
+    r.querySelector('.l-name').value = l.name||''; r.querySelector('.l-addr').value = l.addr||'';
+    r.querySelector('.l-notes').value = l.notes||'';
+  });
+}
+
+/* ===== submit ===== */
+document.getElementById('submit-btn').onclick = async function() {
+  const msg = document.getElementById('submit-msg');
+  const d = collect();
+
+  // validation
+  if (!d.company) return showErr('اكتبوا اسم الشركة');
+  if (!d.contact_name || !d.contact_phone || !d.contact_email)
+    return showErr('بيانات جهة الاتصال (الاسم + الهاتف + الإيميل) مطلوبة');
+  if (d.guests.length < 1) return showErr('أضيفوا ضيف واحد على الأقل');
+  if (d.locations.length < 1) return showErr('أضيفوا موقع تصوير واحد على الأقل');
+
+  function showErr(t){ msg.className='submit-msg err'; msg.textContent='⚠ '+t; return false; }
+
+  if (!API_URL) {
+    msg.className='submit-msg err';
+    msg.textContent = '⚠ النموذج بالوضع التجريبي — الرابط غير مربوط بعد (للفريق: حطوا API_URL)';
+    return;
+  }
+
+  this.disabled = true;
+  msg.className='submit-msg'; msg.style.color='var(--ink-d)'; msg.textContent = 'جاري الإرسال...';
+
+  try {
+    const res = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ type:'requirements', data:d })
+    });
+    const out = await res.json();
+    if (out && out.ok) {
+      localStorage.removeItem(DRAFT_KEY);
+      document.querySelector('.container form').outerHTML = `
+        <div class="success">
+          <div class="mark">✓</div>
+          <h2>تم استلام النموذج بنجاح</h2>
+          <p>شكراً لتعاونكم — فريق «قوة» بيراجع البيانات ويتواصل معكم خلال أيام قليلة.</p>
+        </div>`;
+      window.scrollTo({top:0, behavior:'smooth'});
+    } else throw new Error('bad response');
+  } catch(err) {
+    this.disabled = false;
+    msg.className='submit-msg err';
+    msg.textContent = '⚠ صار خلل بالإرسال — جربوا مرة ثانية، وإذا تكررت المشكلة تواصلوا معنا';
+  }
+};
+
+loadEpisode();
+restoreDraft();
+</script>
+</body>
+</html>

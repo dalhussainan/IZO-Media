@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>قوة · مركز الإنتاج</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="auth.js"></script>
+
+<script>
+/* ============================================================
+   ⚙️ الإعدادات — هذا المكان الوحيد اللي تعدّله
+   ============================================================
+   1) API_URL: رابط Apps Script (بعد ما تنشره) — حطه بين علامتي التنصيص
+      إذا تركته فاضي، الموقع يعرض بيانات تجريبية عشان تشوف الشكل.
+   2) FILES: روابط الملفات الأساسية من Google Drive
+   ============================================================ */
+const CONFIG = {
+  API_URL: "",   // ← حط رابط Apps Script هنا
+
+  FILES: {
+    pitch_deck:   "",   // ← رابط البرزنتيشن (Quwa_Final.pptx على Drive)
+    workflow_ep:  "",   // ← رابط ورك فلو الحلقة (HTML أو PDF)
+    workflow_pre: "",   // ← رابط ورك فلو ما قبل الإنتاج
+    brand_guide:  "",   // ← رابط الهوية البصرية
+    drive_root:   ""    // ← رابط مجلد قوة الرئيسي على Drive
+  }
+};
+</script>
+
+<style>
+  :root {
+    --paper:#F7F4EE; --paper-d:#EFEAE0; --ink:#1A1A1A; --ink-d:#554D44;
+    --line:#DDD6C8; --red:#991B1B; --red-br:#C02A2A; --gold:#B08D57;
+    --gold-d:#8A6E40; --white:#FFFFFF; --green:#2D6E3E;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Cairo',sans-serif; background:var(--paper); color:var(--ink); line-height:1.7; }
+  .container { max-width:1180px; margin:0 auto; padding:0 20px; }
+
+  /* ===== NAV ===== */
+  nav {
+    background:var(--white); border-bottom:1px solid var(--line);
+    position:sticky; top:0; z-index:100;
+  }
+  .nav-inner {
+    max-width:1180px; margin:0 auto; padding:14px 20px;
+    display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap;
+  }
+  .nav-logo { font-size:24px; font-weight:900; color:var(--ink); }
+  .nav-logo span { color:var(--red); }
+  .nav-links { display:flex; gap:22px; flex-wrap:wrap; }
+  .nav-links a {
+    color:var(--ink-d); text-decoration:none; font-size:13px; font-weight:700;
+    transition:color .15s;
+  }
+  .nav-links a:hover { color:var(--red); }
+
+  /* ===== HERO ===== */
+  .hero {
+    background:var(--white); color:var(--ink);
+    padding:60px 0 50px; position:relative;
+    border-bottom:5px solid var(--red);
+  }
+  .hero .kick {
+    font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:4px;
+    color:var(--red); direction:ltr; text-align:right; margin-bottom:14px;
+  }
+  .hero h1 { font-size:50px; font-weight:900; line-height:1.15; }
+  .hero h1 em { color:var(--red); font-style:normal; }
+  .hero p { font-size:16px; color:var(--ink-d); margin-top:12px; max-width:640px; }
+  .hero-stats { display:flex; gap:36px; margin-top:28px; flex-wrap:wrap; }
+  .hstat .n { font-size:30px; font-weight:800; color:var(--red); }
+  .hstat .l { font-size:12px; color:var(--ink-d); }
+
+  /* ===== SECTIONS ===== */
+  section { padding:50px 0; }
+  .sec-head { display:flex; align-items:baseline; gap:14px; margin-bottom:24px; }
+  .sec-head .kick {
+    font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:3px;
+    color:var(--red); font-weight:700; direction:ltr;
+  }
+  .sec-head h2 { font-size:27px; font-weight:800; }
+
+  /* ===== ABOUT ===== */
+  .about-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:16px; }
+  .about-card {
+    background:var(--white); border:1px solid var(--line);
+    border-top:4px solid var(--red); padding:20px;
+  }
+  .about-card h3 { font-size:16px; font-weight:800; margin-bottom:8px; }
+  .about-card p { font-size:13px; color:var(--ink-d); }
+
+  /* ===== FILES ===== */
+  .files-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; }
+  .file-card {
+    background:var(--white); border:1px solid var(--line); padding:20px;
+    display:flex; flex-direction:column; gap:8px;
+    text-decoration:none; color:var(--ink);
+    transition:border-color .15s, transform .15s;
+  }
+  .file-card:hover { border-color:var(--red); transform:translateY(-2px); }
+  .file-card .f-tag {
+    font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:2px;
+    color:var(--red); font-weight:700; direction:ltr; text-align:right;
+  }
+  .file-card .f-name { font-size:16px; font-weight:800; }
+  .file-card .f-desc { font-size:12px; color:var(--ink-d); }
+  .file-card .f-link {
+    margin-top:auto; font-size:12px; font-weight:700; color:var(--red);
+  }
+  .file-card.disabled { opacity:.45; pointer-events:none; }
+  .file-card.disabled .f-link::after { content:" (الرابط لسا ما نحط)"; font-weight:400; color:var(--ink-d); }
+
+  /* ===== EPISODES TABLE ===== */
+  .ep-toolbar {
+    display:flex; justify-content:space-between; align-items:center;
+    margin-bottom:14px; flex-wrap:wrap; gap:10px;
+  }
+  .ep-updated { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--ink-d); letter-spacing:1px; direction:ltr; }
+  .demo-badge {
+    background:var(--gold); color:var(--ink); font-size:11px; font-weight:700;
+    padding:4px 12px; display:none;
+  }
+  .ep-table-wrap { background:var(--white); border:1px solid var(--line); overflow-x:auto; }
+  table.eps { width:100%; border-collapse:collapse; min-width:760px; }
+  table.eps thead th {
+    background:var(--white); color:var(--ink);
+    font-size:12px; font-weight:800; padding:12px 14px; text-align:right;
+    white-space:nowrap; border-bottom:2px solid var(--ink);
+  }
+  table.eps tbody td { padding:12px 14px; border-bottom:1px solid var(--line); font-size:13px; }
+  table.eps tbody tr:last-child td { border-bottom:none; }
+  table.eps tbody tr { cursor:pointer; transition:background .12s; }
+  table.eps tbody tr:hover { background:var(--paper-d); }
+  .ep-num { font-family:'JetBrains Mono',monospace; font-weight:700; color:var(--red); direction:ltr; text-align:center; width:60px; }
+  .ep-company { font-weight:800; font-size:14px; }
+  .ep-company.empty { color:#AAA; font-weight:400; font-style:italic; }
+  .status-pill {
+    display:inline-block; padding:4px 14px; border-radius:999px;
+    font-size:11.5px; font-weight:700; white-space:nowrap;
+  }
+  .st-none    { background:#EEEBE4; color:#8a8378; }
+  .st-research{ background:#FFF3CD; color:#7a6000; }
+  .st-script  { background:#FFE0B2; color:#8a4b00; }
+  .st-shoot   { background:#FFCDD2; color:var(--red); }
+  .st-post    { background:#D1C4E9; color:#4a2d7a; }
+  .st-done    { background:#C8E6C9; color:var(--green); }
+  .ep-date { font-family:'JetBrains Mono',monospace; font-size:11px; direction:ltr; text-align:right; color:var(--ink-d); }
+  .ep-open { color:var(--red); font-weight:700; font-size:12px; white-space:nowrap; }
+
+  /* progress bar */
+  .season-progress { margin-top:18px; background:var(--white); border:1px solid var(--line); padding:16px 20px; }
+  .sp-label { display:flex; justify-content:space-between; font-size:12px; color:var(--ink-d); margin-bottom:8px; }
+  .sp-bar { height:10px; background:var(--paper-d); overflow:hidden; }
+  .sp-fill { height:100%; background:var(--red); width:0%; transition:width .5s; }
+
+  /* ===== TOOLS ===== */
+  .tools-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; }
+  .tool-card {
+    background:var(--white); border:1px solid var(--line); border-right:4px solid var(--gold);
+    padding:16px 18px;
+  }
+  .tool-card .t-name { font-weight:800; font-size:14px; }
+  .tool-card .t-st { font-size:11px; color:var(--ink-d); margin-top:2px; }
+  .tool-card .t-st.soon::before { content:"◆ "; color:var(--gold); }
+
+  /* ===== TEAM ===== */
+  .team-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:10px; }
+  .role-row {
+    background:var(--white); border:1px solid var(--line);
+    padding:12px 14px; display:flex; align-items:center; gap:12px;
+  }
+  .role-tag {
+    background:var(--white); color:var(--ink); border:1.5px solid var(--ink);
+    font-family:'JetBrains Mono',monospace; font-size:9px; font-weight:700;
+    padding:4px 8px; letter-spacing:1px; min-width:52px; text-align:center;
+  }
+  .role-tag.red { background:var(--red); border-color:var(--red); color:var(--white); }
+  .role-tag.gold { background:var(--gold); border-color:var(--gold); color:var(--white); }
+  .role-tag.green { background:var(--green); border-color:var(--green); color:var(--white); }
+  .role-row .r-name { font-size:13px; font-weight:700; }
+
+  /* ===== FOOTER ===== */
+  footer {
+    background:var(--white); color:var(--ink-d); border-top:1px solid var(--line);
+    padding:24px 0; margin-top:40px;
+  }
+  .footer-inner {
+    max-width:1180px; margin:0 auto; padding:0 20px;
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+    font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:2px; direction:ltr;
+  }
+
+  @media (max-width:640px) {
+    .hero h1 { font-size:36px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">قــوة<span>.</span></div>
+    <div class="nav-links">
+      <a href="#about">عن البرنامج</a>
+      <a href="#files">الملفات</a>
+      <a href="#episodes">الحلقات</a>
+      <a href="#tools">الأدوات</a>
+      <a href="#team">الفريق</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="container">
+    <div class="kick">PRODUCTION HUB · SEASON 01</div>
+    <h1>مركز إنتاج <em>قوة</em></h1>
+    <p>كل شي يخص البرنامج في مكان واحد — الملفات، الورك فلوز، تتبع الحلقات، والأدوات. لك ولكل أحد يشتغل معانا.</p>
+    <div class="hero-stats">
+      <div class="hstat"><div class="n">١٥</div><div class="l">حلقة</div></div>
+      <div class="hstat"><div class="n">٣٠</div><div class="l">دقيقة</div></div>
+      <div class="hstat"><div class="n">٤</div><div class="l">فصول بالحلقة</div></div>
+      <div class="hstat"><div class="n" id="hero-progress">–</div><div class="l">حلقة مُسلَّمة</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ ABOUT ============ -->
+<section id="about">
+  <div class="container">
+    <div class="sec-head"><span class="kick">// 01</span><h2>عن البرنامج</h2></div>
+    <div class="about-grid">
+      <div class="about-card">
+        <h3>الفكرة</h3>
+        <p>سلسلة وثائقية تروي قصص تأسيس أكبر شركات القطاع الخاص في الكويت — كل حلقة شركة، كل شركة قصة، كل قصة إرث.</p>
+      </div>
+      <div class="about-card">
+        <h3>الأصوات</h3>
+        <p><strong>فهد العبدالجليل</strong> — الموثّق الرسمي، يسوي المقابلات ويعطي الوزن التاريخي. <strong>الراوية</strong> — صوت شاب مرح بالكويتية ينقل المشاهد بين الأزمنة.</p>
+      </div>
+      <div class="about-card">
+        <h3>بنية الحلقة</h3>
+        <p>أربعة فصول: الانطلاق ← البدايات ← المحطات ← الإرث. من السؤال الأول إلى ما تورّثه الشركة للأجيال.</p>
+      </div>
+      <div class="about-card">
+        <h3>الإنتاج</h3>
+        <p>١٠-١١ يوم تصوير للحلقة (استوديو + خارجي) · كاميرات ARRI و Sony FX6 · الحلقة كاملة من البحث للتسليم: ٧-٩ أسابيع.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FILES ============ -->
+<section id="files" style="background:var(--paper-d);">
+  <div class="container">
+    <div class="sec-head"><span class="kick">// 02</span><h2>الملفات الأساسية</h2></div>
+    <div class="files-grid">
+      <a class="file-card" id="f-pitch" target="_blank">
+        <div class="f-tag">PITCH DECK</div>
+        <div class="f-name">البرزنتيشن الرئيسي</div>
+        <div class="f-desc">العرض الكامل — ١٨ شريحة: الفكرة، الفريق، المعالجة، الخطة، الطلب.</div>
+        <div class="f-link">فتح الملف ←</div>
+      </a>
+      <a class="file-card" id="f-wf-ep" target="_blank">
+        <div class="f-tag">WORKFLOW</div>
+        <div class="f-name">ورك فلو الحلقة</div>
+        <div class="f-desc">١٥ مهمة من البحث للتسليم، بالمسؤولين والمدد وبوابة قفل الصورة.</div>
+        <div class="f-link">فتح الملف ←</div>
+      </a>
+      <a class="file-card" id="f-wf-pre" target="_blank">
+        <div class="f-tag">PRE-PRODUCTION</div>
+        <div class="f-name">ورك فلو ما قبل الإنتاج</div>
+        <div class="f-desc">٦ مراحل و٣ بوابات اعتماد حتى الضوء الأخضر للتصوير.</div>
+        <div class="f-link">فتح الملف ←</div>
+      </a>
+      <a class="file-card" id="f-brand" target="_blank">
+        <div class="f-tag">BRAND</div>
+        <div class="f-name">الهوية البصرية</div>
+        <div class="f-desc">الألوان، الخطوط، أسلوب الكاميرا والموسيقى — مرجع كل تصميم.</div>
+        <div class="f-link">فتح الملف ←</div>
+      </a>
+      <a class="file-card" id="f-drive" target="_blank">
+        <div class="f-tag">GOOGLE DRIVE</div>
+        <div class="f-name">مجلد قوة الرئيسي</div>
+        <div class="f-desc">كل الملفات والمجلدات — مجلد لكل حلقة فيه سكربتها وموادها.</div>
+        <div class="f-link">فتح المجلد ←</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EPISODES ============ -->
+<section id="episodes">
+  <div class="container">
+    <div class="sec-head"><span class="kick">// 03</span><h2>تتبع الحلقات</h2></div>
+    <div class="ep-toolbar">
+      <span class="demo-badge" id="demo-badge">⚠ بيانات تجريبية — اربط الشيت من ملف الإعدادات</span>
+      <span class="ep-updated" id="ep-updated"></span>
+    </div>
+    <div class="ep-table-wrap">
+      <table class="eps">
+        <thead>
+          <tr>
+            <th style="text-align:center;">#</th>
+            <th>الشركة</th>
+            <th>الحالة</th>
+            <th>تاريخ التصوير</th>
+            <th>المسؤول</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="ep-body">
+          <tr><td colspan="6" style="text-align:center; padding:30px; color:var(--ink-d);">جاري التحميل...</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="season-progress">
+      <div class="sp-label"><span>تقدّم الموسم</span><span id="sp-text">–</span></div>
+      <div class="sp-bar"><div class="sp-fill" id="sp-fill"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TOOLS ============ -->
+<section id="tools" style="background:var(--paper-d);">
+  <div class="container">
+    <div class="sec-head"><span class="kick">// 04</span><h2>الأدوات والقوالب</h2></div>
+    <div class="tools-grid">
+      <div class="tool-card"><div class="t-name">قالب Call Sheet</div><div class="t-st soon">قريباً</div></div>
+      <div class="tool-card"><div class="t-name">قالب Shot List</div><div class="t-st soon">قريباً</div></div>
+      <div class="tool-card"><div class="t-name">نموذج Handoff</div><div class="t-st soon">قريباً</div></div>
+      <div class="tool-card"><div class="t-name">نموذج Change Order</div><div class="t-st soon">قريباً</div></div>
+      <div class="tool-card"><div class="t-name">قائمة المعدات</div><div class="t-st soon">قريباً</div></div>
+      <div class="tool-card"><div class="t-name">دليل أسئلة المقابلات</div><div class="t-st soon">قريباً</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TEAM ============ -->
+<section id="team">
+  <div class="container">
+    <div class="sec-head"><span class="kick">// 05</span><h2>الفريق والأدوار</h2></div>
+    <div class="team-grid">
+      <div class="role-row"><span class="role-tag red">DIR</span><span class="r-name">المخرج — ضاري الحسينان</span></div>
+      <div class="role-row"><span class="role-tag gold">HOST</span><span class="r-name">المقدّم — فهد العبدالجليل</span></div>
+      <div class="role-row"><span class="role-tag red">PROD</span><span class="r-name">منسق الإنتاج</span></div>
+      <div class="role-row"><span class="role-tag red">PS</span><span class="r-name">مشرف ما بعد الإنتاج</span></div>
+      <div class="role-row"><span class="role-tag">RSR</span><span class="r-name">الباحث</span></div>
+      <div class="role-row"><span class="role-tag">WR</span><span class="r-name">الكاتب</span></div>
+      <div class="role-row"><span class="role-tag">DOP</span><span class="r-name">مدير التصوير</span></div>
+      <div class="role-row"><span class="role-tag">SND</span><span class="r-name">مهندس الصوت</span></div>
+      <div class="role-row"><span class="role-tag">DIT</span><span class="r-name">تقني الصور الرقمية</span></div>
+      <div class="role-row"><span class="role-tag">ED</span><span class="r-name">المونتير</span></div>
+      <div class="role-row"><span class="role-tag">CL</span><span class="r-name">الملوّن</span></div>
+      <div class="role-row"><span class="role-tag">MO</span><span class="r-name">موشن جرافيك</span></div>
+      <div class="role-row"><span class="role-tag">MIX</span><span class="r-name">هندسة المكساج</span></div>
+      <div class="role-row"><span class="role-tag gold">CD</span><span class="r-name">المخرج الإبداعي</span></div>
+      <div class="role-row"><span class="role-tag green">CLIENT</span><span class="r-name">العميل / الراعي</span></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>QUWA · PRODUCTION HUB · V1.0</div>
+    <div>POWERED BY IZO MEDIA</div>
+  </div>
+</footer>
+
+<script>
+/* ============ البيانات التجريبية (تظهر إذا API_URL فاضي) ============ */
+const DEMO = { episodes: [
+  {ep:1, company:"Cinescape", status:"سكربت", shoot_date:"2026-09-01", owner:"ضاري", guests:"", notes:""},
+  {ep:2, company:"البنك الوطني", status:"بحث", shoot_date:"", owner:"", guests:"", notes:""},
+  {ep:3, company:"المطاحن الكويتية", status:"لم تبدأ", shoot_date:"", owner:"", guests:"", notes:""},
+  {ep:4, company:"", status:"لم تبدأ", shoot_date:"", owner:"", guests:"", notes:""},
+  {ep:5, company:"", status:"لم تبدأ", shoot_date:"", owner:"", guests:"", notes:""},
+], updated:"" };
+
+const STATUS_CLASS = {
+  "لم تبدأ":"st-none", "بحث":"st-research", "سكربت":"st-script",
+  "تصوير":"st-shoot", "بوست":"st-post", "تسليم":"st-done"
+};
+
+function render(data, isDemo) {
+  const body = document.getElementById('ep-body');
+  body.innerHTML = "";
+  let delivered = 0;
+
+  data.episodes.forEach(e => {
+    if (e.status === "تسليم") delivered++;
+    const tr = document.createElement('tr');
+    tr.onclick = () => location.href = 'episode.html?ep=' + e.ep;
+    tr.innerHTML = `
+      <td class="ep-num">${String(e.ep).padStart(2,'0')}</td>
+      <td class="ep-company ${e.company ? '' : 'empty'}">${e.company || 'لم تُحدَّد بعد'}</td>
+      <td><span class="status-pill ${STATUS_CLASS[e.status] || 'st-none'}">${e.status || 'لم تبدأ'}</span></td>
+      <td class="ep-date">${e.shoot_date || '—'}</td>
+      <td>${e.owner || '—'}</td>
+      <td class="ep-open">فتح الحلقة ←</td>`;
+    body.appendChild(tr);
+  });
+
+  // progress
+  const total = 15;
+  const pct = Math.round(delivered/total*100);
+  document.getElementById('sp-fill').style.width = pct + '%';
+  document.getElementById('sp-text').textContent = delivered + ' من ' + total + ' (' + pct + '٪)';
+  document.getElementById('hero-progress').textContent = delivered;
+
+  if (isDemo) document.getElementById('demo-badge').style.display = 'inline-block';
+  if (data.updated) {
+    document.getElementById('ep-updated').textContent = 'LAST SYNC: ' + data.updated.substring(0,16).replace('T',' ');
+  }
+}
+
+async function load() {
+  if (!CONFIG.API_URL) { render(DEMO, true); return; }
+  try {
+    const res = await fetch(CONFIG.API_URL);
+    const data = await res.json();
+    render(data, false);
+  } catch (err) {
+    render(DEMO, true);
+    console.error('API error:', err);
+  }
+}
+
+/* ============ روابط الملفات ============ */
+function wireFiles() {
+  const map = {
+    'f-pitch':  CONFIG.FILES.pitch_deck,
+    'f-wf-ep':  CONFIG.FILES.workflow_ep,
+    'f-wf-pre': CONFIG.FILES.workflow_pre,
+    'f-brand':  CONFIG.FILES.brand_guide,
+    'f-drive':  CONFIG.FILES.drive_root,
+  };
+  for (const [id, url] of Object.entries(map)) {
+    const el = document.getElementById(id);
+    if (url) { el.href = url; }
+    else { el.classList.add('disabled'); }
+  }
+}
+
+wireFiles();
+load();
+</script>
+</body>
+</html>
