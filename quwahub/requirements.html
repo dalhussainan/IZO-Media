@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>قوة · متطلبات العميل</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="auth.js"></script>
+
+<script>
+/* ⚙️ نفس رابط الـ API اللي في index.html */
+const API_URL = "https://script.google.com/macros/s/AKfycbxWp6DhHqetyTMkcLBgweCUOHs2VVtwdFdv5qMu7lhKWoUJ0p0Nn8juyY2c58ekoU7O/exec";
+</script>
+
+<style>
+  :root {
+    --paper:#F7F4EE; --paper-d:#EFEAE0; --ink:#1A1A1A; --ink-d:#554D44;
+    --line:#DDD6C8; --red:#991B1B; --red-br:#C02A2A; --gold:#B08D57;
+    --white:#FFFFFF; --green:#2D6E3E;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Cairo',sans-serif; background:var(--paper); color:var(--ink); line-height:1.7; }
+  .container { max-width:980px; margin:0 auto; padding:0 20px; }
+
+  nav { background:var(--white); border-bottom:1px solid var(--line); }
+  .nav-inner {
+    max-width:980px; margin:0 auto; padding:14px 20px;
+    display:flex; justify-content:space-between; align-items:center; gap:14px; flex-wrap:wrap;
+  }
+  .nav-logo { font-size:22px; font-weight:900; color:var(--ink); }
+  .nav-logo span { color:var(--red); }
+  .back { color:var(--ink-d); text-decoration:none; font-size:13px; font-weight:700; }
+  .back:hover { color:var(--red); }
+
+  .rq-hero { background:var(--white); color:var(--ink); padding:36px 0 30px; border-bottom:5px solid var(--red); }
+  .rq-hero .kick {
+    font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:3px;
+    color:var(--red); direction:ltr; text-align:right; margin-bottom:8px;
+  }
+  .rq-hero h1 { font-size:36px; font-weight:900; line-height:1.2; }
+  .rq-hero h1 .empty { color:#AAA; font-size:24px; font-weight:400; font-style:italic; }
+  .rq-hero .meta { display:flex; gap:20px; margin-top:12px; flex-wrap:wrap; align-items:center; }
+  .rq-hero .m-item { font-size:13px; color:var(--ink-d); }
+  .rq-hero .m-item b { color:var(--ink); }
+  .stamp {
+    display:inline-block; background:#C8E6C9; color:var(--green);
+    padding:4px 14px; border-radius:999px; font-size:12px; font-weight:700;
+  }
+
+  .toolbar { display:flex; gap:8px; flex-wrap:wrap; margin-top:16px; }
+  .btn {
+    background:var(--white); border:1px solid var(--line); color:var(--ink);
+    font-family:'Cairo',sans-serif; font-size:13px; font-weight:700;
+    padding:9px 16px; cursor:pointer; text-decoration:none; display:inline-block;
+    transition:border-color .15s, background .15s;
+  }
+  .btn:hover { border-color:var(--red); color:var(--red); }
+  .btn.solid { background:var(--red); border-color:var(--red); color:var(--white); }
+  .btn.solid:hover { background:var(--red-br); border-color:var(--red-br); color:var(--white); }
+  select.btn { padding:9px 12px; }
+
+  section { padding:26px 0 0; }
+  .sec-head { display:flex; align-items:baseline; gap:12px; margin-bottom:14px; }
+  .sec-head .num {
+    font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700;
+    color:var(--white); background:var(--red); padding:3px 10px; letter-spacing:1px; direction:ltr;
+  }
+  .sec-head h2 { font-size:20px; font-weight:800; }
+
+  .card { background:var(--white); border:1px solid var(--line); padding:20px; margin-bottom:12px; }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  @media (max-width:640px) { .grid2 { grid-template-columns:1fr; } }
+
+  .fld { margin-bottom:14px; }
+  .fld:last-child { margin-bottom:0; }
+  .fld .lbl {
+    font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:2px;
+    color:var(--red); font-weight:700; direction:ltr; text-align:right; margin-bottom:4px;
+  }
+  .fld .val { font-size:14px; white-space:pre-wrap; word-break:break-word; }
+  .fld .val.big { font-weight:800; font-size:16px; }
+  .fld .val.mono { font-family:'JetBrains Mono',monospace; direction:ltr; text-align:right; font-size:13px; }
+  .fld .val.empty { color:#AAA; font-style:italic; font-weight:400; font-size:13px; }
+  .fld .val a { color:var(--red); font-weight:700; }
+
+  ol.rows { list-style:none; counter-reset:r; }
+  ol.rows li {
+    counter-increment:r; position:relative;
+    background:var(--paper); border:1px solid var(--line); border-right:3px solid var(--gold);
+    padding:12px 46px 12px 14px; margin-bottom:8px; font-size:13.5px; white-space:pre-wrap;
+  }
+  ol.rows li::before {
+    content:counter(r,decimal-leading-zero); position:absolute; top:12px; right:14px;
+    font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; color:var(--red);
+  }
+  ol.rows li:last-child { margin-bottom:0; }
+
+  .tags { display:flex; flex-wrap:wrap; gap:6px; }
+  .tag {
+    background:var(--paper-d); border:1px solid var(--line);
+    padding:5px 12px; font-size:12px; font-weight:700;
+  }
+
+  .state { text-align:center; padding:70px 20px; color:var(--ink-d); }
+  .state h2 { font-size:22px; font-weight:800; color:var(--ink); margin-bottom:8px; }
+  .state p { font-size:14px; max-width:520px; margin:0 auto; }
+  .state .toolbar { justify-content:center; margin-top:20px; }
+  .copied { color:var(--green); font-size:12px; font-weight:700; margin-top:8px; min-height:18px; }
+
+  footer { background:var(--white); color:var(--ink-d); border-top:1px solid var(--line); padding:20px 0; margin-top:40px; }
+  .footer-inner {
+    max-width:980px; margin:0 auto; padding:0 20px;
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;
+    font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:2px; direction:ltr;
+  }
+
+  @media print {
+    nav, footer, .toolbar, .back { display:none !important; }
+    body { background:var(--white); }
+    .card { break-inside:avoid; }
+    .rq-hero { border-bottom-width:3px; padding:0 0 18px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">قــوة<span>.</span></div>
+    <a class="back" id="back-link" href="index.html#episodes">→ رجوع</a>
+  </div>
+</nav>
+
+<div id="app"><div class="state">جاري تحميل إجابات العميل...</div></div>
+
+<footer>
+  <div class="footer-inner">
+    <div>QUWA · CLIENT REQUIREMENTS</div>
+    <div>POWERED BY IZO MEDIA</div>
+  </div>
+</footer>
+
+<script>
+const DEMO = { submissions: [] };
+
+function getEp() {
+  const p = new URLSearchParams(location.search);
+  return parseInt(p.get('ep') || '1', 10);
+}
+const EP = getEp();
+
+function esc(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function fld(label, value, cls) {
+  const has = value != null && String(value).trim() !== '';
+  const body = has ? esc(value) : 'ما عبّاها العميل';
+  return `<div class="fld">
+    <div class="lbl">${label}</div>
+    <div class="val ${has ? (cls || '') : 'empty'}">${body}</div>
+  </div>`;
+}
+
+function linkFld(label, url) {
+  const has = url && String(url).trim() !== '';
+  const body = has
+    ? `<a href="${esc(url)}" target="_blank" rel="noopener">${esc(url)}</a>`
+    : 'ما عبّاها العميل';
+  return `<div class="fld"><div class="lbl">${label}</div>
+    <div class="val ${has ? 'mono' : 'empty'}">${body}</div></div>`;
+}
+
+function listBlock(label, text) {
+  const items = String(text || '').split('\n').map(s => s.replace(/^\s*\d+\.\s*/, '').trim()).filter(Boolean);
+  if (!items.length) {
+    return `<div class="fld"><div class="lbl">${label}</div><div class="val empty">ما عبّاها العميل</div></div>`;
+  }
+  return `<div class="fld"><div class="lbl">${label}</div>
+    <ol class="rows">${items.map(i => `<li>${esc(i)}</li>`).join('')}</ol></div>`;
+}
+
+function tagsBlock(label, text) {
+  const items = String(text || '').split(/[،,]/).map(s => s.trim()).filter(Boolean);
+  if (!items.length) {
+    return `<div class="fld"><div class="lbl">${label}</div><div class="val empty">ما حدّد شي</div></div>`;
+  }
+  return `<div class="fld"><div class="lbl">${label}</div>
+    <div class="tags">${items.map(t => `<span class="tag">${esc(t)}</span>`).join('')}</div></div>`;
+}
+
+function fmtDate(v) {
+  if (!v) return '';
+  const d = new Date(v);
+  if (isNaN(d)) return String(v);
+  const pad = n => String(n).padStart(2,'0');
+  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}  ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+
+function formUrl() {
+  return location.origin + location.pathname.replace(/requirements\.html$/, 'client-form.html') + '?ep=' + EP;
+}
+
+function copyLink(btnId, msgId) {
+  const btn = document.getElementById(btnId);
+  if (!btn) return;
+  btn.addEventListener('click', () => {
+    const url = formUrl();
+    const done = () => { const m = document.getElementById(msgId); if (m) { m.textContent = '✓ انتسخ الرابط'; setTimeout(()=>m.textContent='', 2500); } };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(done, () => fallback(url, done));
+    } else fallback(url, done);
+  });
+  function fallback(url, done) {
+    const ta = document.createElement('textarea');
+    ta.value = url; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); done(); } catch (e) {}
+    document.body.removeChild(ta);
+  }
+}
+
+function toolbar(withPrint) {
+  return `<div class="toolbar">
+    <a class="btn solid" href="${esc(formUrl())}" target="_blank" rel="noopener">فتح نموذج العميل ←</a>
+    <button type="button" class="btn" id="copy-btn">نسخ رابط النموذج</button>
+    ${withPrint ? '<button type="button" class="btn" onclick="window.print()">طباعة / PDF</button>' : ''}
+    <a class="btn" href="episode.html?ep=${EP}">صفحة الحلقة ←</a>
+  </div>
+  <div class="copied" id="copied-msg"></div>`;
+}
+
+function renderEmpty(reason) {
+  document.getElementById('app').innerHTML = `
+    <header class="rq-hero"><div class="container">
+      <div class="kick">CLIENT REQUIREMENTS · EPISODE ${String(EP).padStart(2,'0')}</div>
+      <h1>ما وصلت إجابات بعد</h1>
+    </div></header>
+    <div class="container"><div class="state">
+      <p>${esc(reason)}</p>
+      ${toolbar(false)}
+    </div></div>`;
+  copyLink('copy-btn','copied-msg');
+}
+
+function renderOne(s, all) {
+  const picker = all.length > 1
+    ? `<select class="btn" id="sub-picker">${all.map((x,i) =>
+        `<option value="${i}"${x === s ? ' selected' : ''}>إرسال ${i+1} — ${esc(fmtDate(x.submitted_at))}</option>`).join('')}</select>`
+    : '';
+
+  document.getElementById('app').innerHTML = `
+  <header class="rq-hero"><div class="container">
+    <div class="kick">CLIENT REQUIREMENTS · EPISODE ${String(EP).padStart(2,'0')}</div>
+    <h1>${s.company ? esc(s.company) : '<span class="empty">بدون اسم شركة</span>'}</h1>
+    <div class="meta">
+      <span class="stamp">✓ وصلت</span>
+      <span class="m-item">تاريخ الإرسال: <b>${esc(fmtDate(s.submitted_at)) || '—'}</b></span>
+      ${all.length > 1 ? `<span class="m-item">عدد الإرسالات: <b>${all.length}</b></span>` : ''}
+    </div>
+    ${toolbar(true)}
+    ${picker ? `<div class="toolbar">${picker}</div>` : ''}
+  </div></header>
+
+  <div class="container">
+
+    <section>
+      <div class="sec-head"><span class="num">01</span><h2>بيانات الشركة وجهة الاتصال</h2></div>
+      <div class="card">
+        ${fld('COMPANY', s.company, 'big')}
+        <div class="grid2">
+          ${fld('CONTACT NAME', s.contact_name)}
+          ${fld('TITLE', s.contact_title)}
+          ${fld('PHONE', s.contact_phone, 'mono')}
+          ${fld('EMAIL', s.contact_email, 'mono')}
+        </div>
+        ${fld('CONTENT APPROVER', s.approver)}
+        ${fld('COMPANY BIO', s.bio)}
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head"><span class="num">02</span><h2>الضيوف المتحدثون</h2></div>
+      <div class="card">${listBlock('GUESTS', s.guests)}</div>
+    </section>
+
+    <section>
+      <div class="sec-head"><span class="num">03</span><h2>مواقع التصوير</h2></div>
+      <div class="card">${listBlock('LOCATIONS', s.locations)}</div>
+    </section>
+
+    <section>
+      <div class="sec-head"><span class="num">04</span><h2>المواضيع الرئيسية للحلقة</h2></div>
+      <div class="card">
+        ${fld('البدايات', s.story_start)}
+        ${fld('المحطات والإنجازات', s.story_milestones)}
+        ${fld('الأثر في الكويت', s.story_impact)}
+        ${fld('المستقبل والرؤية', s.story_future)}
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head"><span class="num">05</span><h2>الأرشيف والمواد التاريخية</h2></div>
+      <div class="card">
+        ${tagsBlock('AVAILABLE', s.archive_items)}
+        ${linkFld('MATERIALS LINK', s.archive_url)}
+        ${fld('ARCHIVE NOTES', s.archive_notes)}
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head"><span class="num">06</span><h2>ملاحظات عامة</h2></div>
+      <div class="card">${fld('NOTES', s.notes)}</div>
+    </section>
+
+  </div>`;
+
+  copyLink('copy-btn','copied-msg');
+  const pk = document.getElementById('sub-picker');
+  if (pk) pk.addEventListener('change', () => renderOne(all[Number(pk.value)], all));
+}
+
+async function load() {
+  document.getElementById('back-link').href = 'episode.html?ep=' + EP;
+
+  let data = DEMO;
+  if (API_URL) {
+    try {
+      const res = await fetch(API_URL + (API_URL.indexOf('?') > -1 ? '&' : '?') + 'type=requirements&ep=' + EP);
+      data = await res.json();
+    } catch (err) {
+      console.error('API error:', err);
+      renderEmpty('ما قدرنا نوصل للبيانات الحين. تأكد من اتصالك وحدّث الصفحة، وإذا تكررت المشكلة راجع نشر Apps Script.');
+      return;
+    }
+  } else {
+    renderEmpty('الصفحة بالوضع التجريبي — رابط Apps Script غير مربوط بعد.');
+    return;
+  }
+
+  const all = (data.submissions || [])
+    .filter(x => Number(x.ep) === EP)
+    .sort((a,b) => new Date(a.submitted_at) - new Date(b.submitted_at));
+
+  if (!all.length) {
+    renderEmpty('العميل ما عبّى النموذج لين الحين. انسخ الرابط وأرسله له، وأول ما يرسل تظهر إجاباته هنا.');
+    return;
+  }
+  renderOne(all[all.length - 1], all);
+}
+
+load();
+</script>
+</body>
+</html>
