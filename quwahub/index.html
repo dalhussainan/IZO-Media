@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
 <title>قوة · مركز الإنتاج</title>
+<link rel="icon" type="image/svg+xml" href="/quwahub/assets/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -25,7 +26,7 @@ const CONFIG = {
     pitch_deck:   "https://drive.google.com/file/d/1vpH5s5wS20nVDF4Yp_fAuaclfKyNfR9o/view?usp=sharing",
     workflow_ep:  "docs/Quwa_Workflow.html",
     workflow_pre: "docs/Quwa_PreProduction_Workflow.html",
-    brand_guide:  "",   // ← رابط الهوية البصرية
+    brand_guide:  "docs/GUWAH_Brand_Guide.pdf",
     drive_root:   "https://drive.google.com/drive/folders/167ueJ5J0OvIbXqkz0jyaUjQRR1rRPFqc?usp=sharing"
   }
 };
@@ -50,8 +51,8 @@ const CONFIG = {
     max-width:1180px; margin:0 auto; padding:14px 20px;
     display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap;
   }
-  .nav-logo { font-size:24px; font-weight:900; color:var(--ink); }
-  .nav-logo span { color:var(--red); }
+  .nav-logo { display:flex; align-items:center; }
+  .nav-logo img { height:38px; width:auto; display:block; }
   .nav-links { display:flex; gap:22px; flex-wrap:wrap; }
   .nav-links a {
     color:var(--ink-d); text-decoration:none; font-size:13px; font-weight:700;
@@ -205,7 +206,7 @@ const CONFIG = {
 <!-- ============ NAV ============ -->
 <nav>
   <div class="nav-inner">
-    <div class="nav-logo">قــوة<span>.</span></div>
+    <a class="nav-logo" href="index.html"><img src="/quwahub/assets/logo-ink.svg" alt="قوة · GUWAH"></a>
     <div class="nav-links">
       <a href="#about">عن البرنامج</a>
       <a href="#files">الملفات</a>

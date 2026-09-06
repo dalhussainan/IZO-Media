@@ -6,7 +6,8 @@
 <title>قوة — ورك فلو ما قبل الإنتاج</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;500;600;700&family=Tajawal:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="/quwahub/assets/fonts/guwah-fonts.css" rel="stylesheet">
 <style>
   :root {
     --paper: #F7F4EE;
@@ -23,7 +24,7 @@
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
-    font-family: 'Tajawal', sans-serif;
+    font-family: 'Amariya', sans-serif;
     background: var(--paper);
     color: var(--ink);
     padding: 30px 20px;
@@ -43,7 +44,7 @@
     gap: 20px;
   }
   .doc-title h1 {
-    font-family: 'Reem Kufi', sans-serif;
+    font-family: 'TS Zunburk VF3', serif;
     font-size: 38px;
     font-weight: 700;
     color: var(--ink);
@@ -57,7 +58,7 @@
     font-style: italic;
   }
   .doc-meta {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Inter', sans-serif;
     font-size: 10px;
     letter-spacing: 2px;
     color: var(--ink-d);
@@ -76,13 +77,13 @@
   }
   .stat-block { display: flex; align-items: baseline; gap: 8px; }
   .stat-block .num {
-    font-family: 'Reem Kufi';
+    font-family: 'TS Zunburk VF3';
     font-size: 30px;
     font-weight: 700;
     color: var(--red);
   }
   .stat-block .lbl {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Inter', sans-serif;
     font-size: 9px;
     letter-spacing: 2px;
     color: var(--ink-d);
@@ -113,7 +114,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Inter', sans-serif;
     font-size: 11px;
     font-weight: 700;
     color: var(--white);
@@ -121,7 +122,7 @@
   .owner-bar .txt { font-size: 14px; font-weight: 700; }
   .owner-bar .txt small {
     display: block;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Inter', sans-serif;
     font-size: 8px;
     letter-spacing: 2px;
     color: var(--gold);
@@ -130,7 +131,7 @@
     text-align: right;
   }
   .owner-bar .left {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Inter', sans-serif;
     font-size: 9px;
     letter-spacing: 3px;
     color: #B5AFA3;
@@ -179,7 +180,7 @@
     border-color: var(--ink);
   }
   .stage-box .st-num {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Inter', sans-serif;
     font-size: 20px;
     font-weight: 700;
     color: var(--ink);
@@ -188,7 +189,7 @@
   .stage-box.gate-final .st-num { color: var(--gold); }
   .stage-box .st-icon { font-size: 20px; margin: 4px 0; }
   .stage-box .st-tag {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Inter', sans-serif;
     font-size: 7.5px;
     letter-spacing: 1px;
     color: var(--red);
@@ -200,7 +201,7 @@
   }
   .stage-box.gate-final .st-tag { color: var(--gold); border-color: var(--gold); }
   .stage-box .st-name {
-    font-family: 'Reem Kufi';
+    font-family: 'TS Zunburk VF3';
     font-size: 13.5px;
     font-weight: 700;
     color: var(--ink);
@@ -211,7 +212,7 @@
   .st-owner-dot {
     background: var(--ink);
     color: var(--paper);
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Inter', sans-serif;
     font-size: 7.5px;
     font-weight: 700;
     padding: 3px 5px;
@@ -225,7 +226,7 @@
   .st-owner-dot.outline { background: var(--white); color: var(--ink); border: 1px solid var(--ink); }
   .st-time {
     margin-top: 8px;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Inter', sans-serif;
     font-size: 8.5px;
     color: var(--ink-d);
     letter-spacing: 1px;
@@ -274,7 +275,7 @@
   }
   .gate-diamond span {
     transform: rotate(-45deg);
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Inter', sans-serif;
     font-size: 8px;
     font-weight: 700;
     color: var(--white);
@@ -295,7 +296,7 @@
   .map-legend .sq { width: 14px; height: 14px; border: 1.5px solid var(--ink); background: var(--white); }
   .map-legend .di { width: 12px; height: 12px; background: var(--red); transform: rotate(45deg); }
   .map-legend .fin { width: 14px; height: 14px; background: var(--ink); }
-  .map-legend .lbl-mono { font-family:'JetBrains Mono'; font-size: 9px; letter-spacing: 2px; color: var(--red); font-weight:700; direction:ltr; }
+  .map-legend .lbl-mono { font-family:'Inter'; font-size: 9px; letter-spacing: 2px; color: var(--red); font-weight:700; direction:ltr; }
 
   /* ===== GATES TABLE (approval gates) ===== */
   .gates-strip {
@@ -310,7 +311,7 @@
     padding: 14px 16px;
   }
   .gate-card .g-num {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Inter', sans-serif;
     font-size: 9px;
     letter-spacing: 2px;
     color: var(--red);
@@ -320,7 +321,7 @@
     margin-bottom: 4px;
   }
   .gate-card .g-name {
-    font-family: 'Reem Kufi';
+    font-family: 'TS Zunburk VF3';
     font-size: 15px;
     font-weight: 700;
     color: var(--ink);
@@ -337,7 +338,7 @@
     margin-bottom: 18px;
   }
   .section-title .kick {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Inter', sans-serif;
     font-size: 10px;
     letter-spacing: 3px;
     color: var(--red);
@@ -345,7 +346,7 @@
     direction: ltr;
   }
   .section-title h2 {
-    font-family: 'Reem Kufi';
+    font-family: 'TS Zunburk VF3';
     font-size: 24px;
     font-weight: 700;
     color: var(--ink);
@@ -356,7 +357,7 @@
     display: inline-block;
     background: var(--ink);
     color: var(--paper);
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Inter', sans-serif;
     font-size: 9px;
     font-weight: 700;
     padding: 3px 7px;
@@ -379,7 +380,7 @@
   .tasks thead th {
     background: var(--ink);
     color: var(--paper);
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Inter', sans-serif;
     font-size: 10px;
     font-weight: 700;
     letter-spacing: 2px;
@@ -387,7 +388,7 @@
     padding: 10px 14px;
     direction: ltr;
   }
-  .tasks thead th.first { text-align: right; direction: rtl; font-family: 'Tajawal'; font-size: 12px; letter-spacing: 0; }
+  .tasks thead th.first { text-align: right; direction: rtl; font-family: 'Amariya'; font-size: 12px; letter-spacing: 0; }
   .tasks thead th.center { text-align: center; }
   .tasks tbody td {
     padding: 13px 14px;
@@ -399,7 +400,7 @@
   .tasks tbody tr:last-child td { border-bottom: none; }
   .tasks tbody tr:hover { background: var(--paper-d); }
   .tasks .task-num {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Inter', sans-serif;
     font-size: 11px;
     color: var(--red);
     font-weight: 700;
@@ -440,7 +441,7 @@
   .tasks .duration {
     width: 105px;
     text-align: center;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Inter', sans-serif;
     font-size: 11px;
     color: var(--ink);
     font-weight: 700;
@@ -452,7 +453,7 @@
     padding: 12px 14px;
   }
   .tasks .gate-row .g-label {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Inter', sans-serif;
     font-size: 9px;
     letter-spacing: 2px;
     color: var(--red-br);
@@ -461,7 +462,7 @@
     text-align: right;
   }
   .tasks .gate-row .g-title {
-    font-family: 'Reem Kufi';
+    font-family: 'TS Zunburk VF3';
     font-size: 16px;
     font-weight: 700;
     color: var(--paper);
@@ -483,7 +484,7 @@
   .greenlight .icon { font-size: 40px; }
   .greenlight .g-text { flex: 1; min-width: 260px; }
   .greenlight .g-label {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Inter', sans-serif;
     font-size: 9px;
     letter-spacing: 3px;
     opacity: 0.85;
@@ -492,14 +493,14 @@
     margin-bottom: 4px;
   }
   .greenlight .g-title {
-    font-family: 'Reem Kufi';
+    font-family: 'TS Zunburk VF3';
     font-size: 24px;
     font-weight: 700;
   }
   .greenlight .g-desc { font-size: 13px; opacity: 0.92; margin-top: 4px; line-height: 1.5; }
   .greenlight .sign { text-align: center; min-width: 140px; }
   .greenlight .sign .lbl {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Inter', sans-serif;
     font-size: 8px;
     letter-spacing: 2px;
     opacity: 0.8;
@@ -514,7 +515,7 @@
     border-top: 1px solid var(--line);
     display: flex;
     justify-content: space-between;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Inter', sans-serif;
     font-size: 9px;
     color: var(--ink-d);
     letter-spacing: 2px;
@@ -533,8 +534,8 @@
     .tasks tbody td { display: block; padding: 8px 14px; }
     .tasks tbody td.task-num { display: inline-block; width: auto; }
     .tasks tbody .owners, .tasks tbody .duration { width: 100%; text-align: right; }
-    .tasks tbody .owners::before { content: "المسؤولون: "; font-family: 'JetBrains Mono'; font-size: 10px; color: var(--red); letter-spacing: 2px; }
-    .tasks tbody .duration::before { content: "المدة: "; font-family: 'JetBrains Mono'; font-size: 10px; color: var(--red); letter-spacing: 2px; }
+    .tasks tbody .owners::before { content: "المسؤولون: "; font-family: 'Inter'; font-size: 10px; color: var(--red); letter-spacing: 2px; }
+    .tasks tbody .duration::before { content: "المدة: "; font-family: 'Inter'; font-size: 10px; color: var(--red); letter-spacing: 2px; }
   }
 </style>
 </head>

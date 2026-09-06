@@ -1,0 +1,21 @@
+/* ============================================================
+   قوة · خطوط الهوية (GUWAH Brand & Motion Guide v1.0)
+   ------------------------------------------------------------
+   TS Zunburk VF3  → العناوين التحريرية (Editorial Display)
+   Amariya         → النصوص والمعلومات (Body + Data)
+   Inter           → التسميات الإنجليزية/التقنية — تُحمَّل من Google Fonts بالصفحة
+   ============================================================ */
+@font-face {
+  font-family: 'TS Zunburk VF3';
+  src: url('TSZunburkVF3.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Amariya';
+  src: url('Amariya-Medium.woff2') format('woff2');
+  font-weight: 400 600;
+  font-style: normal;
+  font-display: swap;
+}

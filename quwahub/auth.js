@@ -77,7 +77,7 @@ const PASS_HASH = "0cddea939ef2cc37f7c865e1a3dca22ec15bcac22fb1b5fe7ef5214697bd5
         }
       </style>
       <div class="box">
-        <div class="logo">قــوة<span>.</span></div>
+        <div class="logo"><img src="/quwahub/assets/logo-ink.svg" alt="قوة · GUWAH" style="height:56px;width:auto;display:block;margin:0 auto;"></div>
         <div class="sub">PRODUCTION HUB · PRIVATE</div>
         <div class="msg">هذي منطقة خاصة بفريق العمل — أدخل كلمة السر:</div>
         <input type="password" id="quwa-pass" placeholder="••••••••" autocomplete="off">
