@@ -108,6 +108,25 @@ const API_URL = "https://script.google.com/macros/s/AKfycbxWp6DhHqetyTMkcLBgweCU
   }
   .check-item input { width:16px; height:16px; accent-color:var(--red); }
 
+  /* file upload */
+  .file-box {
+    border:1.5px dashed var(--line); background:var(--paper); padding:16px;
+    display:flex; align-items:center; gap:14px; flex-wrap:wrap; transition:border-color .15s;
+  }
+  .file-box.has-file { border-style:solid; border-color:var(--green); background:#F1F8F2; }
+  .file-box input[type=file] { position:absolute; width:1px; height:1px; opacity:0; overflow:hidden; }
+  .file-pick {
+    background:var(--white); border:1.5px solid var(--red); color:var(--red);
+    font-family:'Cairo',sans-serif; font-size:13px; font-weight:800;
+    padding:9px 18px; cursor:pointer; white-space:nowrap;
+  }
+  .file-pick:hover { background:#FDF3F3; }
+  .file-name { font-size:13px; color:var(--ink-d); flex:1; min-width:160px; word-break:break-all; }
+  .file-name b { color:var(--green); }
+  .file-clear { background:none; border:none; color:var(--ink-d); font-family:'Cairo',sans-serif; font-size:12px; cursor:pointer; text-decoration:underline; }
+  .file-hint { font-size:11.5px; color:var(--ink-d); margin-top:6px; }
+  .file-err { font-size:12px; color:var(--red); font-weight:700; margin-top:6px; min-height:16px; }
+
   /* submit */
   .submit-wrap { margin-top:30px; text-align:center; }
   .submit-btn {
@@ -203,6 +222,17 @@ const API_URL = "https://script.google.com/macros/s/AKfycbxWp6DhHqetyTMkcLBgweCU
     <div class="field">
       <label>نبذة رسمية عن الشركة وأرقامها الرئيسية <span class="opt">(سنة التأسيس، عدد الموظفين، الفروع، أهم الأرقام)</span></label>
       <textarea id="f-bio" placeholder="اكتبوا النبذة المعتمدة اللي تحبون نستخدمها..."></textarea>
+    </div>
+    <div class="field">
+      <label>الرخصة التجارية <span class="opt">(PDF أو صورة — حد أقصى ١٠ ميجا)</span></label>
+      <div class="file-box" id="lic-box">
+        <label class="file-pick" for="f-license">اختيار ملف</label>
+        <input type="file" id="f-license" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png">
+        <span class="file-name" id="lic-name">ما تم اختيار ملف بعد</span>
+        <button type="button" class="file-clear" id="lic-clear" hidden>إزالة</button>
+      </div>
+      <div class="file-hint">الملف يُرفع لحظة الإرسال ولا يُحفظ ضمن المسودة — إذا رجعتم للنموذج لاحقاً اختاروه من جديد.</div>
+      <div class="file-err" id="lic-err"></div>
     </div>
   </div>
 
@@ -446,6 +476,48 @@ function restoreDraft() {
   });
 }
 
+/* ===== الرخصة التجارية ===== */
+const LIC_MAX = 10 * 1024 * 1024;
+const LIC_TYPES = ['application/pdf','image/jpeg','image/png'];
+const licInput = document.getElementById('f-license');
+const licBox   = document.getElementById('lic-box');
+const licName  = document.getElementById('lic-name');
+const licClear = document.getElementById('lic-clear');
+const licErr   = document.getElementById('lic-err');
+
+function fmtSize(b){ return b > 1024*1024 ? (b/1024/1024).toFixed(1)+' MB' : Math.round(b/1024)+' KB'; }
+
+function resetLicense(msg) {
+  licInput.value = '';
+  licBox.classList.remove('has-file');
+  licName.textContent = 'ما تم اختيار ملف بعد';
+  licClear.hidden = true;
+  licErr.textContent = msg || '';
+}
+
+licInput.addEventListener('change', () => {
+  const f = licInput.files[0];
+  if (!f) return resetLicense('');
+  if (!LIC_TYPES.includes(f.type)) return resetLicense('⚠ الملف لازم يكون PDF أو JPG أو PNG');
+  if (f.size > LIC_MAX)          return resetLicense('⚠ حجم الملف أكبر من ١٠ ميجا — صغّروه أو صوّروه من جديد');
+  licBox.classList.add('has-file');
+  licName.innerHTML = '<b>✓</b> ' + f.name.replace(/</g,'&lt;') + ' <span style="opacity:.7">(' + fmtSize(f.size) + ')</span>';
+  licClear.hidden = false;
+  licErr.textContent = '';
+});
+licClear.addEventListener('click', () => resetLicense(''));
+
+function readLicense() {
+  const f = licInput.files[0];
+  if (!f) return Promise.resolve(null);
+  return new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onload  = () => resolve({ name: f.name, mime: f.type, size: f.size, data: String(r.result).split(',')[1] });
+    r.onerror = () => reject(new Error('read failed'));
+    r.readAsDataURL(f);
+  });
+}
+
 /* ===== submit ===== */
 document.getElementById('submit-btn').onclick = async function() {
   const msg = document.getElementById('submit-msg');
@@ -470,6 +542,8 @@ document.getElementById('submit-btn').onclick = async function() {
   msg.className='submit-msg'; msg.style.color='var(--ink-d)'; msg.textContent = 'جاري الإرسال...';
 
   try {
+    const lic = await readLicense();
+    if (lic) { d.license = lic; msg.textContent = 'جاري رفع الرخصة والإرسال... (' + fmtSize(lic.size) + ')'; }
     const res = await fetch(API_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },

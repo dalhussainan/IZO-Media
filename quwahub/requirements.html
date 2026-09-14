@@ -176,6 +176,15 @@ function linkFld(label, url) {
     <div class="val ${has ? 'mono' : 'empty'}">${body}</div></div>`;
 }
 
+function licFld(label, url) {
+  const has = url && String(url).trim() !== '';
+  const body = has
+    ? `<a class="btn" href="${esc(url)}" target="_blank" rel="noopener" style="margin-top:4px;">فتح الرخصة التجارية ←</a>`
+    : 'ما رفع العميل رخصة';
+  return `<div class="fld"><div class="lbl">${label}</div>
+    <div class="val ${has ? '' : 'empty'}">${body}</div></div>`;
+}
+
 function listBlock(label, text) {
   const items = String(text || '').split('\n').map(s => s.replace(/^\s*\d+\.\s*/, '').trim()).filter(Boolean);
   if (!items.length) {
@@ -281,6 +290,7 @@ function renderOne(s, all) {
         </div>
         ${fld('CONTENT APPROVER', s.approver)}
         ${fld('COMPANY BIO', s.bio)}
+        ${licFld('COMMERCIAL LICENSE', s.license_url)}
       </div>
     </section>
 
