@@ -269,6 +269,17 @@ function render(e, total) {
     </section>
 
     <section>
+      <div class="sec-head"><span class="kick">// PREP REVIEW</span><h2>مراجعة الإعداد</h2></div>
+      <div class="cf-box" style="border-right-color:var(--gold)">
+        <div class="cf-desc">١) الفريق يراجع الإعداد داخلياً ويحط ملاحظاته ثم يقفل الحلقة → ٢) تطلع نسخة العميل للاعتماد → ٣) النسخة النهائية ترتفع هنا.</div>
+        <div class="cf-actions">
+          <a class="cf-btn solid" href="prep-review.html?ep=${e.ep}">المراجعة الداخلية ←</a>
+          <span class="cf-btn" style="opacity:.45;cursor:default">مراجعة العميل — بعد القفل</span>
+        </div>
+      </div>
+    </section>
+
+    <section>
       <div class="sec-head"><span class="kick">// NOTES</span><h2>ملاحظات</h2></div>
       <div class="notes-box ${e.notes?'':'empty'}">${e.notes || 'لا توجد ملاحظات بعد.'}</div>
     </section>
