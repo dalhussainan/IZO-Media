@@ -244,6 +244,29 @@
   .file-upload input { display: none; }
 
   .actions { margin-top: 22px; display: grid; gap: 8px; }
+  /* payments */
+  .pay-summary { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-bottom: 12px; }
+  .pay-summary div { background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.12); border-radius: 4px; padding: 8px 10px; }
+  .pay-summary .k { font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: .15em; color: rgba(255,255,255,.5); text-transform: uppercase; }
+  .pay-summary .v { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 13px; margin-top: 3px; }
+  .pay-summary .v.bal { color: #fbbf24; }
+  .pay-summary .v.paid { color: #4ade80; }
+  .pay-row { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px dashed rgba(255,255,255,.12); font-size: 12px; }
+  .pay-row .amt { font-family: 'JetBrains Mono', monospace; font-weight: 700; min-width: 70px; }
+  .pay-row .meta { flex: 1; color: rgba(255,255,255,.6); font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .05em; line-height: 1.5; }
+  .pay-row .del { background: none; border: 1px solid rgba(255,255,255,.2); color: rgba(255,255,255,.5); width: 22px; height: 22px; border-radius: 3px; cursor: pointer; font-size: 13px; line-height: 1; }
+  .pay-row .del:hover { color: var(--red-bright); border-color: var(--red-bright); }
+  .pay-form { background: rgba(255,255,255,.04); border: 1px dashed rgba(255,255,255,.2); border-radius: 5px; padding: 12px; margin-top: 12px; }
+  .pay-form .field { margin-bottom: 8px; }
+  .paid-stamp {
+    position: absolute; top: 40%; left: 50%; transform: translate(-50%,-50%) rotate(-18deg);
+    font-weight: 900; font-size: 70pt; letter-spacing: .08em; color: rgba(21,128,61,.14);
+    border: 8px solid rgba(21,128,61,.14); padding: 0 30px; pointer-events: none;
+  }
+  .total-line.paid-line .key { color: var(--green); }
+  .total-line.balance-line { border-bottom: 2px solid var(--ink); }
+  .total-line.balance-line span:last-child { font-weight: 700; }
+  @media (max-width: 760px) { .pay-summary { grid-template-columns: 1fr 1fr 1fr; } }
   .help { font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 11px; color: rgba(255,255,255,.45); line-height: 1.6; margin-top: 10px; }
 
   /* ===== PREVIEW ===== */
@@ -288,7 +311,10 @@
   .grand-total .key { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .2em; color: var(--red-bright); }
   .grand-total .key-sub { display: block; font-weight: 700; font-size: 13pt; color: #fff; margin-top: 4px; font-family: 'IBM Plex Sans Arabic', sans-serif; }
   .grand-total .val { font-weight: 900; font-size: 22pt; letter-spacing: -0.02em; }
-  .signature-block { margin-top: 50px; padding-top: 16px; }
+  .signature-block { margin-top: 36px; padding-top: 10px; }
+  .signature-block.compact { margin-top: 14px; }
+  .signature-block.compact .sig-image-wrap { min-height: 50px; padding-bottom: 4px; }
+  .signature-block.compact img { max-height: 55px; }
   .signature-block-inner { max-width: 300px; margin-left: auto; text-align: center; }
   .sig-label { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: .2em; color: var(--red); margin-bottom: 8px; text-align: right; }
   .sig-image-wrap { padding: 4px 12px 10px; min-height: 70px; display: flex; align-items: flex-end; justify-content: center; }
@@ -324,7 +350,8 @@
     .editor { display: block; min-height: 0; }
     .preview-wrap { padding: 0 !important; display: block; }
     .page-holder { width: auto !important; height: auto !important; }
-    .page { box-shadow: none !important; transform: none !important; margin: 0; }
+    .page { box-shadow: none !important; transform: none !important; margin: 0; height: 297mm; min-height: 0; overflow: hidden; page-break-after: avoid; }
+    html, body { height: 297mm; overflow: hidden; }
   }
   @media (max-width: 1100px) {
     .editor { grid-template-columns: 1fr; }
@@ -427,6 +454,11 @@
           <button data-v="all" class="active">All</button>
           <button data-v="estimate">Estimates</button>
           <button data-v="invoice">Invoices</button>
+        </div>
+        <div class="seg" id="quickFilter">
+          <button data-v="">Any</button>
+          <button data-v="unpaid">Unpaid</button>
+          <button data-v="overdue">Overdue</button>
         </div>
         <select class="light-input" id="statusFilter">
           <option value="">Any status</option>
@@ -535,6 +567,38 @@
         <textarea id="fNotes" data-k="notes" placeholder="e.g. 5 Camera Operators"></textarea>
       </div>
 
+      <div id="paymentsWrap" hidden>
+        <div class="sidebar-divider"></div>
+        <h2>// Payments</h2>
+        <div class="pay-summary">
+          <div><div class="k">Total</div><div class="v" id="paySumTotal">0</div></div>
+          <div><div class="k">Paid</div><div class="v paid" id="paySumPaid">0</div></div>
+          <div><div class="k">Balance</div><div class="v bal" id="paySumBal">0</div></div>
+        </div>
+        <div id="payList"></div>
+        <button class="btn" id="addPayBtn" style="margin-top:10px">+ Record Payment</button>
+        <div class="pay-form" id="payForm" hidden>
+          <div class="field-row">
+            <div class="field"><label for="pAmount">Amount (KWD)</label><input type="number" id="pAmount" step="0.001" min="0" inputmode="decimal"></div>
+            <div class="field"><label for="pDate">Date</label><input type="date" id="pDate"></div>
+          </div>
+          <div class="field"><label for="pMethod">Method</label>
+            <select id="pMethod">
+              <option value="bank_transfer">Bank transfer</option>
+              <option value="knet">KNET</option>
+              <option value="cash">Cash</option>
+              <option value="cheque">Cheque</option>
+              <option value="payment_link">Payment link</option>
+              <option value="other">Other</option>
+            </select></div>
+          <div class="field"><label for="pRef">Reference (optional)</label><input type="text" id="pRef" placeholder="Transfer ref, cheque no…"></div>
+          <div class="btn-row" style="margin-top:4px">
+            <button class="btn btn-primary" id="savePayBtn" style="padding:10px">✓ Add</button>
+            <button class="btn" id="cancelPayBtn">Cancel</button>
+          </div>
+        </div>
+      </div>
+
       <div class="sidebar-divider"></div>
 
       <h2>// Signature</h2>
@@ -576,6 +640,7 @@
       <div class="page-holder" id="pageHolder">
         <div class="page" id="page">
           <div class="void-stamp" id="pvVoid" hidden>VOID</div>
+          <div class="paid-stamp" id="pvPaidStamp" hidden>PAID</div>
           <div class="topbar">
             <div>
               <div class="brand-wordmark">IZO<span class="dot">.</span></div>
@@ -626,6 +691,10 @@
               <div class="grand-total">
                 <div><div class="key">TOTAL / KWD</div><div class="key-sub">الإجمالي</div></div>
                 <div class="val" id="pvTotal">0</div>
+              </div>
+              <div id="pvPayLines" hidden>
+                <div class="total-line paid-line"><span class="key">Paid / المدفوع</span><span id="pvPaid">0</span></div>
+                <div class="total-line balance-line"><span class="key">Balance Due / المتبقي</span><span id="pvBalance">0</span></div>
               </div>
             </div>
           </div>
@@ -988,13 +1057,23 @@
     [...$('typeFilter').children].forEach(x => x.classList.toggle('active', x === b));
     renderList();
   });
-  $('statusFilter').addEventListener('change', (e) => { listState.status = e.target.value; renderList(); });
+  function syncQuick() {
+    [...$('quickFilter').children].forEach(x => x.classList.toggle('active', x.dataset.v === listState.status));
+  }
+  $('statusFilter').addEventListener('change', (e) => { listState.status = e.target.value; syncQuick(); renderList(); });
+  $('quickFilter').addEventListener('click', (e) => {
+    const b = e.target.closest('button[data-v]'); if (!b) return;
+    listState.status = b.dataset.v; $('statusFilter').value = b.dataset.v; syncQuick(); renderList();
+  });
+  syncQuick();
   $('searchBox').addEventListener('input', (e) => { listState.q = e.target.value; renderList(); });
 
   // ===================================================================
   // EDITOR
   // ===================================================================
   let ed = null; // current editor state
+  let payments = [];
+  const METHOD_LABEL = { bank_transfer: 'Transfer', knet: 'KNET', cash: 'Cash', cheque: 'Cheque', payment_link: 'Pay link', other: 'Other' };
   let sigSource = 'default';
   let customSig = '';
 
@@ -1009,7 +1088,7 @@
       signature_name: settings.default_signature_name || 'Dhari Alhesinan',
       signature_title: settings.default_signature_title || 'GENERAL MANAGER',
       source_estimate_id: null, source_estimate_number: null, invoice_id: null, invoice_number: null,
-      payment_status: null,
+      payment_status: null, paid: 0, balance: 0, total: 0,
       items: [{ description_en: '', description_ar: '', rate: 0, qty: 1 }],
       dirty: false
     };
@@ -1023,7 +1102,7 @@
   }
 
   function openNew(type) {
-    ed = blankDoc(type);
+    ed = blankDoc(type); payments = [];
     sigSource = 'default'; customSig = '';
     showEditor();
     fillForm();
@@ -1032,11 +1111,13 @@
   async function openDoc(id) {
     showEditor();
     $('edNumberLabel').textContent = 'Loading…';
-    const [d, it] = await Promise.all([
+    const [d, it, pm] = await Promise.all([
       sb.from('documents_summary').select('*').eq('id', id).maybeSingle(),
-      sb.from('document_items').select('*').eq('document_id', id).order('position')
+      sb.from('document_items').select('*').eq('document_id', id).order('position'),
+      sb.from('payments').select('*').eq('document_id', id).order('paid_on', { ascending: false }).order('created_at', { ascending: false })
     ]);
     if (d.error || !d.data) { toast(d.error ? friendlyError(d.error) : 'Document not found', true); goto('#/list', true); showList(); return; }
+    payments = pm.data || [];
     loadIntoEditor(d.data, it.data || []);
   }
 
@@ -1052,6 +1133,7 @@
       source_estimate_id: row.source_estimate_id, source_estimate_number: row.source_estimate_number,
       invoice_id: row.invoice_id, invoice_number: row.invoice_number,
       payment_status: row.payment_status,
+      paid: num(row.paid), balance: num(row.balance), total: num(row.total),
       items: items.length ? items.map(i => ({ description_en: i.description_en, description_ar: i.description_ar || '', rate: num(i.rate), qty: num(i.qty) }))
                           : [{ description_en: '', description_ar: '', rate: 0, qty: 1 }],
       dirty: false
@@ -1133,6 +1215,10 @@
     $('voidBtn').hidden = isEst || isNew;
     $('voidBtn').textContent = ed.status === 'void' ? '↺ Restore' : '⊘ Void';
     $('dupBtn').parentElement.style.gridTemplateColumns = (isEst || isNew) ? '1fr' : '1fr 1fr';
+
+    // payments (saved invoices only)
+    $('paymentsWrap').hidden = isEst || isNew;
+    if (!isEst && !isNew) renderPayments();
 
     // signature
     $('sigSwitch').classList.toggle('on', !!ed.signature_on);
@@ -1262,7 +1348,14 @@
     $('pvSubtotal').textContent = money(subtotal);
     $('pvDiscountLine').hidden = !(discount > 0);
     $('pvDiscount').textContent = '− ' + money(discount);
-    $('pvTotal').textContent = money(Math.max(subtotal - discount, 0));
+    const grand = Math.max(subtotal - discount, 0);
+    $('pvTotal').textContent = money(grand);
+    const paidAmt = ed.id && ed.doc_type === 'invoice' ? num(ed.paid) : 0;
+    const showPay = paidAmt > 0 && ed.status !== 'void';
+    $('pvPayLines').hidden = !showPay;
+    $('pvPaid').textContent = '− ' + money(paidAmt);
+    $('pvBalance').textContent = money(Math.max(grand - paidAmt, 0));
+    $('pvPaidStamp').hidden = !(showPay && paidAmt >= grand && grand > 0);
 
     const blocks = [];
     if (ed.payment_terms && ed.payment_terms.trim()) blocks.push(`<div class="block"><div class="notes-label">// PAYMENT TERMS</div><div>${esc(ed.payment_terms.trim()).replace(/\n/g, '<br>')}</div></div>`);
@@ -1270,6 +1363,7 @@
     $('pvNotes').innerHTML = blocks.join('');
 
     $('pvSignature').hidden = !ed.signature_on;
+    $('pvSignature').classList.toggle('compact', showPay);
     if (ed.signature_on) {
       const src = sigSource === 'custom' ? customSig : DEFAULT_SIGNATURE;
       $('pvSigImg').src = src || '';
@@ -1299,6 +1393,67 @@
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitPreview);
   window.addEventListener('beforeprint', () => { $('page').style.transform = 'none'; });
   window.addEventListener('afterprint', fitPreview);
+
+  // ----- payments -----
+  function renderPayments() {
+    const subtotal = ed.items.reduce((s, it) => s + num(it.rate) * num(it.qty), 0);
+    const grand = Math.max(subtotal - num(ed.discount), 0);
+    const paid = payments.reduce((s, p) => s + num(p.amount), 0);
+    ed.paid = paid; ed.balance = grand - paid;
+    $('paySumTotal').textContent = money(grand);
+    $('paySumPaid').textContent = money(paid);
+    $('paySumBal').textContent = money(Math.max(grand - paid, 0));
+    $('payList').innerHTML = payments.length ? payments.map(p => `
+      <div class="pay-row">
+        <span class="amt">${money(p.amount)}</span>
+        <span class="meta">${fmtDate(p.paid_on)} · ${esc(METHOD_LABEL[p.method] || p.method)}${p.reference ? '<br>' + esc(p.reference) : ''}</span>
+        <button class="del" data-pay="${esc(p.id)}" title="Remove payment">×</button>
+      </div>`).join('') : '<div class="hint">No payments recorded yet</div>';
+    $('addPayBtn').hidden = ed.status === 'void';
+  }
+  function openPayForm() {
+    $('payForm').hidden = false; $('addPayBtn').hidden = true;
+    $('pAmount').value = ed.balance > 0 ? round3(ed.balance) : '';
+    $('pDate').value = todayISO(); $('pRef').value = '';
+    $('pAmount').focus();
+  }
+  function closePayForm() { $('payForm').hidden = true; $('addPayBtn').hidden = ed.status === 'void'; }
+  $('addPayBtn').onclick = openPayForm;
+  $('cancelPayBtn').onclick = closePayForm;
+  $('savePayBtn').onclick = async () => {
+    const amount = round3($('pAmount').value);
+    if (!(amount > 0)) { toast('Enter the amount', true); $('pAmount').focus(); return; }
+    if (amount > round3(ed.balance) + 0.0005 && !confirm(`This is more than the balance (${money(ed.balance)}). Record it anyway?`)) return;
+    $('savePayBtn').disabled = true;
+    try {
+      const { data, error } = await sb.from('payments').insert({
+        document_id: ed.id, amount, paid_on: $('pDate').value || todayISO(),
+        method: $('pMethod').value, reference: $('pRef').value.trim() || null
+      }).select().single();
+      if (error) { toast('⚠ ' + friendlyError(error), true); return; }
+      payments.unshift(data);
+      docsCache = null;
+      await refreshStatus();
+      closePayForm();
+      toast('✓ Payment recorded');
+    } finally { $('savePayBtn').disabled = false; }
+  };
+  $('payList').addEventListener('click', async (e) => {
+    const b = e.target.closest('[data-pay]'); if (!b) return;
+    const p = payments.find(x => x.id === b.dataset.pay); if (!p) return;
+    if (!confirm(`Remove the payment of ${money(p.amount)} (${fmtDate(p.paid_on)})?`)) return;
+    const { error } = await sb.from('payments').delete().eq('id', p.id);
+    if (error) { toast('⚠ ' + friendlyError(error), true); return; }
+    payments = payments.filter(x => x.id !== p.id);
+    docsCache = null;
+    await refreshStatus();
+    toast('Payment removed');
+  });
+  async function refreshStatus() {
+    const { data } = await sb.from('documents_summary').select('payment_status,paid,balance,total').eq('id', ed.id).maybeSingle();
+    if (data) { ed.payment_status = data.payment_status; ed.paid = num(data.paid); ed.balance = num(data.balance); }
+    renderChrome(); renderPreview();
+  }
 
   // ----- save / actions -----
   function buildPayload() {
@@ -1346,6 +1501,7 @@
       const items = ed.items, keepSrc = sigSource, keepSig = customSig;
       loadIntoEditor(row, []);
       sigSource = keepSrc; customSig = keepSig;
+      if (wasNew) payments = [];
       ed.items = items.map(it => ({ ...it, rate: round3(it.rate), qty: num(it.qty) }));
       renderItemsEditor(); renderPreview();
       if (wasNew) { goto('#/doc/' + row.id, true); setNav(''); }
