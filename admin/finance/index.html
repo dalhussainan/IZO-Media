@@ -116,7 +116,8 @@
   .brand img { width: 30px; height: auto; filter: invert(1) brightness(2); }
   .brand-name { font-weight: 800; font-size: 13px; letter-spacing: .05em; line-height: 1; }
   .brand-tag { font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: .2em; color: var(--red-bright); margin-top: 4px; }
-  .nav-links { display: flex; gap: 4px; flex: 1; }
+  .nav-links { display: flex; gap: 4px; flex: 1; min-width: 0; overflow-x: auto; scrollbar-width: none; }
+  .nav-links::-webkit-scrollbar { display: none; }
   .nav-links a {
     color: rgba(255,255,255,.6); text-decoration: none; font-family: 'JetBrains Mono', monospace;
     font-size: 10px; letter-spacing: .18em; text-transform: uppercase; padding: 8px 12px; border-radius: 4px;
@@ -127,6 +128,62 @@
   .nav-links a.new { color: var(--red-bright); }
   .nav-user { display: flex; align-items: center; gap: 12px; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: rgba(255,255,255,.5); }
   .nav-user .linkbtn { font-size: 10px; }
+
+  /* ===== DASHBOARD ===== */
+  .dash-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 22px; }
+  .tile { background: #fff; padding: 18px 18px 16px; box-shadow: 0 6px 24px rgba(0,0,0,.05); border-top: 3px solid var(--ink); }
+  .tile.hot { border-top-color: var(--red-bright); }
+  .tile.good { border-top-color: var(--green); }
+  .tile.warn { border-top-color: var(--amber); }
+  .tile .k { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: .2em; color: var(--red); text-transform: uppercase; }
+  .tile .v { font-weight: 900; font-size: 30px; letter-spacing: -0.03em; margin-top: 8px; line-height: 1; }
+  .tile .v small { font-size: 12px; font-weight: 600; letter-spacing: 0; color: var(--muted); margin-left: 4px; }
+  .tile .s { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 8px; letter-spacing: .05em; }
+  .tile .s b { color: var(--ink); font-weight: 500; }
+  .dash-row { display: grid; grid-template-columns: 3fr 2fr; gap: 12px; margin-bottom: 12px; }
+  .panel { background: #fff; padding: 18px; box-shadow: 0 6px 24px rgba(0,0,0,.05); }
+  .panel-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 14px; }
+  .panel-title { font-weight: 800; font-size: 15px; letter-spacing: -0.01em; }
+  .panel-sub { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: .15em; color: var(--muted); text-transform: uppercase; }
+  .legend { display: flex; gap: 14px; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: .12em; color: var(--muted); text-transform: uppercase; }
+  .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; vertical-align: -1px; margin-right: 5px; }
+  .chart { position: relative; width: 100%; }
+  .chart svg { width: 100%; height: auto; display: block; overflow: visible; }
+  .chart .grid { stroke: var(--line); stroke-width: 1; }
+  .chart .axis-t { font-family: 'JetBrains Mono', monospace; font-size: 9px; fill: var(--muted); }
+  .chart .bar-inv { fill: #c9c7c0; }
+  .chart .bar-rec { fill: var(--red); }
+  .chart .hit { fill: transparent; cursor: default; }
+  .chart .hl.on { fill: rgba(26,26,26,.05); }
+  .chart .bar.dim { opacity: .35; }
+  .tip {
+    position: absolute; pointer-events: none; background: var(--ink); color: #fff; padding: 8px 10px; border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .05em; line-height: 1.6; white-space: nowrap;
+    transform: translate(-50%, -100%); margin-top: -8px; opacity: 0; transition: opacity .1s; z-index: 5;
+  }
+  .tip.show { opacity: 1; }
+  .tip b { color: #fca5a5; font-weight: 500; }
+  .rank { list-style: none; }
+  .rank li { display: grid; grid-template-columns: 22px 1fr auto; gap: 10px; align-items: center; padding: 9px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
+  .rank li:last-child { border-bottom: none; }
+  .rank .n { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--red); }
+  .rank .name { font-weight: 700; }
+  .rank .sub { display: block; font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--muted); letter-spacing: .05em; margin-top: 2px; }
+  .rank .amt { font-family: 'JetBrains Mono', monospace; font-weight: 700; }
+  .rank .barline { grid-column: 2 / 4; height: 3px; background: var(--bg-alt); margin-top: -2px; }
+  .rank .barline i { display: block; height: 100%; background: var(--ink); }
+  .due-list { list-style: none; }
+  .due-list li { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; padding: 10px 0; border-bottom: 1px solid var(--line); cursor: pointer; }
+  .due-list li:hover { background: var(--bg-alt); margin: 0 -8px; padding-left: 8px; padding-right: 8px; }
+  .due-list li:last-child { border-bottom: none; }
+  .due-list .no { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 12px; }
+  .due-list .cl { font-size: 12px; color: var(--muted); }
+  .due-list .amt { font-family: 'JetBrains Mono', monospace; font-weight: 700; text-align: right; }
+  .due-list .days { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: .1em; text-align: right; color: var(--red-bright); text-transform: uppercase; }
+  .due-list .days.soon { color: var(--amber); }
+  .panel .empty-sm { font-family: 'IBM Plex Sans Arabic', sans-serif; color: var(--muted); font-size: 13px; padding: 14px 0; }
+  @media (max-width: 1000px) { .dash-grid { grid-template-columns: 1fr 1fr; } .dash-row { grid-template-columns: 1fr; } }
+  @media (max-width: 480px) { .dash-grid { grid-template-columns: 1fr 1fr; gap: 8px; } .tile { padding: 14px; } .tile .v { font-size: 22px; } }
 
   /* ===== LIST VIEW ===== */
   .list-wrap { max-width: 1180px; margin: 0 auto; padding: 32px 24px 60px; }
@@ -346,7 +403,7 @@
   @page { size: A4; margin: 0; }
   @media print {
     body, html { background: #fff; }
-    .topnav, .sidebar, #toast, #listView, #loginView { display: none !important; }
+    .topnav, .sidebar, #toast, #listView, #loginView, #dashView { display: none !important; }
     .editor { display: block; min-height: 0; }
     .preview-wrap { padding: 0 !important; display: block; }
     .page-holder { width: auto !important; height: auto !important; }
@@ -361,7 +418,8 @@
   @media (max-width: 760px) {
     .topnav { padding: 0 12px; gap: 10px; }
     .brand-text, .nav-user .who { display: none; }
-    .nav-links a { padding: 8px 8px; letter-spacing: .1em; }
+    .nav-links a { padding: 8px 7px; letter-spacing: .06em; font-size: 9px; }
+    .nav-user { flex-shrink: 0; }
     .list-wrap { padding: 22px 16px 50px; }
     .doc-table thead { display: none; }
     .doc-table, .doc-table tbody, .doc-table tr, .doc-table td { display: block; width: 100%; }
@@ -430,6 +488,7 @@
       </div>
     </a>
     <nav class="nav-links">
+      <a href="#/dashboard" id="navDash">Dashboard</a>
       <a href="#/list" id="navList">Documents</a>
       <a href="#/new/estimate" class="new" id="navNewEst">+ Estimate</a>
       <a href="#/new/invoice" class="new" id="navNewInv">+ Invoice</a>
@@ -439,6 +498,24 @@
       <button class="linkbtn" id="logoutBtn">Sign out</button>
     </div>
   </header>
+
+  <!-- DASHBOARD -->
+  <section id="dashView" hidden>
+    <div class="list-wrap">
+      <div class="list-head">
+        <div>
+          <div class="list-title">Dashboard<span class="dot">.</span></div>
+          <div class="list-sub" id="dashSub">—</div>
+        </div>
+        <div class="seg" id="dashRange">
+          <button data-v="6">6 months</button>
+          <button data-v="12" class="active">12 months</button>
+          <button data-v="24">24 months</button>
+        </div>
+      </div>
+      <div id="dashBody"><div class="loading">LOADING…</div></div>
+    </div>
+  </section>
 
   <!-- LIST -->
   <section id="listView" hidden>
@@ -958,7 +1035,7 @@
   });
 
   function setNav(which) {
-    ['navList', 'navNewEst', 'navNewInv'].forEach(id => $(id).classList.toggle('active', id === which));
+    ['navDash', 'navList', 'navNewEst', 'navNewInv'].forEach(id => $(id).classList.toggle('active', id === which));
   }
   function route() {
     const parts = (location.hash.replace(/^#\/?/, '') || 'list').split('/').filter(Boolean);
@@ -969,6 +1046,9 @@
     } else if (parts[0] === 'doc' && parts[1]) {
       setNav('');
       openDoc(parts[1]);
+    } else if (parts[0] === 'dashboard') {
+      setNav('navDash');
+      showDashboard();
     } else {
       setNav('navList');
       showList();
@@ -984,12 +1064,164 @@
   }
 
   // ===================================================================
+  // DASHBOARD
+  // ===================================================================
+  let dashMonths = 12;
+  const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const ym = (iso) => String(iso).slice(0, 7);
+  function monthLabel(key, withYear) { const [y, m] = key.split('-'); return MONTHS[+m - 1] + (withYear ? ' ' + y.slice(2) : ''); }
+  function monthKeys(n) {
+    const out = [], t = todayISO(); let y = +t.slice(0, 4), m = +t.slice(5, 7);
+    for (let i = 0; i < n; i++) { out.unshift(`${y}-${String(m).padStart(2, '0')}`); m--; if (m === 0) { m = 12; y--; } }
+    return out;
+  }
+
+  async function showDashboard() {
+    $('editorView').hidden = true; $('listView').hidden = true; $('dashView').hidden = false;
+    window.scrollTo(0, 0);
+    const [d, p] = await Promise.all([
+      sb.from('documents_summary').select('id,doc_type,number,client_name,issue_date,due_date,status,total,paid,balance,payment_status').limit(5000),
+      sb.from('payments').select('document_id,amount,paid_on').limit(10000)
+    ]);
+    if (d.error || p.error) { $('dashBody').innerHTML = `<div class="empty"><b>Couldn't load</b>${esc(friendlyError(d.error || p.error))}</div>`; return; }
+    renderDashboard(d.data || [], p.data || []);
+  }
+
+  function renderDashboard(docs, pays) {
+    const today = todayISO(), thisMonth = ym(today);
+    const invoices = docs.filter(x => x.doc_type === 'invoice' && x.status !== 'void');
+    const byId = Object.fromEntries(docs.map(x => [x.id, x]));
+    const keys = monthKeys(dashMonths);
+    const recv = Object.fromEntries(keys.map(k => [k, 0]));
+    const invd = Object.fromEntries(keys.map(k => [k, 0]));
+    pays.forEach(x => { const k = ym(x.paid_on); if (k in recv && byId[x.document_id] && byId[x.document_id].status !== 'void') recv[k] += num(x.amount); });
+    invoices.forEach(x => { const k = ym(x.issue_date); if (k in invd) invd[k] += num(x.total); });
+
+    const recvThis = recv[thisMonth] || 0, invThis = invd[thisMonth] || 0;
+    const prevKey = keys[keys.length - 2];
+    const recvPrev = prevKey ? recv[prevKey] : 0;
+    const outstanding = invoices.filter(x => x.payment_status !== 'paid');
+    const outstandingAmt = outstanding.reduce((s, x) => s + num(x.balance), 0);
+    const overdue = outstanding.filter(x => x.payment_status === 'overdue');
+    const overdueAmt = overdue.reduce((s, x) => s + num(x.balance), 0);
+    const pendingEst = docs.filter(x => x.doc_type === 'estimate' && x.status === 'pending');
+    const pendingAmt = pendingEst.reduce((s, x) => s + num(x.total), 0);
+    const totalRecv = keys.reduce((s, k) => s + recv[k], 0);
+
+    const trend = recvPrev > 0 ? Math.round((recvThis - recvPrev) / recvPrev * 100) : null;
+    const trendTxt = trend == null ? `last month <b>${money(recvPrev)}</b>` : `vs last month <b>${trend >= 0 ? '+' : ''}${trend}%</b>`;
+
+    $('dashSub').textContent = `// ${MONTHS[+thisMonth.slice(5) - 1]} ${thisMonth.slice(0, 4)} · ${invoices.length} invoices · ${docs.filter(x => x.doc_type === 'estimate').length} estimates`;
+
+    const tiles = `
+      <div class="dash-grid">
+        <div class="tile good"><div class="k">Received this month</div><div class="v">${money(recvThis)}<small>KWD</small></div><div class="s">${trendTxt}</div></div>
+        <div class="tile"><div class="k">Invoiced this month</div><div class="v">${money(invThis)}<small>KWD</small></div><div class="s"><b>${invoices.filter(x => ym(x.issue_date) === thisMonth).length}</b> invoices issued</div></div>
+        <div class="tile warn"><div class="k">Outstanding</div><div class="v">${money(outstandingAmt)}<small>KWD</small></div><div class="s"><b>${outstanding.length}</b> unpaid invoices</div></div>
+        <div class="tile ${overdue.length ? 'hot' : ''}"><div class="k">Overdue</div><div class="v">${money(overdueAmt)}<small>KWD</small></div><div class="s"><b>${overdue.length}</b> past due date</div></div>
+      </div>`;
+
+    // ---- chart: received vs invoiced per month ----
+    const W = 760, H = 260, padL = 52, padR = 10, padT = 14, padB = 30;
+    const cw = W - padL - padR, ch = H - padT - padB;
+    const maxV = Math.max(1, ...keys.map(k => Math.max(recv[k], invd[k])));
+    const nice = (v) => { const p = Math.pow(10, Math.floor(Math.log10(v))); const f = v / p; const n = [1, 1.5, 2, 2.5, 3, 4, 5, 6, 8, 10].find(x => f <= x); return n * p; };
+    const top = nice(maxV * 1.08);
+    const ticks = [0, .25, .5, .75, 1].map(t => t * top);
+    $('dashSub');
+    const slot = cw / keys.length, gap = Math.max(2, slot * 0.18), bw = (slot - gap * 2) / 2;
+    const y = (v) => padT + ch - (v / top) * ch;
+    const short = (v) => v >= 1000 ? (v / 1000).toLocaleString('en-US', { maximumFractionDigits: 1 }) + 'k' : String(Math.round(v));
+    const bar = (x, v, cls) => {
+      const h = Math.max(0, y(0) - y(v)); if (h === 0) return '';
+      const r = Math.min(4, h);
+      return `<path class="bar ${cls}" d="M${x},${y(0)} v${-(h - r)} a${r},${r} 0 0 1 ${r},${-r} h${bw - 2 * r} a${r},${r} 0 0 1 ${r},${r} v${h - r} z"/>`;
+    };
+    const svg = `
+      <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Monthly received vs invoiced">
+        ${ticks.map(t => `<line class="grid" x1="${padL}" x2="${W - padR}" y1="${y(t)}" y2="${y(t)}"/><text class="axis-t" x="${padL - 8}" y="${y(t) + 3}" text-anchor="end">${short(t)}</text>`).join('')}
+        ${keys.map((k, i) => {
+          const x0 = padL + i * slot;
+          const showYear = i === 0 || k.endsWith('-01');
+          const lbl = dashMonths > 12 ? (k.endsWith('-01') || i === 0 ? monthLabel(k, true) : (i % 2 ? '' : monthLabel(k))) : monthLabel(k, showYear);
+          return `<g data-i="${i}">
+            <rect class="hl" x="${x0}" y="${padT}" width="${slot}" height="${ch}" fill="transparent"/>
+            ${bar(x0 + gap, invd[k], 'bar-inv')}
+            ${bar(x0 + gap + bw, recv[k], 'bar-rec')}
+            <text class="axis-t" x="${x0 + slot / 2}" y="${H - 10}" text-anchor="middle">${lbl}</text>
+            <rect class="hit" data-i="${i}" x="${x0}" y="${padT}" width="${slot}" height="${ch}"/>
+          </g>`;
+        }).join('')}
+      </svg>`;
+
+    // ---- top clients by received ----
+    const byClient = {};
+    pays.forEach(x => { const d = byId[x.document_id]; if (!d || d.status === 'void' || !(ym(x.paid_on) in recv)) return; byClient[d.client_name] = (byClient[d.client_name] || 0) + num(x.amount); });
+    const topClients = Object.entries(byClient).sort((a, b) => b[1] - a[1]).slice(0, 6);
+    const topMax = topClients.length ? topClients[0][1] : 1;
+    const invCount = (name) => invoices.filter(x => x.client_name === name && keys.includes(ym(x.issue_date))).length;
+
+    // ---- due list: overdue first, then due within 14 days ----
+    const dueSoon = outstanding.filter(x => x.due_date && x.payment_status !== 'overdue' && addDays(today, 14) >= x.due_date);
+    const daysDiff = (a, b) => Math.round((new Date(a + 'T00:00:00Z') - new Date(b + 'T00:00:00Z')) / 86400000);
+    const dueRows = [...overdue.sort((a, b) => a.due_date < b.due_date ? -1 : 1), ...dueSoon.sort((a, b) => a.due_date < b.due_date ? -1 : 1)];
+
+    $('dashBody').innerHTML = tiles + `
+      <div class="dash-row">
+        <div class="panel">
+          <div class="panel-head">
+            <div><div class="panel-title">Cash flow</div><div class="panel-sub">Per month · last ${dashMonths} months · ${money(totalRecv)} KWD received</div></div>
+            <div class="legend"><span><i style="background:#c9c7c0"></i>Invoiced</span><span><i style="background:var(--red)"></i>Received</span></div>
+          </div>
+          <div class="chart" id="cashChart">${svg}<div class="tip" id="chartTip"></div></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><div><div class="panel-title">Top clients</div><div class="panel-sub">By amount received · ${dashMonths} months</div></div></div>
+          ${topClients.length ? `<ol class="rank">${topClients.map(([n, v], i) => `<li><span class="n">${String(i + 1).padStart(2, '0')}</span><span class="name">${esc(n)}<span class="sub">${invCount(n)} invoice${invCount(n) === 1 ? '' : 's'}</span></span><span class="amt">${money(v)}</span><span class="barline"><i style="width:${Math.round(v / topMax * 100)}%"></i></span></li>`).join('')}</ol>` : '<div class="empty-sm">No payments recorded in this period yet.</div>'}
+        </div>
+      </div>
+      <div class="dash-row">
+        <div class="panel">
+          <div class="panel-head"><div><div class="panel-title">Needs attention</div><div class="panel-sub">Overdue · due within 14 days</div></div></div>
+          ${dueRows.length ? `<ul class="due-list">${dueRows.map(x => { const dd = daysDiff(x.due_date, today); return `<li data-id="${esc(x.id)}"><span><span class="no">${esc(x.number)}</span> <span class="cl">· ${esc(x.client_name)}</span></span><span class="amt">${money(x.balance)}</span><span class="cl">due ${fmtDate(x.due_date)}</span><span class="days ${dd >= 0 ? 'soon' : ''}">${dd < 0 ? Math.abs(dd) + ' days overdue' : dd === 0 ? 'due today' : 'in ' + dd + ' days'}</span></li>`; }).join('')}</ul>` : '<div class="empty-sm">Nothing overdue or due soon. 👌</div>'}
+        </div>
+        <div class="panel">
+          <div class="panel-head"><div><div class="panel-title">Pipeline</div><div class="panel-sub">Pending estimates</div></div></div>
+          <div class="tile" style="box-shadow:none;padding:0 0 12px;border-top:none"><div class="v">${money(pendingAmt)}<small>KWD</small></div><div class="s"><b>${pendingEst.length}</b> estimate${pendingEst.length === 1 ? '' : 's'} awaiting a decision</div></div>
+          ${pendingEst.length ? `<ul class="due-list">${pendingEst.sort((a, b) => a.issue_date < b.issue_date ? 1 : -1).slice(0, 6).map(x => `<li data-id="${esc(x.id)}"><span><span class="no">${esc(x.number)}</span> <span class="cl">· ${esc(x.client_name)}</span></span><span class="amt">${money(x.total)}</span><span class="cl">${fmtDate(x.issue_date)}</span><span></span></li>`).join('')}</ul>` : ''}
+        </div>
+      </div>`;
+
+    // tooltip
+    const chart = $('cashChart'), tip = $('chartTip');
+    chart.querySelectorAll('.hit').forEach(h => {
+      h.addEventListener('mouseenter', () => {
+        const i = +h.dataset.i, k = keys[i];
+        const r = h.getBoundingClientRect(), c = chart.getBoundingClientRect();
+        tip.innerHTML = `${monthLabel(k, true)}<br><b>Invoiced</b> ${money(invd[k])}<br><b>Received</b> ${money(recv[k])}`;
+        tip.style.left = (r.left - c.left + r.width / 2) + 'px';
+        tip.style.top = (r.top - c.top + 6) + 'px';
+        tip.classList.add('show');
+        h.parentElement.querySelector('.hl').classList.add('on');
+      });
+      h.addEventListener('mouseleave', () => { tip.classList.remove('show'); chart.querySelectorAll('.hl.on').forEach(x => x.classList.remove('on')); });
+    });
+  }
+  $('dashBody').addEventListener('click', (e) => { const li = e.target.closest('li[data-id]'); if (li) goto('#/doc/' + li.dataset.id); });
+  $('dashRange').addEventListener('click', (e) => {
+    const b = e.target.closest('button[data-v]'); if (!b) return;
+    dashMonths = +b.dataset.v;
+    [...$('dashRange').children].forEach(x => x.classList.toggle('active', x === b));
+    showDashboard();
+  });
+
+  // ===================================================================
   // LIST VIEW
   // ===================================================================
   const listState = { type: 'all', status: '', q: '' };
 
   async function showList() {
-    $('editorView').hidden = true;
+    $('editorView').hidden = true; $('dashView').hidden = true;
     $('listView').hidden = false;
     window.scrollTo(0, 0);
     if (!docsCache) $('listBody').innerHTML = '<div class="loading">LOADING…</div>';
@@ -1095,7 +1327,7 @@
   }
 
   function showEditor() {
-    $('listView').hidden = true;
+    $('listView').hidden = true; $('dashView').hidden = true;
     $('editorView').hidden = false;
     window.scrollTo(0, 0);
     $('sidebar').scrollTop = 0;
