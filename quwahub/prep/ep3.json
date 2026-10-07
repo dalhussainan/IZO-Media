@@ -4,7 +4,7 @@
  "num": "03",
  "name": "بيت التمويل الكويتي",
  "short": "بيت التمويل",
- "generated": "2026-09-28",
+ "generated": "2026-10-07",
  "files": [
   {
    "label": "الإعداد الأصلي (Word)",
@@ -15,6 +15,13 @@
    "path": "prep/ep3/Quwa_KFH_Research.docx"
   }
  ],
+ "client_files": [
+  {
+   "label": "نسخة الإعداد (PDF)",
+   "path": "prep/ep3/Quwa_KFH_Episode_Plan_Client.pdf"
+  }
+ ],
+ "client_key": "GO7lXn9i",
  "contact": "عبدالله السيف — التواصل الاجتماعي والعلاقات العامة",
  "approver": "ما عبّاها العميل",
  "sent": "٨ سبتمبر ٢٠٢٦",

@@ -4,7 +4,7 @@
  "num": "05",
  "name": "شركة مطاحن الدقيق والمخابز الكويتية",
  "short": "المطاحن",
- "generated": "2026-09-28",
+ "generated": "2026-10-07",
  "files": [
   {
    "label": "الإعداد الأصلي (Word)",
@@ -15,6 +15,13 @@
    "path": "prep/ep5/Quwa_KFMB_Research.docx"
   }
  ],
+ "client_files": [
+  {
+   "label": "نسخة الإعداد (PDF)",
+   "path": "prep/ep5/Quwa_KFMB_Episode_Plan_Client.pdf"
+  }
+ ],
+ "client_key": "7cse03td",
  "contact": "شريفة الجابر — مدير دائرة التسويق",
  "approver": "مطلق يوسف الزايد",
  "sent": "٩ سبتمبر ٢٠٢٦",

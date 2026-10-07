@@ -192,7 +192,7 @@ const $=s=>document.querySelector(s);
 const esc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 const EPN=parseInt(new URLSearchParams(location.search).get('ep')||'1',10);
 const LSN='quwa_reviewer';
-let D=null, notes={}, state={locked:false}, pending=null, me=localStorage.getItem(LSN)||'';
+let D=null, notes={}, state={locked:false}, cs={ready:false,approved:false}, pending=null, me=localStorage.getItem(LSN)||'';
 $('#backlink').href='episode.html?ep='+EPN;
 
 /* ---------- عرض ---------- */
@@ -226,11 +226,12 @@ function render(){
     </div>
     <div class="hero-actions">
       <button class="cf-btn solid" id="lockbtn" ${state.locked?'disabled':''}>${state.locked?'مقفلة':'قفل الحلقة'}</button>
+      ${state.locked?(cs.ready?`<button class="cf-btn" id="copyclient">نسخ رابط العميل</button><a class="cf-btn" href="prep-client.html?ep=${E.ep}&k=${esc(E.client_key||'')}" target="_blank" rel="noopener">فتح صفحة العميل</a>`:`<button class="cf-btn solid" id="readybtn" style="background:var(--green);border-color:var(--green)">اعتماد نسخة العميل وفتحها</button>`):''}
       ${(E.files||[]).map(f=>`<a class="cf-btn" href="${esc(f.path)}" download>⬇ ${esc(f.label)}</a>`).join('')}
-      <a class="cf-btn" href="prep/ep${E.ep}.json" target="_blank" rel="noopener">بيانات الحلقة (JSON)</a>
+      <a class="cf-btn" href="prep-upload.html?ep=${E.ep}">تحديث المحتوى</a>
       <button class="cf-btn" onclick="window.print()">طباعة</button>
     </div>
-    ${state.locked?`<div class="banner">✓ انقفلت المراجعة الداخلية بواسطة ${esc(state.by||'')} — ${esc(state.at||'')}. الملاحظات للعرض فقط.</div>`:`<div class="hint">ظلّل أي كلام بالماوس (أو بإصبعك) → اضغط «ملاحظة» واكتب. تقدر تحط ملاحظة على المعدّل أو الأصلي أو أي جدول. اضغط على أي تظليل عشان تشوف الملاحظة أو تغيّر حالتها.</div>`}
+    ${state.locked?`<div class="banner">✓ انقفلت المراجعة الداخلية بواسطة ${esc(state.by||'')} — ${esc(state.at||'')}. ما ينضاف ملاحظات جديدة، بس تقدر تغيّر حالة الموجود (تم / مرفوضة).${cs.approved?` <br>✓ <b>العميل اعتمد الإعداد</b> بواسطة ${esc(cs.by||'')} — ${esc(cs.at||'')}.`:cs.ready?` <br>نسخة العميل مفتوحة للمراجعة منذ ${esc(cs.readyAt||'')} — بانتظار اعتماد العميل.`:` <br>الخطوة الياية: لما تطبّق الملاحظات وتتأكد من النسخة، اضغط «اعتماد نسخة العميل وفتحها».`}</div>`:`<div class="hint">ظلّل أي كلام بالماوس (أو بإصبعك) → اضغط «ملاحظة» واكتب. تقدر تحط ملاحظة على المعدّل أو الأصلي أو أي جدول. اضغط على أي تظليل عشان تشوف الملاحظة أو تغيّر حالتها.</div>`}
   </div></header><div class="container">`;
 
   // ملخص
@@ -270,6 +271,8 @@ function render(){
   document.body.classList.toggle('locked',!!state.locked);
   $('#lockbtn').onclick=()=>{ if(!state.locked) $('#lockbox').classList.add('show'); };
   $('#chgname').onclick=()=>askName(true);
+  const rb=$('#readybtn'); if(rb) rb.onclick=async()=>{ if(!me){ askName(false,()=>rb.click()); return; } setStatus('جاري فتح نسخة العميل…'); const r=await post('prepstage',{ep:EPN,stage:'ready',locked:true,by:me}); if(r&&r.ok){ cs.ready=true; cs.readyAt=new Date().toLocaleDateString('ar-KW'); render(); setStatus('انفتحت ✓'); } else setStatus('ما قدرت — جرّب مرة ثانية'); };
+  const cb=$('#copyclient'); if(cb) cb.onclick=()=>{ const url=location.origin+location.pathname.replace(/prep-review\.html$/,'prep-client.html')+'?ep='+EPN+'&k='+(D.client_key||''); (navigator.clipboard?navigator.clipboard.writeText(url):Promise.reject()).then(()=>setStatus('✓ انتسخ رابط العميل'),()=>{ prompt('انسخ الرابط:',url); }); };
   $('#general').style.display=state.locked?'none':'';
   renderNotes();
 }
@@ -335,7 +338,7 @@ function openPop(n,rect,isNew){
   $('#popq').textContent=n.quote?'“'+n.quote+'”':'ملاحظة عامة على الحلقة'; $('#poptxt').value=n.note||'';
   const canEdit=!state.locked&&(isNew||n.author===me);
   $('#poptxt').readOnly=!canEdit; $('#popsave').hidden=!canEdit; $('#popdel').hidden=isNew||!canEdit;
-  $('#popst').hidden=!!isNew||state.locked; $('#popst').querySelectorAll('.chip').forEach(c=>c.classList.toggle('on',c.dataset.s===(n.status||'open')));
+  $('#popst').hidden=!!isNew; $('#popst').querySelectorAll('.chip').forEach(c=>c.classList.toggle('on',c.dataset.s===(n.status||'open')));
   pop.style.display='block'; const w=pop.offsetWidth; let x=Math.min(Math.max(8,rect.left),window.innerWidth-w-8); let y=rect.bottom+8; if(y+pop.offsetHeight>window.innerHeight-8) y=Math.max(8,rect.top-pop.offsetHeight-8);
   pop.style.left=x+'px'; pop.style.top=y+'px'; if(canEdit) $('#poptxt').focus();
 }
@@ -363,14 +366,19 @@ $('#lockok').onclick=async()=>{ $('#lockbox').classList.remove('show'); if(!me){
 function setStatus(t){ const s=$('#status'); if(s) s.textContent=t; }
 async function post(type,data){ try{ const res=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({type,data})}); return await res.json(); }catch(e){ return null; } }
 async function save(n,type){ notes[n.id]=n; renderNotes(); setStatus('جاري الحفظ…'); const r=await post(type,n); setStatus(r&&r.ok?'محفوظ ✓':'⚠ ما انحفظت — تأكد من النت وجرّب'); }
+async function loadContent(ep){
+  try{ const r=await (await fetch(API_URL+'?type=prepcontent&ep='+ep+'&t='+Date.now())).json(); if(r&&r.ok&&r.content) return r.content; }catch(e){}
+  return null;
+}
 async function load(){
-  try{ D=await (await fetch(`prep/ep${EPN}.json`,{cache:'no-store'})).json(); }
-  catch(e){ $('#app').innerHTML=`<div class="notfound"><h2>ما فيه إعداد مرفوع للحلقة ${EPN}</h2><p>ارفع ملف prep/ep${EPN}.json أول.</p></div>`; return; }
+  D=await loadContent(EPN);
+  if(!D){ $('#app').innerHTML=`<div class="notfound"><h2>ما فيه إعداد مرفوع للحلقة ${EPN}</h2><p>ارفع المحتوى من <a href="prep-upload.html?ep=${EPN}">صفحة الرفع</a>.</p></div>`; return; }
   render(); setStatus('جاري جلب الملاحظات…');
   try{
     const r=await (await fetch(API_URL+'?type=prep&ep='+EPN+'&t='+Date.now())).json();
     (r.notes||[]).forEach(n=>{ if(n.stage===STAGE) notes[n.id]=n; });
-    const st=(r.state||{})[STAGE]; if(st&&st.locked){ state={locked:true,by:st.by,at:st.at}; render(); }
+    const st=(r.state||{})[STAGE]; if(st&&st.locked){ state={locked:true,by:st.by,at:st.at}; }
+    const rd=(r.state||{}).ready, cl=(r.state||{}).client; cs={ready:!!(rd&&rd.locked),readyAt:rd?rd.at:'',approved:!!(cl&&cl.locked),by:cl?cl.by:'',at:cl?cl.at:''}; render();
     renderNotes(); setStatus('متصل ✓');
   }catch(e){ setStatus('⚠ ما قدرت أجيب الملاحظات من السيرفر'); }
   if(!me) askName(false);

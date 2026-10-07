@@ -4,7 +4,7 @@
  "num": "02",
  "name": "بنك الكويت الوطني",
  "short": "الوطني",
- "generated": "2026-09-28",
+ "generated": "2026-10-07",
  "files": [
   {
    "label": "الإعداد الأصلي (Word)",
@@ -15,6 +15,13 @@
    "path": "prep/ep4/Quwa_NBK_Research.docx"
   }
  ],
+ "client_files": [
+  {
+   "label": "نسخة الإعداد (PDF)",
+   "path": "prep/ep4/Quwa_NBK_Episode_Plan_Client.pdf"
+  }
+ ],
+ "client_key": "nVfzUmym",
  "contact": "منال فيصل المطر — نائب رئيس تنفيذي ورئيس مجموعة الاتصال المؤسسي",
  "approver": "منال فيصل المطر",
  "sent": "١٤ سبتمبر ٢٠٢٦ (إرسالان بنفس المحتوى: ٨ و١٤ سبتمبر)",

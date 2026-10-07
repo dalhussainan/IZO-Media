@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>قوة · رفع محتوى الإعداد</title>
+<link rel="icon" type="image/svg+xml" href="/quwahub/assets/favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="auth.js"></script>
+<script>
+const API_URL = "https://script.google.com/macros/s/AKfycbxWp6DhHqetyTMkcLBgweCUOHs2VVtwdFdv5qMu7lhKWoUJ0p0Nn8juyY2c58ekoU7O/exec";
+</script>
+<style>
+  :root { --paper:#F7F4EE; --paper-d:#EFEAE0; --ink:#1A1A1A; --ink-d:#554D44; --line:#DDD6C8; --red:#991B1B; --red-br:#C02A2A; --gold:#B08D57; --white:#FFFFFF; --green:#2D6E3E; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Cairo',sans-serif; background:var(--paper); color:var(--ink); line-height:1.7; }
+  nav { background:var(--white); border-bottom:1px solid var(--line); }
+  .nav-inner { max-width:760px; margin:0 auto; padding:14px 20px; display:flex; justify-content:space-between; align-items:center; }
+  .nav-inner img { height:34px; display:block; }
+  .back { color:var(--ink-d); text-decoration:none; font-size:13px; font-weight:700; }
+  .wrap { max-width:760px; margin:0 auto; padding:30px 20px 60px; }
+  .kick { font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:3px; color:var(--red); direction:ltr; text-align:right; margin-bottom:8px; }
+  h1 { font-size:28px; font-weight:900; margin-bottom:6px; }
+  p.lead { color:var(--ink-d); font-size:14px; margin-bottom:22px; }
+  .card { background:var(--white); border:1px solid var(--line); border-top:4px solid var(--red); padding:20px 22px; margin-bottom:14px; }
+  label { display:block; font-size:12.5px; font-weight:800; margin:12px 0 4px; }
+  input[type=text], input[type=password], input[type=number] { width:100%; padding:10px 14px; border:1px solid var(--line); background:var(--paper); font-family:inherit; font-size:14px; outline:none; }
+  input:focus { border-color:var(--red); }
+  input[type=file] { font-family:inherit; font-size:13px; margin-top:4px; }
+  .hint { font-size:12px; color:var(--ink-d); margin-top:4px; }
+  .row { display:flex; gap:8px; margin-top:16px; align-items:center; flex-wrap:wrap; }
+  .btn { background:var(--red); color:var(--white); border:0; font-family:inherit; font-size:14px; font-weight:700; padding:11px 22px; cursor:pointer; }
+  .btn:hover { background:var(--red-br); } .btn:disabled { opacity:.5; cursor:default; }
+  .btn.ghost { background:var(--white); color:var(--ink); border:1px solid var(--line); }
+  #log { font-family:'JetBrains Mono',monospace; font-size:12px; white-space:pre-wrap; background:var(--paper-d); border:1px solid var(--line); padding:12px 14px; min-height:60px; margin-top:14px; direction:rtl; }
+  .ok { color:var(--green); font-weight:700; } .err { color:var(--red); font-weight:700; }
+  footer { text-align:center; font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:2px; color:var(--ink-d); padding:20px; direction:ltr; }
+</style>
+</head>
+<body>
+<nav><div class="nav-inner"><a href="index.html"><img src="/quwahub/assets/logo-ink.svg" alt="قوة"></a><a class="back" id="back" href="index.html">→ رجوع</a></div></nav>
+<div class="wrap">
+  <div class="kick">PREP CONTENT · UPLOAD</div>
+  <h1>رفع محتوى الإعداد</h1>
+  <p class="lead">يرفع محتوى صفحة المراجعة (ملف JSON) وملفات التنزيل (PDF / Word) مباشرة للشيت و Drive — بدون push للريبو. عادةً Claude هو اللي يستخدم هالصفحة.</p>
+
+  <form class="card" id="f">
+    <label>رقم الحلقة</label><input type="number" id="ep" min="1" max="15" required>
+    <label>كلمة سر الرفع</label><input type="password" id="tok" placeholder="نفس PREP_TOKEN اللي بالـ Apps Script" required>
+    <div class="hint">تنحفظ بهالمتصفح بس بعد أول مرة.</div>
+    <label>ملف المحتوى (epN.json)</label><input type="file" id="json" accept=".json,application/json" required>
+    <label>ملفات التنزيل (اختياري — PDF / Word)</label><input type="file" id="files" multiple accept=".pdf,.docx,.doc">
+    <div class="hint">اسم الملف لازم يطابق اللي داخل الـ JSON (مثل Quwa_AHM_Episode_Plan_Client.pdf). الملفات اللي ما ترفعها تبقى على روابطها السابقة.</div>
+    <div class="row"><button class="btn" id="go" type="submit">رفع</button><a class="btn ghost" id="view" href="#" target="_blank" rel="noopener">فتح صفحة المراجعة</a></div>
+    <div id="log">…</div>
+  </form>
+</div>
+<footer>QUWA · PRODUCTION HUB · POWERED BY IZO MEDIA</footer>
+<script>
+(function(){
+const $=s=>document.querySelector(s);
+const P=new URLSearchParams(location.search); if(P.get('ep')) $('#ep').value=P.get('ep');
+try{ $('#tok').value=localStorage.getItem('quwa_prep_token')||''; }catch(e){}
+function upd(){ const e=$('#ep').value; $('#view').href='prep-review.html?ep='+e; $('#back').href=e?'episode.html?ep='+e:'index.html'; } upd(); $('#ep').oninput=upd;
+const log=(t,c)=>{ const d=document.createElement('div'); if(c) d.className=c; d.textContent=t; $('#log').appendChild(d); };
+const readText=f=>new Promise((res,rej)=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=rej; r.readAsText(f,'utf-8'); });
+const readB64=f=>new Promise((res,rej)=>{ const r=new FileReader(); r.onload=()=>res(String(r.result).split(',')[1]); r.onerror=rej; r.readAsDataURL(f); });
+$('#f').onsubmit=async e=>{
+  e.preventDefault(); $('#log').textContent=''; $('#go').disabled=true;
+  try{
+    const ep=Number($('#ep').value), tok=$('#tok').value.trim();
+    try{ localStorage.setItem('quwa_prep_token',tok); }catch(err){}
+    const jf=$('#json').files[0]; if(!jf) throw new Error('اختر ملف JSON');
+    const content=JSON.parse(await readText(jf));
+    if(Number(content.ep)!==ep) throw new Error(`رقم الحلقة بالملف (${content.ep}) غير اللي كتبته (${ep})`);
+    const files=[];
+    for(const f of $('#files').files){ log(`قراءة ${f.name} (${Math.round(f.size/1024)} KB)…`); files.push({name:f.name,mime:f.type||'application/octet-stream',data:await readB64(f)}); }
+    log('جاري الرفع…');
+    const res=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({type:'prepcontent',data:{token:tok,ep,content,files}})});
+    const out=await res.json();
+    if(!out.ok) throw new Error(out.error||'فشل');
+    log(`✓ انرفع المحتوى — ${out.chunks} جزء`, 'ok');
+    Object.keys(out.files||{}).forEach(k=>log(`✓ ${k} → Drive`,'ok'));
+    log('افتح صفحة المراجعة للتأكد.');
+    window.__uploadResult=out;
+  }catch(err){ log('✗ '+(err.message||err),'err'); window.__uploadResult={ok:false,error:String(err)}; }
+  $('#go').disabled=false;
+};
+})();
+</script>
+</body>
+</html>

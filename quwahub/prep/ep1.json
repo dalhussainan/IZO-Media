@@ -4,7 +4,7 @@
  "num": "01",
  "name": "شركة السينما الكويتية الوطنية — سينسكيب",
  "short": "سينسكيب",
- "generated": "2026-09-28",
+ "generated": "2026-10-07",
  "files": [
   {
    "label": "الإعداد الأصلي (Word)",
@@ -15,6 +15,13 @@
    "path": "prep/ep1/Quwa_CINE_Client_Brief.docx"
   }
  ],
+ "client_files": [
+  {
+   "label": "نسخة الإعداد (PDF)",
+   "path": "prep/ep1/Quwa_CINE_Episode_Plan_Client.pdf"
+  }
+ ],
+ "client_key": "WJ4GRCai",
  "contact": "غير محدد في الملف المستلم",
  "approver": "غير محدد",
  "sent": "ملف محاور العميل (بدون نموذج من مركز الإنتاج)",

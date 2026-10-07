@@ -274,8 +274,10 @@ function render(e, total) {
         <div class="cf-desc">١) الفريق يراجع الإعداد داخلياً ويحط ملاحظاته ثم يقفل الحلقة → ٢) تطلع نسخة العميل للاعتماد → ٣) النسخة النهائية ترتفع هنا.</div>
         <div class="cf-actions">
           <a class="cf-btn solid" href="prep-review.html?ep=${e.ep}">المراجعة الداخلية ←</a>
-          <span class="cf-btn" style="opacity:.45;cursor:default">مراجعة العميل — بعد القفل</span>
+          <span id="prep-client-actions"></span>
+          <a class="cf-btn" href="prep-upload.html?ep=${e.ep}">رفع/تحديث المحتوى</a>
         </div>
+        <div class="cf-msg" id="prep-msg"></div>
       </div>
     </section>
 
@@ -291,6 +293,25 @@ function render(e, total) {
   </div>`;
 
   wireCopy();
+  wirePrep(e.ep);
+}
+
+/* أزرار نسخة العميل — تظهر لو فيه إعداد مرفوع (prep/epN.json) */
+async function wirePrep(ep) {
+  const box = document.getElementById('prep-client-actions'); if (!box) return;
+  try {
+    const r = await (await fetch(API_URL + '?type=prepcontent&ep=' + ep + '&t=' + Date.now())).json();
+    if (!r || !r.ok || !r.content) throw new Error('no content');
+    const d = r.content;
+    const url = location.origin + location.pathname.replace(/episode\.html$/, 'prep-client.html') + '?ep=' + ep + '&k=' + (d.client_key || '');
+    box.innerHTML = `<a class="cf-btn" href="${url}" target="_blank" rel="noopener">صفحة العميل</a><button type="button" class="cf-btn" id="prep-copy">نسخ رابط العميل</button>`;
+    document.getElementById('prep-copy').addEventListener('click', () => {
+      const done = () => { const m = document.getElementById('prep-msg'); if (m) { m.textContent = '✓ انتسخ رابط العميل — ما يشتغل عنده إلا بعد ما تفتحه من المراجعة الداخلية'; setTimeout(() => m.textContent = '', 4000); } };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(done, () => fallbackCopy(url, done)); else fallbackCopy(url, done);
+    });
+  } catch (err) {
+    box.innerHTML = `<span class="cf-btn" style="opacity:.45;cursor:default">ما فيه إعداد مرفوع لهالحلقة</span>`;
+  }
 }
 
 /* نسخ رابط نموذج العميل */
