@@ -235,13 +235,13 @@ function render(){
       <button class="cf-btn" onclick="window.print()">طباعة</button>
     </div>
     ${closed?`<div class="banner">✓ تم اعتماد إعداد الحلقة بواسطة ${esc(state.by||'')} — ${esc(state.at||'')}. شكراً لكم؛ الصفحة الآن للاطلاع فقط.</div>`
-      :`<div class="intro-card">هذه الصفحة تعرض <b>إعداد حلقة «${esc(E.short)}»</b> من سلسلة «قوة» الوثائقية: هيكل الحلقة، نصوص الراوية، ومحاور الأسئلة التي سيطرحها المقدّم على الضيف. يرجى مراجعة المحتوى، وتسجيل أي ملاحظة بتظليل النص المعني ثم الضغط على «إضافة ملاحظة»، أو عبر زر «ملاحظة عامة». عند الانتهاء، يقوم مخوَّل الاعتماد بالضغط على «اعتماد الإعداد». النصوص بلهجة كويتية محكية لأنها تُقرأ على الشاشة كما هي.</div>`}
+      :`<div class="intro-card">هذه الصفحة تعرض <b>إعداد حلقة «${esc(E.short)}»</b> من سلسلة «قوة» الوثائقية: هيكل الحلقة، نصوص الراوية، ومحاور الأسئلة التي سيطرحها المقدّم على الضيف. يرجى مراجعة المحتوى، وتسجيل أي ملاحظة بتظليل النص المعني ثم الضغط على «إضافة ملاحظة»، أو عبر زر «ملاحظة عامة». عند الانتهاء، يقوم مخوَّل الاعتماد بالضغط على «اعتماد الإعداد». النصوص غير نهائية وقابلة للتعديل حسب حاجة فريق العمل.</div>`}
   </div></header><div class="container">`;
 
   // الهيكل
   h+=`<section id="s-structure"><div class="sec-head"><span class="kick">// STRUCTURE</span><h2>هيكل الحلقة</h2><span class="tag">٣٠ دقيقة</span></div>
     <div data-block="structure" data-side="new">
-      <div class="card gold"><h4>الفصول</h4>${E.chapters.map(c=>`<p><b>${esc(c.title)}</b> — ${esc(c.desc)}</p>`).join('')}
+      <div class="card gold"><h4>الفصول</h4><p>${E.chapters.map(c=>`<b>${esc(c.title)}</b>`).join(' &nbsp;·&nbsp; ')}</p>
       <div class="tl">${E.timeline.map(t=>`<div class="${t.cls}" style="flex:${t.flex}">${t.text}<small>${esc(t.label)}</small></div>`).join('')}</div></div>
       <div class="card"><h4>الضيوف ومواقع التصوير</h4>${E.guests.map(g=>`<p><b>${esc(g.name)}</b> — ${esc(g.title)}</p>`).join('')}<p><b>المواقع:</b> ${esc(E.locations)}</p></div>
     </div></section>`;
